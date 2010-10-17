@@ -52,6 +52,19 @@ var EngineTest = function() {
 
 EngineTest.prototype = new TestCase();
 
+EngineTest.prototype.buildBasicField = function() {
+    var basicField = new Clickomania.Playfield(this.PLAYFIELD_COLUMNS, this.PLAYFIELD_ROWS);
+    var Block = Clickomania.Block;
+    basicField.blocks = [
+	[new Block(1), new Block(1), new Block(2), new Block(2)],
+	[new Block(1), new Block(0), new Block(2), new Block(0)],
+	[new Block(0), new Block(2), new Block(2), new Block(1)],
+	[new Block(1), new Block(2), new Block(2), new Block(0)],
+	[new Block(0), new Block(0), new Block(0), new Block(2)]
+    ];
+    return basicField;
+};
+
 EngineTest.prototype.testFillWithBlocks = function() {
     var column, row, testPlayfield, testBlock;
     testPlayfield = new Clickomania.Playfield(this.PLAYFIELD_COLUMNS, this.PLAYFIELD_ROWS);
