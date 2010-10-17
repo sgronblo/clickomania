@@ -45,8 +45,8 @@ TestCase.prototype.assertInRange = function(lowestAllowedValue, highestAllowedVa
 };
 
 var EngineTest = function() {
-    this.PLAYFIELD_COLUMNS = 4;
-    this.PLAYFIELD_ROWS = 5;
+    this.PLAYFIELD_COLUMNS = 5;
+    this.PLAYFIELD_ROWS = 4;
     this.PLAYFIELD_TYPES = 3;
 };
 
