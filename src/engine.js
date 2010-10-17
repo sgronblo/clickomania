@@ -74,6 +74,26 @@ Clickomania.Playfield.prototype.getNeighbours = function(column, row) {
     return neighbours;
 };
 
+Clickomania.Playfield.prototype.getConnectedBlocks = function(column, row) {
+    this.counter += 1;
+    var connectedBlocks = this.getConnectedBlocks_(column, row, this.counter);
+    return connectedBlocks;
+};
+
+Clickomania.Playfield.prototype.getConnectedBlocks_ = function(column, row, counter) {
+    var block, neighbours, connected = [], this_ = this;
+    block = this.getBlock(column, row);
+    block.roundCounter = counter;
+    connected.push(block);
+    neighbours = this.getNeighbours(column, row);
+    neighbours.forEach(function(neighbour) {
+	if (neighbour.type === block.type && neighbour.roundCounter < counter) {
+	    connected = connected.concat(this_.getConnectedBlocks_(neighbour.column, neighbour.row, counter));
+	}
+    });
+    return connected;
+}
+
 Clickomania.Block = function(type) {
     this.type = type;
     this.roundCounter = 0;
