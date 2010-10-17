@@ -4,6 +4,7 @@ Clickomania.Playfield = function(columns, rows) {
     this.columns = columns;
     this.rows = rows;
     this.clear();
+    this.counter = 0;
 };
 
 Clickomania.Playfield.prototype.fillWithBlocks = function(numBlockType) {
