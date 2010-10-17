@@ -19,7 +19,20 @@ Clickomania.Playfield.prototype.fillWithBlocks = function(numBlockType) {
 };
 
 Clickomania.Playfield.prototype.getBlock = function(column, row) {
-    return this.blocks[column][row];
+    var block;
+    block = this.blocks[column][row];
+    if (block === undefined) {
+	console.warn("getBlock(" + column + ", " + row + ") returned undefined");
+	try {
+	    this.mitaSaHaisetSiina();
+	} catch (failure) {
+	    console.log("fuuuuuu");
+	    console.log(failure.stack);
+	}
+    }
+    block.column = column;
+    block.row = row;
+    return block;
 };
 
 Clickomania.Playfield.prototype.putBlock = function(column, row, block) {
@@ -38,6 +51,27 @@ Clickomania.Playfield.prototype.removeBlock = function(column, row) {
     var block = this.blocks[column][row];
     delete this.block[column][row];
     return block;
+};
+
+Clickomania.Playfield.prototype.getNeighbours = function(column, row) {
+    var previousRow, previousColumn, nextColumn, nextRow, neighbours = [];
+    previousRow = row - 1;
+    previousColumn = column - 1;
+    nextColumn = column + 1;
+    nextRow = row + 1;
+    if (previousRow >= 0) {
+	neighbours.push(this.getBlock(column, previousRow));
+    }
+    if (previousColumn >= 0) {
+	neighbours.push(this.getBlock(previousColumn, row));
+    }
+    if (nextColumn < this.columns) {
+	neighbours.push(this.getBlock(nextColumn, row));
+    }
+    if (nextRow < this.rows) {
+	neighbours.push(this.getBlock(column, nextRow));
+    }
+    return neighbours;
 };
 
 Clickomania.Block = function(type) {
