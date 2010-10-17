@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	<meta charset=utf-8 />
+	<title>Test results for Clickomania</title>
+	<!--<link rel="stylesheet" type="text/css" media="screen" href="css/master.css" />-->
+	<script type="text/javascript" src="src/engine.js"></script>
+	<script type="text/javascript" src="test/engine_test.js"></script>
+	<script type="text/javascript" src="lib/jquery-1.4.2.min.js"></script>
+	<!--[if IE]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+    </head>
+    <body>
+	<div id='playfield'></div>
+	<script>
+	    $(document).ready(function () {
+		ascii = new Clickomania.AsciiView();
+		ascii.drawPlayfield('#playfield');
+	    });
+	</script>
+    </body>
+</html>
