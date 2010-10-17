@@ -65,6 +65,29 @@ EngineTest.prototype.buildBasicField = function() {
     return basicField;
 };
 
+EngineTest.prototype.testGetConnectedBlocks = function() {
+    var basicField, connectedBlocks;
+    basicField = this.buildBasicField();
+    connectedBlocks = basicField.getConnectedBlocks(0, 0);
+    expectedBlocks = [
+	basicField.getBlock(0, 0),
+	basicField.getBlock(1, 0),
+	basicField.getBlock(0, 1)
+    ];
+    this.assertListsHaveSameElements(expectedBlocks, connectedBlocks);
+    connectedBlocks = basicField.getConnectedBlocks(2, 1);
+    expectedBlocks = [
+	basicField.getBlock(0, 2),
+	basicField.getBlock(0, 3),
+	basicField.getBlock(1, 2),
+	basicField.getBlock(2, 1),
+	basicField.getBlock(2, 2),
+	basicField.getBlock(3, 1),
+	basicField.getBlock(3, 2)
+    ];
+    this.assertListsHaveSameElements(expectedBlocks, connectedBlocks);
+};
+
 EngineTest.prototype.testFillWithBlocks = function() {
     var column, row, testPlayfield, testBlock;
     testPlayfield = new Clickomania.Playfield(this.PLAYFIELD_COLUMNS, this.PLAYFIELD_ROWS);
