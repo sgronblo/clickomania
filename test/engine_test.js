@@ -6,6 +6,26 @@ TestCase.prototype.assertEqual = function(expected, actual) {
     }
 };
 
+TestCase.prototype.assertListsHaveSameElements = function(expectedElements, actualElements) {
+    var message;
+    if (expectedElements.length !== actualElements.length) {
+	throw {message: "expected elements: " + expectedElements + " and actual elements: " + actualElements + " have different lengths"
+	};
+    }
+    if (!expectedElements.every(function(elementValue, elementIndex, array) {
+	var index;
+	for (index in actualElements) {
+	    if (actualElements[index] === elementValue) {
+		return true;
+	    }
+	}
+	message = elementValue + " did not exist in [" + actualElements + "]";
+	return false;
+    })) {
+	throw {message: message};
+    }
+};
+
 TestCase.prototype.assertTrue = function(boolean) {
     if (!boolean) {
 	throw {message: "False when expected true"};
