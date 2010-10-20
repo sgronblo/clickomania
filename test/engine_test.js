@@ -88,6 +88,14 @@ EngineTest.prototype.testGetConnectedBlocks = function() {
     this.assertListsHaveSameElements(expectedBlocks, connectedBlocks);
 };
 
+EngineTest.prototype.testRemoveBlock = function() {
+    var basicField, block, expectedBlock;
+    basicField = this.buildBasicField();
+    expectedBlock = basicField.getBlock(0,0);
+    block = basicField.removeBlock(0,0);
+    this.assertEqual(block, expectedBlock);
+}
+
 EngineTest.prototype.testFillWithBlocks = function() {
     var column, row, testPlayfield, testBlock;
     testPlayfield = new Clickomania.Playfield(this.PLAYFIELD_COLUMNS, this.PLAYFIELD_ROWS);
