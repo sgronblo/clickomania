@@ -23,12 +23,7 @@ Clickomania.Playfield.prototype.getBlock = function(column, row) {
     block = this.blocks[column][row];
     if (block === undefined) {
 	console.warn("getBlock(" + column + ", " + row + ") returned undefined");
-	try {
-	    this.mitaSaHaisetSiina();
-	} catch (failure) {
-	    console.log("fuuuuuu");
-	    console.log(failure.stack);
-	}
+	return block;
     }
     block.column = column;
     block.row = row;
