@@ -97,9 +97,11 @@ EngineTest.prototype.testGetConnectedBlocks = function() {
 EngineTest.prototype.testRemoveBlock = function() {
     var basicField, block, expectedBlock;
     basicField = this.buildBasicField();
-    expectedBlock = basicField.getBlock(0,0);
-    block = basicField.removeBlock(0,0);
+    expectedBlock = basicField.getBlock(0, 0);
+    block = basicField.removeBlock(0, 0);
     this.assertEqual(block, expectedBlock);
+    block = basicField.getBlock(0, 0);
+    this.assertUndefined(block);
 }
 
 EngineTest.prototype.testFillWithBlocks = function() {
