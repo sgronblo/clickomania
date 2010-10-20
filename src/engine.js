@@ -49,7 +49,7 @@ Clickomania.Playfield.prototype.clear = function() {
 
 Clickomania.Playfield.prototype.removeBlock = function(column, row) {
     var block = this.blocks[column][row];
-    delete this.block[column][row];
+    delete this.blocks[column][row];
     return block;
 };
 
