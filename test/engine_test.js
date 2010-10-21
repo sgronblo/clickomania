@@ -33,8 +33,8 @@ TestCase.prototype.assertTrue = function(boolean) {
 };
 
 TestCase.prototype.assertUndefined = function(possibleUndefined) {
-    if (! possibleUndefined === undefined) {
-	throw {message: "Defined (" + possibleUndefined + ") when expected undefined"};
+    if (! (possibleUndefined === undefined)) {
+	throw {message: "Variable was defined (" + possibleUndefined + ") when expected undefined"};
     }
 };
 
