@@ -103,7 +103,7 @@ Clickomania.Game.prototype.fillPlayfield = function() {
 };
 
 Clickomania.AsciiView = function() {
-    this.game = new Clickomania.Game(5, 5);
+    this.game = new Clickomania.Game(new Clickomania.Playfield(5, 5));
 };
 
 Clickomania.AsciiView.prototype.drawPlayfield = function(playfieldId) {
