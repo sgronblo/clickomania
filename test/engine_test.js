@@ -114,6 +114,20 @@ EngineTest.prototype.testRemoveBlock = function() {
     this.assertUndefined(block);
 }
 
+GameTest.prototype.testRemoveConnectedBlocks = function() {
+    var basicField, game;
+    basicField = new EngineTest().buildBasicField();
+    this.assertDefined(basicField);
+    game = new Clickomania.Game(basicField);
+    this.assertDefined(game);
+    game.removeConnectedBlocks(0, 0);
+    this.assertUndefined(basicField.getBlock(0, 0));
+    //this.assertUndefined(basicField.getBlock(0, 1));
+    //this.assertUndefined(basicField.getBlock(1, 0));
+    //basicField.removeConnectedBlocks(4, 3);
+    //this.assertDefined(basicField.getBlock(4, 3));
+}
+
 EngineTest.prototype.testFillWithBlocks = function() {
     var column, row, testPlayfield, testBlock;
     testPlayfield = new Clickomania.Playfield(this.PLAYFIELD_COLUMNS, this.PLAYFIELD_ROWS);
