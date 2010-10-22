@@ -102,6 +102,17 @@ Clickomania.Game.prototype.fillPlayfield = function() {
     this.playfield.fillWithBlocks(5);
 };
 
+Clickomania.Game.prototype.removeConnectedBlocks = function(column, row) {
+    var connectedBlocks, this_ = this;
+    connectedBlocks = this.playfield.getConnectedBlocks(column, row);
+    if (connectedBlocks.length < 2) {
+	return;
+    }
+    connectedBlocks.forEach(function(block) {
+	delete this_.blocks[block.column][block.row];
+    });
+}
+
 Clickomania.AsciiView = function() {
     this.game = new Clickomania.Game(new Clickomania.Playfield(5, 5));
 };
