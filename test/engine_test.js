@@ -146,8 +146,6 @@ StringUtilities = {
     }
 };
 
-engineTest = new EngineTest();
-
 TestRunner = {
     runTestCase: function(testCase) {
 	var memberName, member, testFailure, failedTests;
@@ -172,3 +170,13 @@ TestRunner = {
 	return failedTests;
     }
 };
+
+engineTest = new EngineTest();
+gameTest = new GameTest();
+tests = [engineTest, gameTest]
+
+function runAllTestCases() {
+    tests.forEach(function(testCase) {
+	TestRunner.runTestCase(testCase);
+    });
+}
