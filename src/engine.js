@@ -93,12 +93,12 @@ Clickomania.Block = function(type) {
     this.roundCounter = 0;
 };
 
-Clickomania.Game = function(columns, rows) {
-    this.playfield = new Clickomania.Playfield(columns, rows);
-    this.initializePlayfield();
+Clickomania.Game = function(playfield) {
+    this.playfield = playfield;
+    this.fillPlayfield();
 };
 
-Clickomania.Game.prototype.initializePlayfield = function() {
+Clickomania.Game.prototype.fillPlayfield = function() {
     this.playfield.fillWithBlocks(5);
 };
 
