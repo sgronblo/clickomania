@@ -62,7 +62,11 @@ var EngineTest = function() {
     this.PLAYFIELD_TYPES = 3;
 };
 
+var GameTest = function() {};
+
 EngineTest.prototype = new TestCase();
+
+GameTest.prototype = new TestCase();
 
 EngineTest.prototype.buildBasicField = function() {
     var basicField = new Clickomania.Playfield(this.PLAYFIELD_COLUMNS, this.PLAYFIELD_ROWS);
