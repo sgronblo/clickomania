@@ -165,7 +165,7 @@ TestRunner = {
 	if (failedTests.length > 0) {
 	    console.error("tests had failures");
 	} else {
-	    console.info("tests passed without failure");
+	    console.info("testCase " + testCase + " passed without failure");
 	}
 	return failedTests;
     }
