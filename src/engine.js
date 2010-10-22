@@ -22,7 +22,6 @@ Clickomania.Playfield.prototype.getBlock = function(column, row) {
     var block;
     block = this.blocks[column][row];
     if (block === undefined) {
-	console.warn("getBlock(" + column + ", " + row + ") returned undefined");
 	return block;
     }
     block.column = column;
