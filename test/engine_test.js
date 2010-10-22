@@ -38,6 +38,12 @@ TestCase.prototype.assertUndefined = function(possibleUndefined) {
     }
 };
 
+TestCase.prototype.assertDefined = function(possibleDefined) {
+    if (possibleDefined === undefined) {
+	throw {message: "Variable was undefined (" + possibleDefined + ") when expected defined"};
+    }
+};
+
 TestCase.prototype.assertInRange = function(lowestAllowedValue, highestAllowedValue, value) {
     var message;
     if (value < lowestAllowedValue) {
