@@ -163,9 +163,9 @@ TestRunner = {
 	    }
 	}
 	if (failedTests.length > 0) {
-	    console.error("tests had failures");
+	    console.error("testCase " + testCase.constructor.name + " had failures");
 	} else {
-	    console.info("testCase " + testCase + " passed without failure");
+	    console.info("testCase " + testCase.constructor.name + " passed without failure");
 	}
 	return failedTests;
     }
