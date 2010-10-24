@@ -114,6 +114,18 @@ EngineTest.prototype.testRemoveBlock = function() {
     this.assertUndefined(block);
 }
 
+EngineTest.prototype.testFillWithBlocks = function() {
+    var column, row, testPlayfield, testBlock;
+    testPlayfield = new Clickomania.Playfield(this.PLAYFIELD_COLUMNS, this.PLAYFIELD_ROWS);
+    testPlayfield.fillWithBlocks(this.PLAYFIELD_TYPES);
+    for (column = 0; column < this.PLAYFIELD_COLUMNS; column += 1) {
+	for (row = 0; row < this.PLAYFIELD_ROWS; row += 1) {
+	    testBlock = testPlayfield.getBlock(column, row);
+	    this.assertInRange(0, this.PLAYFIELD_TYPES - 1, testBlock.type);
+	}
+    }
+};
+
 GameTest.prototype.testRemoveConnectedBlocks = function() {
     var basicField, game;
     basicField = new EngineTest().buildBasicField();
@@ -127,18 +139,6 @@ GameTest.prototype.testRemoveConnectedBlocks = function() {
     //basicField.removeConnectedBlocks(4, 3);
     //this.assertDefined(basicField.getBlock(4, 3));
 }
-
-EngineTest.prototype.testFillWithBlocks = function() {
-    var column, row, testPlayfield, testBlock;
-    testPlayfield = new Clickomania.Playfield(this.PLAYFIELD_COLUMNS, this.PLAYFIELD_ROWS);
-    testPlayfield.fillWithBlocks(this.PLAYFIELD_TYPES);
-    for (column = 0; column < this.PLAYFIELD_COLUMNS; column += 1) {
-	for (row = 0; row < this.PLAYFIELD_ROWS; row += 1) {
-	    testBlock = testPlayfield.getBlock(column, row);
-	    this.assertInRange(0, this.PLAYFIELD_TYPES - 1, testBlock.type);
-	}
-    }
-};
 
 StringUtilities = {
     startsWith: function(string, prefix) {
