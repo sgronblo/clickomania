@@ -175,7 +175,7 @@ var testCaseClasses = [EngineTest, GameTest]
 
 function runAllTestCases() {
     testCaseClasses.forEach(function(testCaseClass) {
-	var newTestCase = testCaseClass();
+	var newTestCase = new testCaseClass();
 	TestRunner.runTestCase(newTestCase);
     });
 }
