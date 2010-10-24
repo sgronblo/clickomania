@@ -171,12 +171,11 @@ TestRunner = {
     }
 };
 
-engineTest = new EngineTest();
-gameTest = new GameTest();
-tests = [engineTest, gameTest]
+var testCaseClasses = [EngineTest, GameTest]
 
 function runAllTestCases() {
-    tests.forEach(function(testCase) {
-	TestRunner.runTestCase(testCase);
+    testCaseClasses.forEach(function(testCaseClass) {
+	var newTestCase = testCaseClass();
+	TestRunner.runTestCase(newTestCase);
     });
 }
