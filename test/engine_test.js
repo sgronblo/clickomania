@@ -140,10 +140,10 @@ GameTest.prototype.testRemoveConnectedBlocks = function() {
     this.assertDefined(game);
     game.removeConnectedBlocks(0, 0);
     this.assertUndefined(basicField.getBlock(0, 0));
-    //this.assertUndefined(basicField.getBlock(0, 1));
-    //this.assertUndefined(basicField.getBlock(1, 0));
-    //basicField.removeConnectedBlocks(4, 3);
-    //this.assertDefined(basicField.getBlock(4, 3));
+    this.assertUndefined(basicField.getBlock(0, 1));
+    this.assertUndefined(basicField.getBlock(1, 0));
+    game.removeConnectedBlocks(4, 3);
+    this.assertDefined(basicField.getBlock(4, 3));
 }
 
 StringUtilities = {
