@@ -109,7 +109,7 @@ Clickomania.Game.prototype.removeConnectedBlocks = function(column, row) {
 	return;
     }
     connectedBlocks.forEach(function(block) {
-	delete this_.blocks[block.column][block.row];
+	this_.playfield.removeBlock(block.column, block.row);
     });
 }
 
