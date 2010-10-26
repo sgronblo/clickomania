@@ -1,5 +1,11 @@
 function TestCase () {};
 
+TestCase.prototype.thowException = function(message) {
+    var stack;
+    try { undefined.undefined() } catch (exception) { stack = exception.stack; };
+    throw {message: message, stack: stack}
+}
+
 TestCase.prototype.assertEqual = function(expected, actual) {
     if (expected !== actual) {
 	throw {message: expected + " !== " + actual};
