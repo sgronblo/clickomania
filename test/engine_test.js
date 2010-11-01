@@ -134,6 +134,29 @@ EngineTest.prototype.testFillWithBlocks = function() {
     }
 };
 
+EngineTest.prototype.testGetEmptyColumns = function() {
+    var basicField, emptyColumns;
+    basicField = this.buildBasicField();
+    basicField.removeBlock(1, 0);
+    basicField.removeBlock(1, 1);
+    basicField.removeBlock(1, 2);
+    basicField.removeBlock(1, 3);
+    emptyColumns = basicField.getEmptyColumns();
+    this.assertEqual(emptyColumns[0], 1);
+};
+
+EngineTest.prototype.testPackColumnsToCenter = function() {
+    var basicField;
+    basicField = this.buildBasicField();
+    basicField.removeBlock(1, 0);
+    basicField.removeBlock(1, 1);
+    basicField.removeBlock(1, 2);
+    basicField.removeBlock(1, 3);
+    basicField.packColumnsToCenter();
+    this.assertUndefined(basicField.getBlock(0, 0));
+    this.assertUndefined(basicField.getBlock(1, 0));
+};
+
 function GameTest() {
     this.name = "GameTest";
 };
