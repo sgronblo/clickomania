@@ -134,6 +134,17 @@ EngineTest.prototype.testFillWithBlocks = function() {
     }
 };
 
+EngineTest.prototype.testMoveColumnsToRightFrom = function() {
+    var basicField = this.buildBasicField();
+    basicField.removeBlock(1, 0);
+    basicField.removeBlock(1, 1);
+    basicField.removeBlock(1, 2);
+    basicField.removeBlock(1, 3);
+    basicField.moveColumnsToRightFrom(1);
+    this.assertUndefined(basicField.getBlock(0, 0));
+    this.assertDefined(basicField.getBlock(1, 0));
+}
+
 EngineTest.prototype.testGetEmptyColumns = function() {
     var basicField, emptyColumns;
     basicField = this.buildBasicField();
