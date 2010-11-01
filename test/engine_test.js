@@ -1,4 +1,10 @@
-var TestCase = function() {};
+function TestCase () {};
+
+TestCase.prototype.thowException = function(message) {
+    var stack;
+    try { undefined.undefined() } catch (exception) { stack = exception.stack; };
+    throw {message: message, stack: stack}
+}
 
 TestCase.prototype.assertEqual = function(expected, actual) {
     if (expected !== actual) {
@@ -34,7 +40,13 @@ TestCase.prototype.assertTrue = function(boolean) {
 
 TestCase.prototype.assertUndefined = function(possibleUndefined) {
     if (! (possibleUndefined === undefined)) {
-	throw {message: "Variable was defined (" + possibleUndefined + ") when expected undefined"};
+	this.thowException("Variable was defined (" + possibleUndefined + ") when expected undefined");
+    }
+};
+
+TestCase.prototype.assertDefined = function(possibleDefined) {
+    if (possibleDefined === undefined) {
+	this.thowException("Variable was undefined (" + possibleDefined + ") when expected defined");
     }
 };
 
@@ -50,13 +62,17 @@ TestCase.prototype.assertInRange = function(lowestAllowedValue, highestAllowedVa
     }
 };
 
-var EngineTest = function() {
+function EngineTest () {
     this.PLAYFIELD_COLUMNS = 5;
     this.PLAYFIELD_ROWS = 4;
     this.PLAYFIELD_TYPES = 3;
 };
 
+function GameTest() {};
+
 EngineTest.prototype = new TestCase();
+
+GameTest.prototype = new TestCase();
 
 EngineTest.prototype.buildBasicField = function() {
     var basicField = new Clickomania.Playfield(this.PLAYFIELD_COLUMNS, this.PLAYFIELD_ROWS);
@@ -116,13 +132,25 @@ EngineTest.prototype.testFillWithBlocks = function() {
     }
 };
 
+GameTest.prototype.testRemoveConnectedBlocks = function() {
+    var basicField, game;
+    basicField = new EngineTest().buildBasicField();
+    this.assertDefined(basicField);
+    game = new Clickomania.Game(basicField);
+    this.assertDefined(game);
+    game.removeConnectedBlocks(0, 0);
+    this.assertUndefined(basicField.getBlock(0, 0));
+    this.assertUndefined(basicField.getBlock(0, 1));
+    this.assertUndefined(basicField.getBlock(1, 0));
+    game.removeConnectedBlocks(4, 3);
+    this.assertDefined(basicField.getBlock(4, 3));
+}
+
 StringUtilities = {
     startsWith: function(string, prefix) {
 	return string.lastIndexOf(prefix, 0) === 0;
     }
 };
-
-engineTest = new EngineTest();
 
 TestRunner = {
     runTestCase: function(testCase) {
@@ -141,10 +169,19 @@ TestRunner = {
 	    }
 	}
 	if (failedTests.length > 0) {
-	    console.error("tests had failures");
+	    console.error("testCase " + testCase.constructor.name + " had failures");
 	} else {
-	    console.info("tests passed without failure");
+	    console.info("testCase " + testCase.constructor.name + " passed without failure");
 	}
 	return failedTests;
     }
 };
+
+var testCaseClasses = [EngineTest, GameTest]
+
+function runAllTestCases() {
+    testCaseClasses.forEach(function(testCaseClass) {
+	var newTestCase = new testCaseClass();
+	TestRunner.runTestCase(newTestCase);
+    });
+}

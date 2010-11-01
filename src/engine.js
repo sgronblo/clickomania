@@ -22,7 +22,6 @@ Clickomania.Playfield.prototype.getBlock = function(column, row) {
     var block;
     block = this.blocks[column][row];
     if (block === undefined) {
-	console.warn("getBlock(" + column + ", " + row + ") returned undefined");
 	return block;
     }
     block.column = column;
@@ -94,17 +93,27 @@ Clickomania.Block = function(type) {
     this.roundCounter = 0;
 };
 
-Clickomania.Game = function(columns, rows) {
-    this.playfield = new Clickomania.Playfield(columns, rows);
-    this.initializePlayfield();
+Clickomania.Game = function(playfield) {
+    this.playfield = playfield;
 };
 
-Clickomania.Game.prototype.initializePlayfield = function() {
+Clickomania.Game.prototype.fillPlayfield = function() {
     this.playfield.fillWithBlocks(5);
 };
 
+Clickomania.Game.prototype.removeConnectedBlocks = function(column, row) {
+    var connectedBlocks, this_ = this;
+    connectedBlocks = this.playfield.getConnectedBlocks(column, row);
+    if (connectedBlocks.length < 2) {
+	return;
+    }
+    connectedBlocks.forEach(function(block) {
+	this_.playfield.removeBlock(block.column, block.row);
+    });
+}
+
 Clickomania.AsciiView = function() {
-    this.game = new Clickomania.Game(5, 5);
+    this.game = new Clickomania.Game(new Clickomania.Playfield(5, 5));
 };
 
 Clickomania.AsciiView.prototype.drawPlayfield = function(playfieldId) {
