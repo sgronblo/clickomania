@@ -86,7 +86,25 @@ Clickomania.Playfield.prototype.getConnectedBlocks_ = function(column, row, coun
 	}
     });
     return connected;
-}
+};
+
+Clickomania.Playfield.prototype.getEmptyColumns = function() {
+    var emptyColumns = [], columnContainsBlocks = undefined, block;
+    for(var column = 0; column < this.columns; column += 1) {
+	connectedBlocks = undefined;
+	for(var row = 0; row < this.blocks[column].length; row += 1) {
+	   block = this.getBlock(column, row);
+	   if(!(block === undefined)) {
+	       connectedBlocks = 1;
+	       break;
+	   }
+	}
+	if(connectedBlocks === undefined) {
+	    emptyColumns.push(column);
+	}
+    }
+    return emptyColumns;
+};
 
 Clickomania.Block = function(type) {
     this.type = type;
