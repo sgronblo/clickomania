@@ -106,6 +106,15 @@ Clickomania.Playfield.prototype.getEmptyColumns = function() {
     return emptyColumns;
 };
 
+Clickomania.Playfield.prototype.moveColumnsToRightFrom = function(from) {
+    var previousColumn, removing = this.blocks[from];
+    for(var currentColumn = 1; currentColumn <= from; currentColumn +=1) {
+	previousColumn = currentColumn - 1;
+	this.blocks[currentColumn] = this.blocks[previousColumn];
+    }
+    this.blocks[0] = removing;
+}
+
 Clickomania.Block = function(type) {
     this.type = type;
     this.roundCounter = 0;
