@@ -114,6 +114,7 @@ Clickomania.Game.prototype.removeConnectedBlocks = function(column, row) {
 
 Clickomania.AsciiView = function() {
     this.game = new Clickomania.Game(new Clickomania.Playfield(5, 5));
+    this.game.fillPlayfield();
 };
 
 Clickomania.AsciiView.prototype.drawPlayfield = function(playfieldId) {
