@@ -106,14 +106,18 @@ Clickomania.Playfield.prototype.getEmptyColumns = function() {
     return emptyColumns;
 };
 
-Clickomania.Playfield.prototype.moveColumnsToRightFrom = function(from) {
-    var previousColumn, removing = this.blocks[from];
-    for(var currentColumn = 1; currentColumn <= from; currentColumn +=1) {
-	previousColumn = currentColumn - 1;
+Clickomania.Playfield.prototype.fillHole = function(holeColumn) {
+    var previousColumn, removing = this.blocks[holeColumn];
+    var startColumn = 1;
+    var lastColumn = 0;
+    var direction = holeColumn > (this.columns / 2) ? 1 : -1;
+    var endColumn = holeColumn + direction;
+    for(var currentColumn = startColumn; currentColumn != endColumn; currentColumn += direction) {
+	previousColumn = currentColumn - direction;
 	this.blocks[currentColumn] = this.blocks[previousColumn];
     }
-    this.blocks[0] = removing;
-}
+    this.blocks[lastColumn] = removing;
+};
 
 Clickomania.Block = function(type) {
     this.type = type;
