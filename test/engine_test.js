@@ -165,7 +165,7 @@ EngineTest.prototype.testFillHoles = function() {
     basicField.removeBlock(1, 3);
     basicField.fillHoles();
     this.assertUndefined(basicField.getBlock(0, 0));
-    this.assertUndefined(basicField.getBlock(1, 0));
+    this.assertDefined(basicField.getBlock(1, 0));
 };
 
 function GameTest() {
