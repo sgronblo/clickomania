@@ -119,6 +119,13 @@ Clickomania.Playfield.prototype.fillHole = function(holeColumn) {
     this.blocks[lastColumn] = removing;
 };
 
+Clickomania.Playfield.prototype.fillHoles = function() {
+    var emptyColumns = this.getEmptyColumns(), this_ = this;
+    emptyColumns.forEach(function(index) {
+	this_.fillHole(index);
+    });
+};
+
 Clickomania.Block = function(type) {
     this.type = type;
     this.roundCounter = 0;
