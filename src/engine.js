@@ -262,3 +262,14 @@ Clickomania.ArrayUtilies.complement = function complement(all, some) {
     }
     return elementsNotInSome;
 };
+
+Clickomania.CanvasView = function() {
+    this.game = new Clickomania.Game(new Clickomania.Playfield(5, 5));
+    this.game.fillPlayfield();
+};
+
+Clickomania.CanvasView.prototype.drawPlayfield = function(playfieldId) {
+    var $canvas;
+    $canvas = $(playfieldId);
+    $canvas.height(150);
+};
