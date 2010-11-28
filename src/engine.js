@@ -95,7 +95,6 @@ Clickomania.Block = function(type) {
 
 Clickomania.Game = function(playfield) {
     this.playfield = playfield;
-    this.fillPlayfield();
 };
 
 Clickomania.Game.prototype.fillPlayfield = function() {

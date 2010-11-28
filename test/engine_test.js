@@ -13,6 +13,12 @@ TestUtilities = {
     }
 };
 
+TestCase.prototype.thowException = function(message) {
+    var stack;
+    try { undefined.undefined() } catch (exception) { stack = exception.stack; };
+    throw {message: message, stack: stack}
+}
+
 TestCase.prototype.assertEqual = function(expected, actual) {
     if (expected !== actual) {
 	throw {message: expected + " !== " + actual};
@@ -47,13 +53,13 @@ TestCase.prototype.assertTrue = function(boolean) {
 
 TestCase.prototype.assertUndefined = function(possibleUndefined) {
     if (typeof possibleUndefined !== 'undefined') {
-	throw {message: "Variable was defined (" + TestUtilities.objectToString(possibleUndefined) + ") when expected undefined"};
+	this.thowException("Variable was defined (" + TestUtilities.objectToString(possibleUndefined) + ") when expected undefined");
     }
 };
 
 TestCase.prototype.assertDefined = function(possibleDefined) {
     if (typeof possibleDefined === 'undefined') {
-	throw {message: "Variable was undefined (" + TestUtilities.objectToString(possibleDefined) + ") when expected defined"};
+	this.thowException("Variable was undefined (" + TestUtilities.objectToString(possibleDefined) + ") when expected defined");
     }
 };
 
@@ -150,10 +156,10 @@ GameTest.prototype.testRemoveConnectedBlocks = function() {
     this.assertDefined(game);
     game.removeConnectedBlocks(0, 0);
     this.assertUndefined(basicField.getBlock(0, 0));
-    //this.assertUndefined(basicField.getBlock(0, 1));
-    //this.assertUndefined(basicField.getBlock(1, 0));
-    //basicField.removeConnectedBlocks(4, 3);
-    //this.assertDefined(basicField.getBlock(4, 3));
+    this.assertUndefined(basicField.getBlock(0, 1));
+    this.assertUndefined(basicField.getBlock(1, 0));
+    game.removeConnectedBlocks(4, 3);
+    this.assertDefined(basicField.getBlock(4, 3));
 }
 
 StringUtilities = {
