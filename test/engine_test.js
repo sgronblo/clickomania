@@ -46,13 +46,13 @@ TestCase.prototype.assertTrue = function(boolean) {
 };
 
 TestCase.prototype.assertUndefined = function(possibleUndefined) {
-    if (! (possibleUndefined === undefined)) {
+    if (typeof possibleUndefined !== 'undefined') {
 	throw {message: "Variable was defined (" + TestUtilities.objectToString(possibleUndefined) + ") when expected undefined"};
     }
 };
 
 TestCase.prototype.assertDefined = function(possibleDefined) {
-    if (possibleDefined === undefined) {
+    if (typeof possibleDefined === 'undefined') {
 	throw {message: "Variable was undefined (" + TestUtilities.objectToString(possibleDefined) + ") when expected defined"};
     }
 };
