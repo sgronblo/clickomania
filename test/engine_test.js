@@ -70,16 +70,13 @@ TestCase.prototype.assertInRange = function(lowestAllowedValue, highestAllowedVa
 };
 
 function EngineTest () {
+    this.name = "EngineTest";
     this.PLAYFIELD_COLUMNS = 5;
     this.PLAYFIELD_ROWS = 4;
     this.PLAYFIELD_TYPES = 3;
 };
 
-function GameTest() {};
-
 EngineTest.prototype = new TestCase();
-
-GameTest.prototype = new TestCase();
 
 EngineTest.prototype.buildBasicField = function() {
     var basicField = new Clickomania.Playfield(this.PLAYFIELD_COLUMNS, this.PLAYFIELD_ROWS);
@@ -127,6 +124,24 @@ EngineTest.prototype.testRemoveBlock = function() {
     this.assertUndefined(block);
 }
 
+EngineTest.prototype.testFillWithBlocks = function() {
+    var column, row, testPlayfield, testBlock;
+    testPlayfield = new Clickomania.Playfield(this.PLAYFIELD_COLUMNS, this.PLAYFIELD_ROWS);
+    testPlayfield.fillWithBlocks(this.PLAYFIELD_TYPES);
+    for (column = 0; column < this.PLAYFIELD_COLUMNS; column += 1) {
+	for (row = 0; row < this.PLAYFIELD_ROWS; row += 1) {
+	    testBlock = testPlayfield.getBlock(column, row);
+	    this.assertInRange(0, this.PLAYFIELD_TYPES - 1, testBlock.type);
+	}
+    }
+};
+
+function GameTest() {
+    this.name = "GameTest";
+};
+
+GameTest.prototype = new TestCase();
+
 GameTest.prototype.testRemoveConnectedBlocks = function() {
     var basicField, game;
     basicField = new EngineTest().buildBasicField();
@@ -140,18 +155,6 @@ GameTest.prototype.testRemoveConnectedBlocks = function() {
     //basicField.removeConnectedBlocks(4, 3);
     //this.assertDefined(basicField.getBlock(4, 3));
 }
-
-EngineTest.prototype.testFillWithBlocks = function() {
-    var column, row, testPlayfield, testBlock;
-    testPlayfield = new Clickomania.Playfield(this.PLAYFIELD_COLUMNS, this.PLAYFIELD_ROWS);
-    testPlayfield.fillWithBlocks(this.PLAYFIELD_TYPES);
-    for (column = 0; column < this.PLAYFIELD_COLUMNS; column += 1) {
-	for (row = 0; row < this.PLAYFIELD_ROWS; row += 1) {
-	    testBlock = testPlayfield.getBlock(column, row);
-	    this.assertInRange(0, this.PLAYFIELD_TYPES - 1, testBlock.type);
-	}
-    }
-};
 
 StringUtilities = {
     startsWith: function(string, prefix) {
