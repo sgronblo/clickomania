@@ -161,8 +161,9 @@ StringUtilities = {
 
 TestRunner = {
     runTestCase: function(testCase) {
-	var memberName, member, testFailure, failedTests;
+	var memberName, member, testFailure, failedTests, testName;
 	failedTests = [];
+	// Run all methods prefixed with test as test methods
 	for (memberName in testCase) {
 	    member = testCase[memberName];
 	    if (typeof member === 'function' && StringUtilities.startsWith(memberName, 'test')) {
@@ -175,10 +176,17 @@ TestRunner = {
 		}
 	    }
 	}
-	if (failedTests.length > 0) {
-	    console.error("testCase " + testCase.constructor.name + " had failures");
+	// Get name of test case or set it to unnamed
+	if (typeof testCase.name !== 'undefined') {
+	    testName = testCase.name;
 	} else {
-	    console.info("testCase " + testCase.constructor.name + " passed without failure");
+	    testName = "unnamed test";
+	}
+	// Print status of test run
+	if (failedTests.length > 0) {
+	    console.error("testCase " + testName + " had failures");
+	} else {
+	    console.info("testCase " + testName + " passed without failure");
 	}
 	return failedTests;
     }
