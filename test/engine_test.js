@@ -13,7 +13,7 @@ TestUtilities = {
     }
 };
 
-TestCase.prototype.thowException = function(message) {
+TestCase.prototype.throwException = function(message) {
     var stack;
     try { undefined.undefined() } catch (exception) { stack = exception.stack; };
     throw {message: message, stack: stack}
@@ -53,13 +53,13 @@ TestCase.prototype.assertTrue = function(boolean) {
 
 TestCase.prototype.assertUndefined = function(possibleUndefined) {
     if (typeof possibleUndefined !== 'undefined') {
-	this.thowException("Variable was defined (" + TestUtilities.objectToString(possibleUndefined) + ") when expected undefined");
+	this.throwException("Variable was defined (" + TestUtilities.objectToString(possibleUndefined) + ") when expected undefined");
     }
 };
 
 TestCase.prototype.assertDefined = function(possibleDefined) {
     if (typeof possibleDefined === 'undefined') {
-	this.thowException("Variable was undefined (" + TestUtilities.objectToString(possibleDefined) + ") when expected defined");
+	this.throwException("Variable was undefined (" + TestUtilities.objectToString(possibleDefined) + ") when expected defined");
     }
 };
 
