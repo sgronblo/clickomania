@@ -18,59 +18,56 @@ TestUtilities = {
     }
 };
 
-TestCase.prototype.assertEqual = function(expected, actual) {
-    if (expected !== actual) {
-	throw {message: expected + " !== " + actual};
-    }
-};
-
-TestCase.prototype.assertListsHaveSameElements = function(expectedElements, actualElements) {
-    var message;
-    if (expectedElements.length !== actualElements.length) {
-	throw {message: "expected elements: " + expectedElements + " and actual elements: " + actualElements + " have different lengths"
-	};
-    }
-    if (!expectedElements.every(function(elementValue, elementIndex, array) {
-	var index;
-	for (index in actualElements) {
-	    if (actualElements[index] === elementValue) {
-		return true;
-	    }
+Assert = {
+    assertEqual: function(expected, actual) {
+	if (expected !== actual) {
+	    throw {message: expected + " !== " + actual};
 	}
-	message = elementValue + " did not exist in [" + actualElements + "]";
-	return false;
-    })) {
-	throw {message: message};
-    }
-};
-
-TestCase.prototype.assertTrue = function(boolean) {
-    if (!boolean) {
-	throw {message: "False when expected true"};
-    }
-};
-
-TestCase.prototype.assertUndefined = function(possibleUndefined) {
-    if (typeof possibleUndefined !== 'undefined') {
-	this.throwException("Variable was defined (" + TestUtilities.objectToString(possibleUndefined) + ") when expected undefined");
-    }
-};
-
-TestCase.prototype.assertDefined = function(possibleDefined) {
-    if (typeof possibleDefined === 'undefined') {
-	this.throwException("Variable was undefined (" + TestUtilities.objectToString(possibleDefined) + ") when expected defined");
-    }
-};
-
-TestCase.prototype.assertInRange = function(lowestAllowedValue, highestAllowedValue, value) {
-    var message;
-    if (value < lowestAllowedValue) {
-	message = value + " should not be less than " + lowestAllowedValue;
-    } else if (value > highestAllowedValue) {
-	message = value + " should not be greater than " + highestAllowedValue;
-    }
-    if (message !== undefined) {
-	throw {message: message};
+    },
+    assertListsHaveSameElements: function(expectedElements, actualElements) {
+	var message;
+	if (expectedElements.length !== actualElements.length) {
+	    throw {message: "expected elements: " + expectedElements + " and actual elements: " + actualElements + " have different lengths"
+	    };
+	}
+	if (!expectedElements.every(function(elementValue, elementIndex, array) {
+	    var index;
+	    for (index in actualElements) {
+		if (actualElements[index] === elementValue) {
+		    return true;
+		}
+	    }
+	    message = elementValue + " did not exist in [" + actualElements + "]";
+	    return false;
+	})) {
+	    throw {message: message};
+	}
+    },
+    assertTrue: function(boolean) {
+	if (!boolean) {
+	    throw {message: "False when expected true"};
+	}
+    },
+    assertUndefined: function(possibleUndefined) {
+	if (typeof possibleUndefined !== 'undefined') {
+	    this.throwException("Variable was defined (" + TestUtilities.objectToString(possibleUndefined) + ") when expected undefined");
+	}
+    },
+    assertDefined: function(possibleDefined) {
+	if (typeof possibleDefined === 'undefined') {
+	    this.throwException("Variable was undefined (" + TestUtilities.objectToString(possibleDefined) + ") when expected defined");
+	}
+    },
+    assertInRange: function(lowestAllowedValue, highestAllowedValue, value) {
+	var message;
+	if (value < lowestAllowedValue) {
+	    message = value + " should not be less than " + lowestAllowedValue;
+	} else if (value > highestAllowedValue) {
+	    message = value + " should not be greater than " + highestAllowedValue;
+	}
+	if (message !== undefined) {
+	    throw {message: message};
+	}
     }
 };
 
@@ -105,7 +102,7 @@ EngineTest.prototype.testGetConnectedBlocks = function() {
 	basicField.getBlock(1, 0),
 	basicField.getBlock(0, 1)
     ];
-    this.assertListsHaveSameElements(expectedBlocks, connectedBlocks);
+    Assert.assertListsHaveSameElements(expectedBlocks, connectedBlocks);
     connectedBlocks = basicField.getConnectedBlocks(2, 1);
     expectedBlocks = [
 	basicField.getBlock(0, 2),
@@ -116,7 +113,7 @@ EngineTest.prototype.testGetConnectedBlocks = function() {
 	basicField.getBlock(3, 1),
 	basicField.getBlock(3, 2)
     ];
-    this.assertListsHaveSameElements(expectedBlocks, connectedBlocks);
+    Assert.assertListsHaveSameElements(expectedBlocks, connectedBlocks);
 };
 
 EngineTest.prototype.testRemoveBlock = function() {
@@ -124,9 +121,9 @@ EngineTest.prototype.testRemoveBlock = function() {
     basicField = this.buildBasicField();
     expectedBlock = basicField.getBlock(0, 0);
     block = basicField.removeBlock(0, 0);
-    this.assertEqual(block, expectedBlock);
+    Assert.assertEqual(block, expectedBlock);
     block = basicField.getBlock(0, 0);
-    this.assertUndefined(block);
+    Assert.assertUndefined(block);
 }
 
 EngineTest.prototype.testFillWithBlocks = function() {
@@ -136,7 +133,7 @@ EngineTest.prototype.testFillWithBlocks = function() {
     for (column = 0; column < this.PLAYFIELD_COLUMNS; column += 1) {
 	for (row = 0; row < this.PLAYFIELD_ROWS; row += 1) {
 	    testBlock = testPlayfield.getBlock(column, row);
-	    this.assertInRange(0, this.PLAYFIELD_TYPES - 1, testBlock.type);
+	    Assert.assertInRange(0, this.PLAYFIELD_TYPES - 1, testBlock.type);
 	}
     }
 };
@@ -150,15 +147,15 @@ GameTest.prototype = new TestCase();
 GameTest.prototype.testRemoveConnectedBlocks = function() {
     var basicField, game;
     basicField = new EngineTest().buildBasicField();
-    this.assertDefined(basicField);
+    Assert.assertDefined(basicField);
     game = new Clickomania.Game(basicField);
-    this.assertDefined(game);
+    Assert.assertDefined(game);
     game.removeConnectedBlocks(0, 0);
-    this.assertUndefined(basicField.getBlock(0, 0));
-    this.assertUndefined(basicField.getBlock(0, 1));
-    this.assertUndefined(basicField.getBlock(1, 0));
+    Assert.assertUndefined(basicField.getBlock(0, 0));
+    Assert.assertUndefined(basicField.getBlock(0, 1));
+    Assert.assertUndefined(basicField.getBlock(1, 0));
     game.removeConnectedBlocks(4, 3);
-    this.assertDefined(basicField.getBlock(4, 3));
+    Assert.assertDefined(basicField.getBlock(4, 3));
 }
 
 StringUtilities = {
