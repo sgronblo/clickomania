@@ -1,5 +1,18 @@
 function TestCase () {};
 
+TestUtilities = {
+    objectToString: function(object) {
+	var propertyValueStrings = [];
+	var propertyName
+	for (propertyName in object) {
+	    if (object.hasOwnProperty(propertyName)) {
+		propertyValueStrings.push(propertyName + ": " + object[propertyName]);
+	    }
+	}
+	return "{" + propertyValueStrings.join(", ") + "}";
+    }
+};
+
 TestCase.prototype.assertEqual = function(expected, actual) {
     if (expected !== actual) {
 	throw {message: expected + " !== " + actual};
@@ -34,13 +47,13 @@ TestCase.prototype.assertTrue = function(boolean) {
 
 TestCase.prototype.assertUndefined = function(possibleUndefined) {
     if (! (possibleUndefined === undefined)) {
-	throw {message: "Variable was defined (" + possibleUndefined + ") when expected undefined"};
+	throw {message: "Variable was defined (" + TestUtilities.objectToString(possibleUndefined) + ") when expected undefined"};
     }
 };
 
 TestCase.prototype.assertDefined = function(possibleDefined) {
     if (possibleDefined === undefined) {
-	throw {message: "Variable was undefined (" + possibleDefined + ") when expected defined"};
+	throw {message: "Variable was undefined (" + TestUtilities.objectToString(possibleDefined) + ") when expected defined"};
     }
 };
 
