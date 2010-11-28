@@ -10,14 +10,13 @@ TestUtilities = {
 	    }
 	}
 	return "{" + propertyValueStrings.join(", ") + "}";
+    },
+    throwException: function(message) {
+	var stack;
+	try { undefined.undefined() } catch (exception) { stack = exception.stack; };
+	throw {message: message, stack: stack}
     }
 };
-
-TestCase.prototype.throwException = function(message) {
-    var stack;
-    try { undefined.undefined() } catch (exception) { stack = exception.stack; };
-    throw {message: message, stack: stack}
-}
 
 TestCase.prototype.assertEqual = function(expected, actual) {
     if (expected !== actual) {
