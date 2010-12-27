@@ -141,8 +141,8 @@ EngineTest.prototype.testFillHole = function() {
     basicField.removeBlock(1, 2);
     basicField.removeBlock(1, 3);
     basicField.fillHole(1);
-    this.assertUndefined(basicField.getBlock(0, 0));
-    this.assertDefined(basicField.getBlock(1, 0));
+    Assert.assertUndefined(basicField.getBlock(0, 0));
+    Assert.assertDefined(basicField.getBlock(1, 0));
 }
 
 EngineTest.prototype.testGetEmptyColumns = function() {
@@ -153,7 +153,7 @@ EngineTest.prototype.testGetEmptyColumns = function() {
     basicField.removeBlock(1, 2);
     basicField.removeBlock(1, 3);
     emptyColumns = basicField.getEmptyColumns();
-    this.assertEqual(emptyColumns[0], 1);
+    Assert.assertEqual(emptyColumns[0], 1);
 };
 
 EngineTest.prototype.testFillHoles = function() {
@@ -164,8 +164,8 @@ EngineTest.prototype.testFillHoles = function() {
     basicField.removeBlock(1, 2);
     basicField.removeBlock(1, 3);
     basicField.fillHoles();
-    this.assertUndefined(basicField.getBlock(0, 0));
-    this.assertDefined(basicField.getBlock(1, 0));
+    Assert.assertUndefined(basicField.getBlock(0, 0));
+    Assert.assertDefined(basicField.getBlock(1, 0));
 };
 
 function GameTest() {
