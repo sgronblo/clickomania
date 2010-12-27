@@ -1,5 +1,3 @@
-function TestCase () {};
-
 TestUtilities = {
     objectToString: function(object) {
 	var propertyValueStrings = [];
@@ -78,8 +76,6 @@ function EngineTest () {
     this.PLAYFIELD_TYPES = 3;
 };
 
-EngineTest.prototype = new TestCase();
-
 EngineTest.prototype.buildBasicField = function() {
     var basicField = new Clickomania.Playfield(this.PLAYFIELD_COLUMNS, this.PLAYFIELD_ROWS);
     var Block = Clickomania.Block;
@@ -141,8 +137,6 @@ EngineTest.prototype.testFillWithBlocks = function() {
 function GameTest() {
     this.name = "GameTest";
 };
-
-GameTest.prototype = new TestCase();
 
 GameTest.prototype.testRemoveConnectedBlocks = function() {
     var basicField, game;
