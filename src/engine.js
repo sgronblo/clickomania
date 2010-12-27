@@ -112,7 +112,7 @@ Clickomania.Playfield.prototype.fillHole = function(holeColumn) {
     var lastColumn = 0;
     var direction = holeColumn > (this.columns / 2) ? 1 : -1;
     var endColumn = holeColumn + direction;
-    for(var currentColumn = startColumn; currentColumn != endColumn; currentColumn += direction) {
+    for(var currentColumn = startColumn; currentColumn !== endColumn; currentColumn += direction) {
 	previousColumn = currentColumn - direction;
 	this.blocks[currentColumn] = this.blocks[previousColumn];
     }
