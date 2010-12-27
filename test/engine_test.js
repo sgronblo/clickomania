@@ -1,78 +1,84 @@
 function TestCase () {};
 
-TestCase.prototype.thowException = function(message) {
-    var stack;
-    try { undefined.undefined() } catch (exception) { stack = exception.stack; };
-    throw {message: message, stack: stack}
-}
-
-TestCase.prototype.assertEqual = function(expected, actual) {
-    if (expected !== actual) {
-	throw {message: expected + " !== " + actual};
-    }
-};
-
-TestCase.prototype.assertListsHaveSameElements = function(expectedElements, actualElements) {
-    var message;
-    if (expectedElements.length !== actualElements.length) {
-	throw {message: "expected elements: " + expectedElements + " and actual elements: " + actualElements + " have different lengths"
-	};
-    }
-    if (!expectedElements.every(function(elementValue, elementIndex, array) {
-	var index;
-	for (index in actualElements) {
-	    if (actualElements[index] === elementValue) {
-		return true;
+TestUtilities = {
+    objectToString: function(object) {
+	var propertyValueStrings = [];
+	var propertyName
+	for (propertyName in object) {
+	    if (object.hasOwnProperty(propertyName)) {
+		propertyValueStrings.push(propertyName + ": " + object[propertyName]);
 	    }
 	}
-	message = elementValue + " did not exist in [" + actualElements + "]";
-	return false;
-    })) {
-	throw {message: message};
+	return "{" + propertyValueStrings.join(", ") + "}";
+    },
+    throwException: function(message) {
+	var stack;
+	try { undefined.undefined() } catch (exception) { stack = exception.stack; };
+	throw {message: message, stack: stack}
     }
 };
 
-TestCase.prototype.assertTrue = function(boolean) {
-    if (!boolean) {
-	throw {message: "False when expected true"};
-    }
-};
-
-TestCase.prototype.assertUndefined = function(possibleUndefined) {
-    if (! (possibleUndefined === undefined)) {
-	this.thowException("Variable was defined (" + possibleUndefined + ") when expected undefined");
-    }
-};
-
-TestCase.prototype.assertDefined = function(possibleDefined) {
-    if (possibleDefined === undefined) {
-	this.thowException("Variable was undefined (" + possibleDefined + ") when expected defined");
-    }
-};
-
-TestCase.prototype.assertInRange = function(lowestAllowedValue, highestAllowedValue, value) {
-    var message;
-    if (value < lowestAllowedValue) {
-	message = value + " should not be less than " + lowestAllowedValue;
-    } else if (value > highestAllowedValue) {
-	message = value + " should not be greater than " + highestAllowedValue;
-    }
-    if (message !== undefined) {
-	throw {message: message};
+Assert = {
+    assertEqual: function(expected, actual) {
+	if (expected !== actual) {
+	    throw {message: expected + " !== " + actual};
+	}
+    },
+    assertListsHaveSameElements: function(expectedElements, actualElements) {
+	var message;
+	if (expectedElements.length !== actualElements.length) {
+	    throw {message: "expected elements: " + expectedElements + " and actual elements: " + actualElements + " have different lengths"
+	    };
+	}
+	if (!expectedElements.every(function(elementValue, elementIndex, array) {
+	    var index;
+	    for (index in actualElements) {
+		if (actualElements[index] === elementValue) {
+		    return true;
+		}
+	    }
+	    message = elementValue + " did not exist in [" + actualElements + "]";
+	    return false;
+	})) {
+	    throw {message: message};
+	}
+    },
+    assertTrue: function(boolean) {
+	if (!boolean) {
+	    throw {message: "False when expected true"};
+	}
+    },
+    assertUndefined: function(possibleUndefined) {
+	if (typeof possibleUndefined !== 'undefined') {
+	    this.throwException("Variable was defined (" + TestUtilities.objectToString(possibleUndefined) + ") when expected undefined");
+	}
+    },
+    assertDefined: function(possibleDefined) {
+	if (typeof possibleDefined === 'undefined') {
+	    this.throwException("Variable was undefined (" + TestUtilities.objectToString(possibleDefined) + ") when expected defined");
+	}
+    },
+    assertInRange: function(lowestAllowedValue, highestAllowedValue, value) {
+	var message;
+	if (value < lowestAllowedValue) {
+	    message = value + " should not be less than " + lowestAllowedValue;
+	} else if (value > highestAllowedValue) {
+	    message = value + " should not be greater than " + highestAllowedValue;
+	}
+	if (message !== undefined) {
+	    throw {message: message};
+	}
     }
 };
 
 function EngineTest () {
+    this.name = "EngineTest";
     this.PLAYFIELD_COLUMNS = 5;
     this.PLAYFIELD_ROWS = 4;
     this.PLAYFIELD_TYPES = 3;
 };
 
-function GameTest() {};
-
 EngineTest.prototype = new TestCase();
-
-GameTest.prototype = new TestCase();
 
 EngineTest.prototype.buildBasicField = function() {
     var basicField = new Clickomania.Playfield(this.PLAYFIELD_COLUMNS, this.PLAYFIELD_ROWS);
@@ -96,7 +102,7 @@ EngineTest.prototype.testGetConnectedBlocks = function() {
 	basicField.getBlock(1, 0),
 	basicField.getBlock(0, 1)
     ];
-    this.assertListsHaveSameElements(expectedBlocks, connectedBlocks);
+    Assert.assertListsHaveSameElements(expectedBlocks, connectedBlocks);
     connectedBlocks = basicField.getConnectedBlocks(2, 1);
     expectedBlocks = [
 	basicField.getBlock(0, 2),
@@ -107,7 +113,7 @@ EngineTest.prototype.testGetConnectedBlocks = function() {
 	basicField.getBlock(3, 1),
 	basicField.getBlock(3, 2)
     ];
-    this.assertListsHaveSameElements(expectedBlocks, connectedBlocks);
+    Assert.assertListsHaveSameElements(expectedBlocks, connectedBlocks);
 };
 
 EngineTest.prototype.testRemoveBlock = function() {
@@ -115,9 +121,9 @@ EngineTest.prototype.testRemoveBlock = function() {
     basicField = this.buildBasicField();
     expectedBlock = basicField.getBlock(0, 0);
     block = basicField.removeBlock(0, 0);
-    this.assertEqual(block, expectedBlock);
+    Assert.assertEqual(block, expectedBlock);
     block = basicField.getBlock(0, 0);
-    this.assertUndefined(block);
+    Assert.assertUndefined(block);
 }
 
 EngineTest.prototype.testFillWithBlocks = function() {
@@ -127,23 +133,29 @@ EngineTest.prototype.testFillWithBlocks = function() {
     for (column = 0; column < this.PLAYFIELD_COLUMNS; column += 1) {
 	for (row = 0; row < this.PLAYFIELD_ROWS; row += 1) {
 	    testBlock = testPlayfield.getBlock(column, row);
-	    this.assertInRange(0, this.PLAYFIELD_TYPES - 1, testBlock.type);
+	    Assert.assertInRange(0, this.PLAYFIELD_TYPES - 1, testBlock.type);
 	}
     }
 };
 
+function GameTest() {
+    this.name = "GameTest";
+};
+
+GameTest.prototype = new TestCase();
+
 GameTest.prototype.testRemoveConnectedBlocks = function() {
     var basicField, game;
     basicField = new EngineTest().buildBasicField();
-    this.assertDefined(basicField);
+    Assert.assertDefined(basicField);
     game = new Clickomania.Game(basicField);
-    this.assertDefined(game);
+    Assert.assertDefined(game);
     game.removeConnectedBlocks(0, 0);
-    this.assertUndefined(basicField.getBlock(0, 0));
-    this.assertUndefined(basicField.getBlock(0, 1));
-    this.assertUndefined(basicField.getBlock(1, 0));
+    Assert.assertUndefined(basicField.getBlock(0, 0));
+    Assert.assertUndefined(basicField.getBlock(0, 1));
+    Assert.assertUndefined(basicField.getBlock(1, 0));
     game.removeConnectedBlocks(4, 3);
-    this.assertDefined(basicField.getBlock(4, 3));
+    Assert.assertDefined(basicField.getBlock(4, 3));
 }
 
 StringUtilities = {
@@ -154,8 +166,9 @@ StringUtilities = {
 
 TestRunner = {
     runTestCase: function(testCase) {
-	var memberName, member, testFailure, failedTests;
+	var memberName, member, testFailure, failedTests, testName;
 	failedTests = [];
+	// Run all methods prefixed with test as test methods
 	for (memberName in testCase) {
 	    member = testCase[memberName];
 	    if (typeof member === 'function' && StringUtilities.startsWith(memberName, 'test')) {
@@ -168,10 +181,17 @@ TestRunner = {
 		}
 	    }
 	}
-	if (failedTests.length > 0) {
-	    console.error("testCase " + testCase.constructor.name + " had failures");
+	// Get name of test case or set it to unnamed
+	if (typeof testCase.name !== 'undefined') {
+	    testName = testCase.name;
 	} else {
-	    console.info("testCase " + testCase.constructor.name + " passed without failure");
+	    testName = "unnamed test";
+	}
+	// Print status of test run
+	if (failedTests.length > 0) {
+	    console.error("testCase " + testName + " had failures");
+	} else {
+	    console.info("testCase " + testName + " passed without failure");
 	}
 	return failedTests;
     }
