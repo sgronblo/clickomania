@@ -1,4 +1,8 @@
-Clickomania = require('../src/engine.js').Clickomania;
+if (typeof Clickomania == 'undefined') {
+    // if we run in a browser the file containing the Clickomania object must
+    // be manually included before the test file
+    Clickomania = require('../src/engine.js').Clickomania;
+}
 
 TestUtilities = {
     objectToString: function(object) {
