@@ -96,7 +96,7 @@ EngineTest.prototype.testFromAscii = function() {
 	"  X  ",
 	" YYX ",
 	"XXZY "];
-    var createdPlayfield = Clickomania.Playfield.fromAscii(testAsciidata);
+    var createdPlayfield = Clickomania.Playfield.fromAscii.apply(this, testAsciiData);
     Assert.assertEqual(" ", createdPlayfield.getBlock(0, 0).type);
 }
 
