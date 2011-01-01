@@ -11,16 +11,16 @@ Clickomania.Playfield.fromAscii = function() {
     //assert all rows are the same length
     var firstRowLength = arguments[0].length;
     var argumentAmount = arguments.length;
-    var row;
+    var rowString;
     var rowLength;
-    var newPlayfield = new Playfield(firstRowLength, argumentAmount);
     var rowIndex;
     var columnIndex;
+    var newPlayfield = new Clickomania.Playfield(firstRowLength, argumentAmount);
     for (rowIndex = 0; rowIndex < argumentAmount; rowIndex += 1) {
-	row = arguments[rowIndex];
-	columns = row.length;
-	for (columnIndex = 0; columnIndex < columns; columnIndex += 1) {
-	    var newBlock = new Clickomania.Block(row[columnIndex]);
+	rowString = arguments[rowIndex];
+	rowLength = rowString.length;
+	for (columnIndex = 0; columnIndex < rowLength; columnIndex += 1) {
+	    var newBlock = new Clickomania.Block(rowString[columnIndex]);
 	    newPlayfield.putBlock(columnIndex, rowIndex, newBlock);
 	}
     }
