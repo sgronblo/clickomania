@@ -20,13 +20,18 @@ TestUtilities = {
 Assert = {
     assertEqual: function(expected, actual) {
 	if (expected !== actual) {
-	    throw {message: expected + " !== " + actual};
+	    throw {
+		message: expected + " !== " + actual,
+		stack: new Error().stack
+	    };
 	}
     },
     assertListsHaveSameElements: function(expectedElements, actualElements) {
 	var message;
 	if (expectedElements.length !== actualElements.length) {
-	    throw {message: "expected elements: " + expectedElements + " and actual elements: " + actualElements + " have different lengths"
+	    throw {
+		message: "expected elements: " + expectedElements + " and actual elements: " + actualElements + " have different lengths",
+		stack: new Error().stack
 	    };
 	}
 	if (!expectedElements.every(function(elementValue, elementIndex, array) {
@@ -39,22 +44,34 @@ Assert = {
 	    message = elementValue + " did not exist in [" + actualElements + "]";
 	    return false;
 	})) {
-	    throw {message: message};
+	    throw {
+		message: message,
+		stack: new Error().stack
+	    };
 	}
     },
     assertTrue: function(boolean) {
 	if (!boolean) {
-	    throw {message: "False when expected true"};
+	    throw {
+		message: "False when expected true",
+		stack: new Error().stack
+	    };
 	}
     },
     assertUndefined: function(possibleUndefined) {
 	if (typeof possibleUndefined !== 'undefined') {
-	    TestUtilities.throwException("Variable was defined (" + TestUtilities.objectToString(possibleUndefined) + ") when expected undefined");
+	    throw {
+		message: "Variable was defined (" + TestUtilities.objectToString(possibleUndefined) + ") when expected undefined",
+		stack: new Error().stack
+	    };
 	}
     },
     assertDefined: function(possibleDefined) {
 	if (typeof possibleDefined === 'undefined') {
-	    TestUtilities.throwException("Variable was undefined (" + TestUtilities.objectToString(possibleDefined) + ") when expected defined");
+	    throw {
+		message: "Variable was undefined (" + TestUtilities.objectToString(possibleDefined) + ") when expected defined",
+		stack: new Error().stack
+	    };
 	}
     },
     assertInRange: function(lowestAllowedValue, highestAllowedValue, value) {
@@ -65,7 +82,10 @@ Assert = {
 	    message = value + " should not be greater than " + highestAllowedValue;
 	}
 	if (message !== undefined) {
-	    throw {message: message};
+	    throw {
+		message: message,
+		stack: new Error().stack
+	    };
 	}
     }
 };
