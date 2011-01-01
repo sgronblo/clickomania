@@ -48,12 +48,12 @@ Assert = {
     },
     assertUndefined: function(possibleUndefined) {
 	if (typeof possibleUndefined !== 'undefined') {
-	    this.throwException("Variable was defined (" + TestUtilities.objectToString(possibleUndefined) + ") when expected undefined");
+	    TestUtilities.throwException("Variable was defined (" + TestUtilities.objectToString(possibleUndefined) + ") when expected undefined");
 	}
     },
     assertDefined: function(possibleDefined) {
 	if (typeof possibleDefined === 'undefined') {
-	    this.throwException("Variable was undefined (" + TestUtilities.objectToString(possibleDefined) + ") when expected defined");
+	    TestUtilities.throwException("Variable was undefined (" + TestUtilities.objectToString(possibleDefined) + ") when expected defined");
 	}
     },
     assertInRange: function(lowestAllowedValue, highestAllowedValue, value) {
