@@ -14,11 +14,6 @@ TestUtilities = {
 	    }
 	}
 	return "{" + propertyValueStrings.join(", ") + "}";
-    },
-    throwException: function(message) {
-	var stack;
-	try { undefined.undefined() } catch (exception) { stack = exception.stack; };
-	throw {message: message, stack: stack}
     }
 };
 
