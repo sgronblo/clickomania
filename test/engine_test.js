@@ -91,6 +91,15 @@ var PlayfieldFactory = {
     }
 };
 
+EngineTest.prototype.testFromAscii = function() {
+    var testAsciiData = [
+	"  X  ",
+	" YYX ",
+	"XXZY "];
+    var createdPlayfield = Clickomania.Playfield.fromAscii(testAsciidata);
+    Assert.assertEqual(" ", createdPlayfield.getBlock(0, 0).type);
+}
+
 EngineTest.prototype.testGetConnectedBlocks = function() {
     var basicField, connectedBlocks;
     basicField = PlayfieldFactory.buildBasicField();
