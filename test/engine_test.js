@@ -98,6 +98,11 @@ EngineTest.prototype.testFromAscii = function() {
 	"XXZY "];
     var createdPlayfield = Clickomania.Playfield.fromAscii.apply(this, testAsciiData);
     Assert.assertEqual(" ", createdPlayfield.getBlock(0, 0).type);
+    Assert.assertEqual("X", createdPlayfield.getBlock(2, 0).type);
+    Assert.assertEqual(" ", createdPlayfield.getBlock(4, 0).type);
+    Assert.assertEqual("Y", createdPlayfield.getBlock(2, 1).type);
+    Assert.assertEqual("X", createdPlayfield.getBlock(0, 2).type);
+    Assert.assertEqual(" ", createdPlayfield.getBlock(4, 2).type);
 }
 
 EngineTest.prototype.testGetConnectedBlocks = function() {
