@@ -7,6 +7,26 @@ Clickomania.Playfield = function(columns, rows) {
     this.counter = 0;
 };
 
+Clickomania.Playfield.fromAscii = function() {
+    //assert all rows are the same length
+    var firstRowLength = arguments[0].length;
+    var argumentAmount = arguments.length;
+    var rowString;
+    var rowLength;
+    var rowIndex;
+    var columnIndex;
+    var newPlayfield = new Clickomania.Playfield(firstRowLength, argumentAmount);
+    for (rowIndex = 0; rowIndex < argumentAmount; rowIndex += 1) {
+	rowString = arguments[rowIndex];
+	rowLength = rowString.length;
+	for (columnIndex = 0; columnIndex < rowLength; columnIndex += 1) {
+	    var newBlock = new Clickomania.Block(rowString[columnIndex]);
+	    newPlayfield.putBlock(columnIndex, rowIndex, newBlock);
+	}
+    }
+    return newPlayfield;
+};
+
 Clickomania.Playfield.prototype.fillWithBlocks = function(numBlockType) {
     var column, row, newBlock, randomBlockType;
     for (column = 0; column < this.columns; column += 1) {

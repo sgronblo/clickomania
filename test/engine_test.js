@@ -76,22 +76,38 @@ function EngineTest () {
     this.PLAYFIELD_TYPES = 3;
 };
 
-EngineTest.prototype.buildBasicField = function() {
-    var basicField = new Clickomania.Playfield(this.PLAYFIELD_COLUMNS, this.PLAYFIELD_ROWS);
-    var Block = Clickomania.Block;
-    basicField.blocks = [
-	[new Block(1), new Block(1), new Block(2), new Block(2)],
-	[new Block(1), new Block(0), new Block(2), new Block(0)],
-	[new Block(0), new Block(2), new Block(2), new Block(1)],
-	[new Block(1), new Block(2), new Block(2), new Block(0)],
-	[new Block(0), new Block(0), new Block(0), new Block(2)]
-    ];
-    return basicField;
+var PlayfieldFactory = {
+    buildBasicField: function() {
+	var basicField = new Clickomania.Playfield(this.PLAYFIELD_COLUMNS, this.PLAYFIELD_ROWS);
+	var Block = Clickomania.Block;
+	basicField.blocks = [
+	    [new Block(1), new Block(1), new Block(2), new Block(2)],
+	    [new Block(1), new Block(0), new Block(2), new Block(0)],
+	    [new Block(0), new Block(2), new Block(2), new Block(1)],
+	    [new Block(1), new Block(2), new Block(2), new Block(0)],
+	    [new Block(0), new Block(0), new Block(0), new Block(2)]
+	];
+	return basicField;
+    }
 };
+
+EngineTest.prototype.testFromAscii = function() {
+    var testAsciiData = [
+	"  X  ",
+	" YYX ",
+	"XXZY "];
+    var createdPlayfield = Clickomania.Playfield.fromAscii.apply(this, testAsciiData);
+    Assert.assertEqual(" ", createdPlayfield.getBlock(0, 0).type);
+    Assert.assertEqual("X", createdPlayfield.getBlock(2, 0).type);
+    Assert.assertEqual(" ", createdPlayfield.getBlock(4, 0).type);
+    Assert.assertEqual("Y", createdPlayfield.getBlock(2, 1).type);
+    Assert.assertEqual("X", createdPlayfield.getBlock(0, 2).type);
+    Assert.assertEqual(" ", createdPlayfield.getBlock(4, 2).type);
+}
 
 EngineTest.prototype.testGetConnectedBlocks = function() {
     var basicField, connectedBlocks;
-    basicField = this.buildBasicField();
+    basicField = PlayfieldFactory.buildBasicField();
     connectedBlocks = basicField.getConnectedBlocks(0, 0);
     expectedBlocks = [
 	basicField.getBlock(0, 0),
@@ -114,7 +130,7 @@ EngineTest.prototype.testGetConnectedBlocks = function() {
 
 EngineTest.prototype.testRemoveBlock = function() {
     var basicField, block, expectedBlock;
-    basicField = this.buildBasicField();
+    basicField = PlayfieldFactory.buildBasicField();
     expectedBlock = basicField.getBlock(0, 0);
     block = basicField.removeBlock(0, 0);
     Assert.assertEqual(block, expectedBlock);
@@ -135,7 +151,7 @@ EngineTest.prototype.testFillWithBlocks = function() {
 };
 
 EngineTest.prototype.testFillHole = function() {
-    var basicField = this.buildBasicField();
+    var basicField = PlayfieldFactory.buildBasicField();
     basicField.removeBlock(1, 0);
     basicField.removeBlock(1, 1);
     basicField.removeBlock(1, 2);
@@ -147,7 +163,7 @@ EngineTest.prototype.testFillHole = function() {
 
 EngineTest.prototype.testGetEmptyColumns = function() {
     var basicField, emptyColumns;
-    basicField = this.buildBasicField();
+    basicField = PlayfieldFactory.buildBasicField();
     basicField.removeBlock(1, 0);
     basicField.removeBlock(1, 1);
     basicField.removeBlock(1, 2);
@@ -158,7 +174,7 @@ EngineTest.prototype.testGetEmptyColumns = function() {
 
 EngineTest.prototype.testFillHoles = function() {
     var basicField;
-    basicField = this.buildBasicField();
+    basicField = PlayfieldFactory.buildBasicField();
     basicField.removeBlock(1, 0);
     basicField.removeBlock(1, 1);
     basicField.removeBlock(1, 2);
@@ -174,7 +190,7 @@ function GameTest() {
 
 GameTest.prototype.testRemoveConnectedBlocks = function() {
     var basicField, game;
-    basicField = new EngineTest().buildBasicField();
+    basicField = PlayfieldFactory.buildBasicField();
     Assert.assertDefined(basicField);
     game = new Clickomania.Game(basicField);
     Assert.assertDefined(game);
