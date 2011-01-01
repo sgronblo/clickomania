@@ -1,3 +1,5 @@
+Clickomania = require('../src/engine.js').Clickomania;
+
 TestUtilities = {
     objectToString: function(object) {
 	var propertyValueStrings = [];
@@ -241,7 +243,7 @@ TestRunner = {
     }
 };
 
-var testCaseClasses = [EngineTest, GameTest]
+var testCaseClasses = [EngineTest, GameTest];
 
 function runAllTestCases() {
     testCaseClasses.forEach(function(testCaseClass) {
@@ -249,3 +251,5 @@ function runAllTestCases() {
 	TestRunner.runTestCase(newTestCase);
     });
 }
+
+runAllTestCases();
