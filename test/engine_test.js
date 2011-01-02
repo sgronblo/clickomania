@@ -34,7 +34,7 @@ Assert = {
 		stack: new Error().stack
 	    };
 	}
-	if (!expectedElements.every(function(elementValue, elementIndex, array) {
+	if (!expectedElements.every(function(elementValue, elementIndex) {
 	    var index;
 	    for (index in actualElements) {
 		if (actualElements[index] === elementValue) {
