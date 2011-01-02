@@ -6,6 +6,9 @@ if (typeof Clickomania == 'undefined') {
 
 TestUtilities = {
     objectToString: function(object) {
+	if (typeof object != 'object') {
+	    return object;
+	}
 	var propertyValueStrings = [];
 	var propertyName
 	for (propertyName in object) {
