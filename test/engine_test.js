@@ -30,7 +30,7 @@ Assert = {
 	var message;
 	if (expectedElements.length !== actualElements.length) {
 	    throw {
-		message: "expected elements: " + expectedElements + " and actual elements: " + actualElements + " have different lengths",
+		message: "expected elements: " + TestUtilities.objectToString(expectedElements) + " and actual elements: " + TestUtilities.objectToString(actualElements) + " have different lengths",
 		stack: new Error().stack
 	    };
 	}
@@ -41,7 +41,7 @@ Assert = {
 		    return true;
 		}
 	    }
-	    message = elementValue + " did not exist in [" + actualElements + "]";
+	    message = TestUtilities.objectToString(elementValue) + " did not exist in " + TestUtilities.objectToString(actualElements);
 	    return false;
 	})) {
 	    throw {
