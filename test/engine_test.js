@@ -37,8 +37,10 @@ Assert = {
 	if (!expectedElements.every(function(elementValue) {
 	    var index;
 	    for (index in actualElements) {
-		if (actualElements[index] === elementValue) {
-		    return true;
+		if (actualElements.hasOwnProperty(index)) {
+		    if (actualElements[index] === elementValue) {
+			return true;
+		    }
 		}
 	    }
 	    message = TestUtilities.objectToString(elementValue) + " did not exist in " + TestUtilities.objectToString(actualElements);
