@@ -1,59 +1,82 @@
+if (typeof Clickomania == 'undefined') {
+    // if we run in a browser the file containing the Clickomania object must
+    // be manually included before the test file
+    Clickomania = require('../src/engine.js').Clickomania;
+}
+
 TestUtilities = {
     objectToString: function(object) {
+	if (typeof object != 'object') {
+	    return object;
+	}
 	var propertyValueStrings = [];
 	var propertyName
 	for (propertyName in object) {
 	    if (object.hasOwnProperty(propertyName)) {
-		propertyValueStrings.push(propertyName + ": " + object[propertyName]);
+		propertyValueStrings.push(propertyName + ": " + TestUtilities.objectToString(object[propertyName]));
 	    }
 	}
 	return "{" + propertyValueStrings.join(", ") + "}";
-    },
-    throwException: function(message) {
-	var stack;
-	try { undefined.undefined() } catch (exception) { stack = exception.stack; };
-	throw {message: message, stack: stack}
     }
 };
 
 Assert = {
     assertEqual: function(expected, actual) {
 	if (expected !== actual) {
-	    throw {message: expected + " !== " + actual};
+	    throw {
+		message: expected + " !== " + actual,
+		stack: new Error().stack
+	    };
 	}
     },
     assertListsHaveSameElements: function(expectedElements, actualElements) {
 	var message;
 	if (expectedElements.length !== actualElements.length) {
-	    throw {message: "expected elements: " + expectedElements + " and actual elements: " + actualElements + " have different lengths"
+	    throw {
+		message: "expected elements: " + TestUtilities.objectToString(expectedElements) + " and actual elements: " + TestUtilities.objectToString(actualElements) + " have different lengths",
+		stack: new Error().stack
 	    };
 	}
-	if (!expectedElements.every(function(elementValue, elementIndex, array) {
+	if (!expectedElements.every(function(elementValue) {
 	    var index;
 	    for (index in actualElements) {
-		if (actualElements[index] === elementValue) {
-		    return true;
+		if (actualElements.hasOwnProperty(index)) {
+		    if (actualElements[index] === elementValue) {
+			return true;
+		    }
 		}
 	    }
-	    message = elementValue + " did not exist in [" + actualElements + "]";
+	    message = TestUtilities.objectToString(elementValue) + " did not exist in " + TestUtilities.objectToString(actualElements);
 	    return false;
 	})) {
-	    throw {message: message};
+	    throw {
+		message: message,
+		stack: new Error().stack
+	    };
 	}
     },
     assertTrue: function(boolean) {
 	if (!boolean) {
-	    throw {message: "False when expected true"};
+	    throw {
+		message: "False when expected true",
+		stack: new Error().stack
+	    };
 	}
     },
     assertUndefined: function(possibleUndefined) {
 	if (typeof possibleUndefined !== 'undefined') {
-	    TestUtilities.throwException("Variable was defined (" + TestUtilities.objectToString(possibleUndefined) + ") when expected undefined");
+	    throw {
+		message: "Variable was defined (" + TestUtilities.objectToString(possibleUndefined) + ") when expected undefined",
+		stack: new Error().stack
+	    };
 	}
     },
     assertDefined: function(possibleDefined) {
 	if (typeof possibleDefined === 'undefined') {
-	    TestUtilities.throwException("Variable was undefined (" + TestUtilities.objectToString(possibleDefined) + ") when expected defined");
+	    throw {
+		message: "Variable was undefined (" + TestUtilities.objectToString(possibleDefined) + ") when expected defined",
+		stack: new Error().stack
+	    };
 	}
     },
     assertInRange: function(lowestAllowedValue, highestAllowedValue, value) {
@@ -64,7 +87,10 @@ Assert = {
 	    message = value + " should not be greater than " + highestAllowedValue;
 	}
 	if (message !== undefined) {
-	    throw {message: message};
+	    throw {
+		message: message,
+		stack: new Error().stack
+	    };
 	}
     }
 };
@@ -78,16 +104,12 @@ function EngineTest () {
 
 var PlayfieldFactory = {
     buildBasicField: function() {
-	var basicField = new Clickomania.Playfield(this.PLAYFIELD_COLUMNS, this.PLAYFIELD_ROWS);
-	var Block = Clickomania.Block;
-	basicField.blocks = [
-	    [new Block(1), new Block(1), new Block(2), new Block(2)],
-	    [new Block(1), new Block(0), new Block(2), new Block(0)],
-	    [new Block(0), new Block(2), new Block(2), new Block(1)],
-	    [new Block(1), new Block(2), new Block(2), new Block(0)],
-	    [new Block(0), new Block(0), new Block(0), new Block(2)]
-	];
-	return basicField;
+	return Clickomania.Playfield.fromAscii(
+	    "1122",
+	    "1020",
+	    "0221",
+	    "1220",
+	    "0002");
     }
 };
 
@@ -233,15 +255,15 @@ TestRunner = {
 	}
 	// Print status of test run
 	if (failedTests.length > 0) {
-	    console.error("testCase " + testName + " had failures");
+	    console.error("Test case " + testName + " had failures.");
 	} else {
-	    console.info("testCase " + testName + " passed without failure");
+	    console.info("Test case " + testName + " passed without failure.");
 	}
 	return failedTests;
     }
 };
 
-var testCaseClasses = [EngineTest, GameTest]
+var testCaseClasses = [EngineTest, GameTest];
 
 function runAllTestCases() {
     testCaseClasses.forEach(function(testCaseClass) {
@@ -249,3 +271,5 @@ function runAllTestCases() {
 	TestRunner.runTestCase(newTestCase);
     });
 }
+
+runAllTestCases();

@@ -1,5 +1,9 @@
 var Clickomania = {};
 
+if (typeof exports != 'undefined') {
+    exports.Clickomania = Clickomania;
+}
+
 Clickomania.Playfield = function(columns, rows) {
     this.columns = columns;
     this.rows = rows;
