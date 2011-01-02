@@ -254,9 +254,9 @@ TestRunner = {
 	}
 	// Print status of test run
 	if (failedTests.length > 0) {
-	    console.error("testCase " + testName + " had failures");
+	    console.error("Test case " + testName + " had failures.");
 	} else {
-	    console.info("testCase " + testName + " passed without failure");
+	    console.info("Test case " + testName + " passed without failure.");
 	}
 	return failedTests;
     }
