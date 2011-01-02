@@ -10,7 +10,7 @@ TestUtilities = {
 	var propertyName
 	for (propertyName in object) {
 	    if (object.hasOwnProperty(propertyName)) {
-		propertyValueStrings.push(propertyName + ": " + object[propertyName]);
+		propertyValueStrings.push(propertyName + ": " + TestUtilities.objectToString(object[propertyName]));
 	    }
 	}
 	return "{" + propertyValueStrings.join(", ") + "}";
