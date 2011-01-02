@@ -104,16 +104,12 @@ function EngineTest () {
 
 var PlayfieldFactory = {
     buildBasicField: function() {
-	var basicField = new Clickomania.Playfield(this.PLAYFIELD_COLUMNS, this.PLAYFIELD_ROWS);
-	var Block = Clickomania.Block;
-	basicField.blocks = [
-	    [new Block(1), new Block(1), new Block(2), new Block(2)],
-	    [new Block(1), new Block(0), new Block(2), new Block(0)],
-	    [new Block(0), new Block(2), new Block(2), new Block(1)],
-	    [new Block(1), new Block(2), new Block(2), new Block(0)],
-	    [new Block(0), new Block(0), new Block(0), new Block(2)]
-	];
-	return basicField;
+	return Clickomania.Playfield.fromAscii(
+	    "1122",
+	    "1020",
+	    "0221",
+	    "1220",
+	    "0002");
     }
 };
 
