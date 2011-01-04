@@ -131,16 +131,17 @@ Clickomania.Playfield.prototype.getEmptyColumns = function() {
 };
 
 Clickomania.Playfield.prototype.fillHole = function(holeColumn) {
-    var previousColumn, removing = this.blocks[holeColumn];
-    var startColumn = 1;
-    var lastColumn = 0;
+    var previousColumn, currentColumn;
+    var emptyColumn = this.blocks[holeColumn];
     var direction = holeColumn > (this.columns / 2) ? 1 : -1;
-    var endColumn = holeColumn + direction;
-    for(var currentColumn = startColumn; currentColumn !== endColumn; currentColumn += direction) {
-	previousColumn = currentColumn - direction;
+    for(currentColumn = holeColumn; currentColumn < this.columns && currentColumn >= 0; currentColumn += direction) {
+	previousColumn = currentColumn + direction;
+	if(previousColumn < 0 || previousColumn === this.columns - 1) {
+	    this.blocks[currentColumn] = emptyColumn;
+	    break;
+	}
 	this.blocks[currentColumn] = this.blocks[previousColumn];
     }
-    this.blocks[lastColumn] = removing;
 };
 
 Clickomania.Playfield.prototype.fillHoles = function() {
