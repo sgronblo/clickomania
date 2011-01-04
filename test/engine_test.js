@@ -190,6 +190,7 @@ EngineTest.prototype.testGetEmptyColumns = function() {
     basicField.removeBlock(1, 1);
     basicField.removeBlock(1, 2);
     basicField.removeBlock(1, 3);
+    basicField.removeBlock(1, 4);
     emptyColumns = basicField.getEmptyColumns();
     Assert.assertEqual(emptyColumns[0], 1);
 };
