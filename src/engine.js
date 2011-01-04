@@ -7,6 +7,11 @@ if (typeof exports != 'undefined') {
 Clickomania.Playfield = function(columns, rows) {
     this.columns = columns;
     this.rows = rows;
+    this.column;
+    this.blocks = [];
+    for (column = 0; column < this.columns; column++) {
+	this.blocks[column] = [];
+    }
     this.clear();
     this.counter = 0;
 };
@@ -58,16 +63,17 @@ Clickomania.Playfield.prototype.putBlock = function(column, row, block) {
 };
 
 Clickomania.Playfield.prototype.clear = function() {
-    var column;
-    this.blocks = new Array(this.columns);
+    var column, row;
     for (column = 0; column < this.columns; column++) {
-	this.blocks[column] = new Array(this.rows);
+	for (row = 0; row < this.rows; row++) {
+	    this.blocks[column][row] = undefined;
+	}
     }
 };
 
 Clickomania.Playfield.prototype.removeBlock = function(column, row) {
     var block = this.blocks[column][row];
-    delete this.blocks[column][row];
+    this.blocks[column][row] = undefined;
     return block;
 };
 
