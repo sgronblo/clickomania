@@ -113,7 +113,7 @@ Clickomania.Playfield.prototype.getConnectedBlocks_ = function(column, row, coun
 };
 
 Clickomania.Playfield.prototype.getEmptyColumns = function() {
-    var emptyColumns = [], columnContainsBlocks = undefined, block;
+    var emptyColumns = [], connectedBlocks = undefined, block;
     for(var column = 0; column < this.columns; column += 1) {
 	connectedBlocks = undefined;
 	for(var row = 0; row < this.blocks[column].length; row += 1) {
