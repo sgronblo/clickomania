@@ -128,7 +128,7 @@ EngineTest.prototype.testFromAscii = function() {
 }
 
 EngineTest.prototype.testGetConnectedBlocks = function() {
-    var basicField, connectedBlocks;
+    var basicField, connectedBlocks, expectedBlocks;
     basicField = PlayfieldFactory.buildBasicField();
     connectedBlocks = basicField.getConnectedBlocks(0, 0);
     expectedBlocks = [
@@ -139,13 +139,13 @@ EngineTest.prototype.testGetConnectedBlocks = function() {
     Assert.assertListsHaveSameElements(expectedBlocks, connectedBlocks);
     connectedBlocks = basicField.getConnectedBlocks(2, 1);
     expectedBlocks = [
-	basicField.getBlock(0, 2),
-	basicField.getBlock(0, 3),
 	basicField.getBlock(1, 2),
+	basicField.getBlock(1, 3),
+	basicField.getBlock(2, 0),
 	basicField.getBlock(2, 1),
 	basicField.getBlock(2, 2),
-	basicField.getBlock(3, 1),
-	basicField.getBlock(3, 2)
+	basicField.getBlock(2, 3),
+	basicField.getBlock(3, 0)
     ];
     Assert.assertListsHaveSameElements(expectedBlocks, connectedBlocks);
 };
