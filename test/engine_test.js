@@ -257,6 +257,18 @@ GameTest.prototype.testRemoveConnectedBlocks = function() {
     Assert.assertDefined(basicField.getBlock(3, 4));
 }
 
+function ArrayUtiliesTest() {
+    this.name = "ArrayUtiliesTest";
+};
+
+ArrayUtiliesTest.prototype.testComplement = function() {
+    var all, some, expectedComplement;
+    all = [1,2,3,4,5];
+    some = [1,2,5];
+    expectedComplement = [3,4];
+    Assert.assertListsHaveSameElements(expectedComplement, Clickomania.ArrayUtilies.complement(all, some));
+};
+
 StringUtilities = {
     startsWith: function(string, prefix) {
 	return string.lastIndexOf(prefix, 0) === 0;
@@ -296,7 +308,7 @@ TestRunner = {
     }
 };
 
-var testCaseClasses = [EngineTest, GameTest];
+var testCaseClasses = [EngineTest, GameTest, ArrayUtiliesTest];
 
 function runAllTestCases() {
     testCaseClasses.forEach(function(testCaseClass) {
