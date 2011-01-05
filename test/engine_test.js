@@ -204,7 +204,7 @@ EngineTest.prototype.testGetEmptyColumns = function() {
     Assert.assertEqual(emptyColumns[0], 1);
 };
 
-EngineTest.prototype.testFillHoles = function() {
+EngineTest.prototype.testCompactAndCenter = function() {
     var basicField;
     basicField = PlayfieldFactory.buildBasicField();
     basicField.removeBlock(1, 0);
@@ -212,7 +212,7 @@ EngineTest.prototype.testFillHoles = function() {
     basicField.removeBlock(1, 2);
     basicField.removeBlock(1, 3);
     basicField.removeBlock(1, 4);
-    basicField.fillHoles();
+    basicField.compactAndCenter();
     Assert.assertUndefined(basicField.getBlock(0, 0));
     Assert.assertDefined(basicField.getBlock(1, 0));
 };
