@@ -154,8 +154,15 @@ Clickomania.Playfield.prototype.fillHole = function(holeColumn) {
     }
 };
 
-Clickomania.Playfield.prototype.fillHoles = function() {
-    var emptyColumns = this.getEmptyColumns(), this_ = this;
+Clickomania.Playfield.prototype.compactAndCenter = function() {
+    var columnsWithBlocks = this.getColumnsWithBlocks();
+    // how many empty columns must be added to each side in total
+    var emptyColumnAmount = this.columns - columnsWithBlocks.length
+    // if the amount of empty columns is even, we can just clear the same amount
+    // on both sides, other wise the column "pile" will be shifted one step to the
+    // left of the center
+    // finally the columnsWithBlocks are pasted over the center columns from the
+    // right position
     emptyColumns.forEach(function(index) {
 	this_.fillHole(index);
     });
