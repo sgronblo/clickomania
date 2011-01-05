@@ -127,12 +127,12 @@ EngineTest.prototype.testFromAscii = function() {
 	" YYX ",
 	"XXZY "];
     var createdPlayfield = Clickomania.Playfield.fromAscii.apply(this, testAsciiData);
-    Assert.assertEqual(" ", createdPlayfield.getBlock(0, 0).type);
+    Assert.assertUndefined(createdPlayfield.getBlock(0, 0));
     Assert.assertEqual("X", createdPlayfield.getBlock(2, 0).type);
-    Assert.assertEqual(" ", createdPlayfield.getBlock(4, 0).type);
+    Assert.assertUndefined(createdPlayfield.getBlock(4, 0));
     Assert.assertEqual("Y", createdPlayfield.getBlock(2, 1).type);
     Assert.assertEqual("X", createdPlayfield.getBlock(0, 2).type);
-    Assert.assertEqual(" ", createdPlayfield.getBlock(4, 2).type);
+    Assert.assertUndefined(createdPlayfield.getBlock(4, 2));
 }
 
 EngineTest.prototype.testGetConnectedBlocks = function() {
