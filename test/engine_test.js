@@ -63,6 +63,14 @@ Assert = {
 	    };
 	}
     },
+    assertFalse: function(boolean) {
+	if (boolean) {
+	    throw {
+		message: "True when expected false",
+		stack: new Error().stack
+	    };
+	}
+    },
     assertUndefined: function(possibleUndefined) {
 	if (typeof possibleUndefined !== 'undefined') {
 	    throw {
