@@ -161,6 +161,16 @@ Clickomania.Playfield.prototype.fillHoles = function() {
     });
 };
 
+Clickomania.Playfield.prototype.columnHasBlocks = function(columnIndex) {
+    var rowIndex;
+    for (rowIndex = 0; rowIndex < this.rows; rowIndex++) {
+	if (typeof this.getBlock(columnIndex, rowIndex) !== "undefined") {
+	    return true;
+	}
+    }
+    return false;
+}
+
 Clickomania.Block = function(type) {
     this.type = type;
     this.roundCounter = 0;
