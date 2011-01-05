@@ -25,12 +25,16 @@ Clickomania.Playfield.fromAscii = function() {
     var rowIndex;
     var columnIndex;
     var newPlayfield = new Clickomania.Playfield(firstRowLength, argumentAmount);
+    var type;
     for (rowIndex = 0; rowIndex < argumentAmount; rowIndex += 1) {
 	rowString = arguments[rowIndex];
 	rowLength = rowString.length;
 	for (columnIndex = 0; columnIndex < rowLength; columnIndex += 1) {
-	    var newBlock = new Clickomania.Block(rowString[columnIndex]);
-	    newPlayfield.putBlock(columnIndex, rowIndex, newBlock);
+	    type = rowString[columnIndex];
+	    if (type !== ' ') {
+		var newBlock = new Clickomania.Block(rowString[columnIndex]);
+		newPlayfield.putBlock(columnIndex, rowIndex, newBlock);
+	    }
 	}
     }
     return newPlayfield;
