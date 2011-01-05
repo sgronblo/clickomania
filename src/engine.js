@@ -228,3 +228,23 @@ Clickomania.AsciiView.prototype.drawPlayfield = function(playfieldId) {
 	playfieldElement.append('<br>');
     });
 };
+
+Clickomania.ArrayUtilies = {};
+
+Clickomania.ArrayUtilies.complement = function complement(all, some) {
+    var elementsNotInSome = [];
+    var allIndex, someIndex;
+    var found;
+    for(allIndex = 0; allIndex < all.length; allIndex += 1) {
+	found = false;
+	for(someIndex = 0; someIndex < some.length; someIndex +=1) {
+	    if(all[allIndex] === some[someIndex]) {
+		found = true;
+	    }
+	}
+	if(!found) {
+	    elementsNotInSome.push(all[allIndex]);
+	}
+    }
+    return elementsNotInSome;
+};
