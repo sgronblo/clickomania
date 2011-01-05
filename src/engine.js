@@ -161,6 +161,17 @@ Clickomania.Playfield.prototype.fillHoles = function() {
     });
 };
 
+Clickomania.Playfield.prototype.getColumnsWithBlocks = function() {
+    var column;
+    var columnsWithBlocks = [];
+    for (column = 0; column < this.columns; column++) {
+	if (this.columnHasBlocks(column)) {
+	    columnsWithBlocks.push(this.blocks[column]);
+	}
+    }
+    return columnsWithBlocks;
+}
+
 Clickomania.Playfield.prototype.columnHasBlocks = function(columnIndex) {
     var rowIndex;
     for (rowIndex = 0; rowIndex < this.rows; rowIndex++) {
