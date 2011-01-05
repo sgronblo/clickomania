@@ -204,6 +204,17 @@ EngineTest.prototype.testGetEmptyColumns = function() {
     Assert.assertEqual(emptyColumns[0], 1);
 };
 
+EngineTest.prototype.testColumnHasBlocks = function() {
+    var testPlayfield = Clickomania.Playfield.fromAscii(
+	"A B ",
+	"A CA",
+	"A CB");
+    Assert.assertTrue(testPlayfield.columnHasBlocks(0));
+    Assert.assertFalse(testPlayfield.columnHasBlocks(1));
+    Assert.assertTrue(testPlayfield.columnHasBlocks(2));
+    Assert.assertTrue(testPlayfield.columnHasBlocks(3));
+}
+
 EngineTest.prototype.testCompactAndCenter = function() {
     var basicField;
     basicField = PlayfieldFactory.buildBasicField();
