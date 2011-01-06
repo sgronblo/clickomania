@@ -17,6 +17,12 @@ TestUtilities = {
 	    }
 	}
 	return "{" + propertyValueStrings.join(", ") + "}";
+    },
+    printPlayfield: function(playfield) {
+	var row;
+	for (row = 0; row < playfield.rows; row++) {
+	    console.log(playfield.getRowString(row));
+	}
     }
 };
 
