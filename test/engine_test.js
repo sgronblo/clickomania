@@ -279,10 +279,15 @@ EngineTest.prototype.testCompactAndCenterTwoEmptyRows = function() {
 	"1  0",
 	"0  2");
     testPlayfield.compactAndCenter();
-    Assert.assertUndefined(testPlayfield.getBlock(0, 0));
-    Assert.assertDefined(testPlayfield.getBlock(1, 0));
-    Assert.assertDefined(testPlayfield.getBlock(2, 0));
-    Assert.assertUndefined(testPlayfield.getBlock(3,0));
+    console.log("testPlayfield after compacting");
+    TestUtilities.printPlayfield(testPlayfield);
+    Assert.assertPlayfieldMatchesAscii(
+	testPlayfield,
+	" 12 ",
+	" 10 ",
+	" 01 ",
+	" 10 ",
+	" 02 ");
 };
 
 function GameTest() {
