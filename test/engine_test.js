@@ -125,16 +125,14 @@ Assert = {
     }
 };
 
-var PlayfieldFactory = {
-    buildBasicField: function() {
-	return Clickomania.Playfield.fromAscii(
-	    "1122",
-	    "1020",
-	    "0221",
-	    "1220",
-	    "0002");
-    }
-};
+var buildBasicField = function() {
+    return Clickomania.Playfield.fromAscii(
+	"1122",
+	"1020",
+	"0221",
+	"1220",
+	"0002");
+}
 
 var EngineTest = {};
 
@@ -167,7 +165,7 @@ EngineTest.testGetRowString = function() {
 
 EngineTest.testGetConnectedBlocks = function() {
     var basicField, connectedBlocks, expectedBlocks;
-    basicField = PlayfieldFactory.buildBasicField();
+    basicField = buildBasicField();
     connectedBlocks = basicField.getConnectedBlocks(0, 0);
     expectedBlocks = [
 	basicField.getBlock(0, 0),
@@ -190,7 +188,7 @@ EngineTest.testGetConnectedBlocks = function() {
 
 EngineTest.testRemoveBlock = function() {
     var basicField, block, expectedBlock;
-    basicField = PlayfieldFactory.buildBasicField();
+    basicField = buildBasicField();
     expectedBlock = basicField.getBlock(0, 0);
     block = basicField.removeBlock(0, 0);
     Assert.assertEqual(block, expectedBlock);
@@ -211,7 +209,7 @@ EngineTest.testFillWithBlocks = function() {
 };
 
 EngineTest.testFillHole = function() {
-    var basicField = PlayfieldFactory.buildBasicField();
+    var basicField = buildBasicField();
     basicField.removeBlock(1, 0);
     basicField.removeBlock(1, 1);
     basicField.removeBlock(1, 2);
@@ -224,7 +222,7 @@ EngineTest.testFillHole = function() {
 
 EngineTest.testGetEmptyColumns = function() {
     var basicField, emptyColumns;
-    basicField = PlayfieldFactory.buildBasicField();
+    basicField = buildBasicField();
     basicField.removeBlock(1, 0);
     basicField.removeBlock(1, 1);
     basicField.removeBlock(1, 2);
@@ -290,7 +288,7 @@ GameTest.name = "GameTest";
 
 GameTest.testRemoveConnectedBlocks = function() {
     var basicField, game;
-    basicField = PlayfieldFactory.buildBasicField();
+    basicField = buildBasicField();
     Assert.assertDefined(basicField);
     game = new Clickomania.Game(basicField);
     Assert.assertDefined(game);
