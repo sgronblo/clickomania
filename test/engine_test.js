@@ -238,24 +238,18 @@ EngineTest.prototype.testCompactAndCenter = function() {
     Assert.assertDefined(testPlayfield.getBlock(1, 0));
 };
 
-EngineTest.prototype.testCompactAndCenterComplicated = function() {
-    var basicField;
-    basicField = PlayfieldFactory.buildBasicField();
-    basicField.removeBlock(1, 0);
-    basicField.removeBlock(1, 1);
-    basicField.removeBlock(1, 2);
-    basicField.removeBlock(1, 3);
-    basicField.removeBlock(1, 4);
-    basicField.removeBlock(2, 0);
-    basicField.removeBlock(2, 1);
-    basicField.removeBlock(2, 2);
-    basicField.removeBlock(2, 3);
-    basicField.removeBlock(2, 4);
-    basicField.compactAndCenter();
-    Assert.assertUndefined(basicField.getBlock(0, 0));
-    Assert.assertDefined(basicField.getBlock(1, 0));
-    Assert.assertDefined(basicField.getBlock(2, 0));
-    Assert.assertUndefined(basicField.getBlock(3,0));
+EngineTest.prototype.testCompactAndCenterTwoEmptyRows = function() {
+    var testPlayfield = Clickomania.Playfield.fromAscii(
+	    "1  2",
+	    "1  0",
+	    "0  1",
+	    "1  0",
+	    "0  2");
+    testPlayfield.compactAndCenter();
+    Assert.assertUndefined(testPlayfield.getBlock(0, 0));
+    Assert.assertDefined(testPlayfield.getBlock(1, 0));
+    Assert.assertDefined(testPlayfield.getBlock(2, 0));
+    Assert.assertUndefined(testPlayfield.getBlock(3,0));
 };
 
 function GameTest() {
