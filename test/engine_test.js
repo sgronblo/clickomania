@@ -106,6 +106,25 @@ Assert = {
 		stack: new Error().stack
 	    };
 	}
+    },
+    assertPlayfieldMatchesAscii: function(playfield) {
+	var rowIndex, columnIndex;
+	var expectedType, actualBlock;
+	var asciiRows = Array.prototype.slice.call(arguments, 1);
+	asciiRows.forEach(function(row) {
+	    console.log("[" + row + "]");
+	});
+	for (columnIndex = 0; columnIndex < playfield.columns; columnIndex++) {
+	    for (rowIndex = 0; rowIndex < playfield.rows; rowIndex++) {
+		expectedType = asciiRows[rowIndex][columnIndex];
+		actualBlock = playfield.getBlock(columnIndex, rowIndex);
+		if (expectedType === " ") {
+		    Assert.assertUndefined(actualBlock);
+		} else {
+		    Assert.assertEqual(expectedType, actualBlock.type);
+		}
+	    }
+	}
     }
 };
 
