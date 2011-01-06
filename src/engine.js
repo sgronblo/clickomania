@@ -173,12 +173,12 @@ Clickomania.Playfield.prototype.compactAndCenter = function() {
     var emptyColumnAmount = columnsWithoutBlocks.length;
     var left = Math.ceil(emptyColumnAmount / 2);
     var right = this.blocks.length - 1 - (emptyColumnAmount - left);
-    var i;
-    for(i = 0; i < this.blocks.length; i += 1) {
-	if(i < left || i > right) {
-	    this.blocks[i] = columnsWithoutBlocks.shift();
+    var columnIndex;
+    for(columnIndex = 0; columnIndex < this.blocks.length; columnIndex += 1) {
+	if(columnIndex < left || columnIndex > right) {
+	    this.blocks[columnIndex] = columnsWithoutBlocks.shift();
 	} else {
-	    this.blocks[i] = columnsWithBlocks.shift();
+	    this.blocks[columnIndex] = columnsWithBlocks.shift();
 	}
     }
 };
