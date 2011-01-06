@@ -111,9 +111,6 @@ Assert = {
 	var rowIndex, columnIndex;
 	var expectedType, actualBlock;
 	var asciiRows = Array.prototype.slice.call(arguments, 1);
-	asciiRows.forEach(function(row) {
-	    console.log("[" + row + "]");
-	});
 	for (columnIndex = 0; columnIndex < playfield.columns; columnIndex++) {
 	    for (rowIndex = 0; rowIndex < playfield.rows; rowIndex++) {
 		expectedType = asciiRows[rowIndex][columnIndex];
@@ -279,8 +276,6 @@ EngineTest.prototype.testCompactAndCenterTwoEmptyRows = function() {
 	"1  0",
 	"0  2");
     testPlayfield.compactAndCenter();
-    console.log("testPlayfield after compacting");
-    TestUtilities.printPlayfield(testPlayfield);
     Assert.assertPlayfieldMatchesAscii(
 	testPlayfield,
 	" 12 ",
