@@ -62,6 +62,19 @@ Clickomania.Playfield.prototype.getBlock = function(column, row) {
     return block;
 };
 
+Clickomania.Playfield.prototype.getRowString = function(row) {
+    var col, rowString = "[", block;
+    for (col = 0; col < this.columns; col++) {
+	block = this.getBlock(col, row);
+	if (typeof block !== "undefined") {
+	    rowString += block.type;
+	} else {
+	    rowString += " ";
+	}
+    }
+    return rowString + "]";
+};
+
 Clickomania.Playfield.prototype.putBlock = function(column, row, block) {
     this.blocks[column][row] = block;
 };
