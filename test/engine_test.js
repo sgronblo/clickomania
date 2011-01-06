@@ -133,7 +133,15 @@ EngineTest.prototype.testFromAscii = function() {
     Assert.assertEqual("Y", createdPlayfield.getBlock(2, 1).type);
     Assert.assertEqual("X", createdPlayfield.getBlock(0, 2).type);
     Assert.assertUndefined(createdPlayfield.getBlock(4, 2));
-}
+};
+
+EngineTest.prototype.testGetRowString = function() {
+    var testPlayfield = Clickomania.Playfield.fromAscii(
+	"XYZ",
+	"YZX");
+    Assert.assertEqual("[XYZ]", testPlayfield.getRowString(0));
+    Assert.assertEqual("[YZX]", testPlayfield.getRowString(1));
+};
 
 EngineTest.prototype.testGetConnectedBlocks = function() {
     var basicField, connectedBlocks, expectedBlocks;
