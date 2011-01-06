@@ -239,7 +239,7 @@ EngineTest.prototype.testCompactAndCenter = function() {
     Assert.assertDefined(basicField.getBlock(1, 0));
 };
 
-EngineTest.prototype.testCompactAndCenterCompicated = function() {
+EngineTest.prototype.testCompactAndCenterComplicated = function() {
     var basicField;
     basicField = PlayfieldFactory.buildBasicField();
     basicField.removeBlock(1, 0);
