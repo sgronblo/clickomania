@@ -176,9 +176,9 @@ Clickomania.Playfield.prototype.compactAndCenter = function() {
     var i;
     for(i = 0; i < this.blocks.length; i += 1) {
 	if(i < left || i > right) {
-	    this.blocks[i] = columnsWithoutBlocks.pop();
+	    this.blocks[i] = columnsWithoutBlocks.shift();
 	} else {
-	    this.blocks[i] = columnsWithBlocks.pop();
+	    this.blocks[i] = columnsWithBlocks.shift();
 	}
     }
 };
