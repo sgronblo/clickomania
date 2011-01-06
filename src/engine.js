@@ -174,7 +174,6 @@ Clickomania.Playfield.prototype.compactAndCenter = function() {
     var left = Math.ceil(emptyColumnAmount / 2);
     var right = this.blocks.length - 1 - (emptyColumnAmount - left);
     var i;
-    console.log(columnsWithBlocks);
     for(i = 0; i < this.blocks.length; i += 1) {
 	if(i < left || i > right) {
 	    this.blocks[i] = columnsWithoutBlocks.shift();
