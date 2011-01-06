@@ -240,11 +240,11 @@ EngineTest.prototype.testCompactAndCenter = function() {
 
 EngineTest.prototype.testCompactAndCenterTwoEmptyRows = function() {
     var testPlayfield = Clickomania.Playfield.fromAscii(
-	    "1  2",
-	    "1  0",
-	    "0  1",
-	    "1  0",
-	    "0  2");
+	"1  2",
+	"1  0",
+	"0  1",
+	"1  0",
+	"0  2");
     testPlayfield.compactAndCenter();
     Assert.assertUndefined(testPlayfield.getBlock(0, 0));
     Assert.assertDefined(testPlayfield.getBlock(1, 0));
