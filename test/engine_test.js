@@ -227,16 +227,15 @@ EngineTest.prototype.testColumnHasBlocks = function() {
 }
 
 EngineTest.prototype.testCompactAndCenter = function() {
-    var basicField;
-    basicField = PlayfieldFactory.buildBasicField();
-    basicField.removeBlock(1, 0);
-    basicField.removeBlock(1, 1);
-    basicField.removeBlock(1, 2);
-    basicField.removeBlock(1, 3);
-    basicField.removeBlock(1, 4);
-    basicField.compactAndCenter();
-    Assert.assertUndefined(basicField.getBlock(0, 0));
-    Assert.assertDefined(basicField.getBlock(1, 0));
+    var testPlayfield = Clickomania.Playfield.fromAscii(
+	"1 22",
+	"1 20",
+	"0 21",
+	"1 20",
+	"0 02");
+    testPlayfield.compactAndCenter();
+    Assert.assertUndefined(testPlayfield.getBlock(0, 0));
+    Assert.assertDefined(testPlayfield.getBlock(1, 0));
 };
 
 EngineTest.prototype.testCompactAndCenterComplicated = function() {
