@@ -15,7 +15,9 @@
 	<div id='playfield'></div>
 	<script>
 	    $(document).ready(function () {
-		ascii = new Clickomania.AsciiView();
+		game = new Clickomania.Game(new Clickomania.Playfield(5, 5));
+		game.fillPlayfield();
+		ascii = new Clickomania.AsciiView(game);
 		ascii.drawPlayfield('#playfield');
 	    });
 	</script>
