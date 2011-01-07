@@ -271,6 +271,12 @@ Clickomania.CanvasView = function(playfieldId, game) {
     this.blockWidth = 10;
 };
 
+Clickomania.CanvasView.prototype.getCordinatesForBlock = function(block, columnIndex, rowIndex) {
+    var upperLeft, lowerRight;
+    upperLeft = [rowIndex * this.blockWidth, columnIndex * this.blockHeight]
+    return upperLeft;
+};
+
 Clickomania.CanvasView.prototype.drawColumn = function(column, columnIndex) {
     var this_ = this;
     var blockCordinates;
