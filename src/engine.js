@@ -272,8 +272,9 @@ Clickomania.CanvasView = function(playfieldId, game) {
     this.blockWidth = 10;
 };
 
-Clickomania.CanvasView.prototype.drawPlayfield = function(playfieldId) {
-    var $canvas;
-    $canvas = $(playfieldId);
-    $canvas.height(150);
+Clickomania.CanvasView.prototype.drawPlayfield = function() {
+    var this_ = this;
+    this.game.playfield.blocks.forEach(function(column, columnIndex) {
+	this_.drawColumn(column, columnIndex);
+    });
 };
