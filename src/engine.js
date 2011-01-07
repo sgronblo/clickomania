@@ -269,7 +269,7 @@ Clickomania.CanvasView = function(playfieldId, game) {
     this.context = this.canvas.getContext("2d");
     this.blockHeight = 10;
     this.blockWidth = 10;
-}
+};
 
 Clickomania.CanvasView.prototype.drawColumn = function(column, columnIndex) {
     var this_ = this;
