@@ -284,7 +284,7 @@ Clickomania.CanvasView.prototype.drawColumn = function(column, columnIndex) {
     column.forEach(function(block, rowIndex) {
 	blockCordinates = this_.getCordinatesForBlock(block, columnIndex, rowIndex);
 	this_.context.fillStyle = colors[block.type];
-	this_.context.fillRect(blockCordinates[0],blockCordinates[1], this.blockWidth, this.blockHeight);
+	this_.context.fillRect(blockCordinates[0],blockCordinates[1], this_.blockWidth, this_.blockHeight);
     });
 };
 
