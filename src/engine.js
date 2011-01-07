@@ -267,8 +267,8 @@ Clickomania.CanvasView = function(playfieldId, game) {
     this.game = game;
     this.canvas = document.getElementById(playfieldId);
     this.context = this.canvas.getContext("2d");
-    this.blockHeight = 10;
-    this.blockWidth = 10;
+    this.blockHeight = 30;
+    this.blockWidth = 30;
 };
 
 Clickomania.CanvasView.prototype.getCordinatesForBlock = function(block, columnIndex, rowIndex) {
