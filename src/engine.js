@@ -266,7 +266,6 @@ Clickomania.ArrayUtilies.complement = function complement(all, some) {
 Clickomania.CanvasView = function(playfieldId, game) {
     this.game = game;
     this.canvas = document.getElementById(playfieldId);
-    this.$canvas = $(this.canvas);
     this.context = this.canvas.getContext("2d");
     this.blockHeight = 10;
     this.blockWidth = 10;
