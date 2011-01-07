@@ -20,7 +20,7 @@
 		game.fillPlayfield();
 		ascii = new Clickomania.AsciiView(game);
 		ascii.drawPlayfield('#playfield');
-		canvas = new Clickomania.CanvasView('playfield-canvas');
+		canvas = new Clickomania.CanvasView('playfield-canvas', game);
 		canvas.drawPlayfield();
 	    });
 	</script>
