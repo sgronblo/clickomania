@@ -270,6 +270,17 @@ Clickomania.CanvasView = function(playfieldId, game) {
     this.context = this.canvas.getContext("2d");
     this.blockHeight = 10;
     this.blockWidth = 10;
+}
+
+Clickomania.CanvasView.prototype.drawColumn = function(column, columnIndex) {
+    var this_ = this;
+    var blockCordinates;
+    var colors = ["red", "blue", "yellow", "black", "green"];
+    column.forEach(function(block, rowIndex) {
+	blockCordinates = this_.getCordinatesForBlock(block, columnIndex, rowIndex);
+	this_.context.fillStyle = colors[block.type];
+	this_.context.fillRect(blockCordinates[0],blockCordinates[1], this.blockWidth, this.blockHeight);
+    });
 };
 
 Clickomania.CanvasView.prototype.drawPlayfield = function() {
