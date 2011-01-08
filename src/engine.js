@@ -177,7 +177,7 @@ Clickomania.Playfield.prototype.columnHasBlocks = function(columnIndex) {
 	}
     }
     return false;
-}
+};
 
 Clickomania.Block = function(type) {
     this.type = type;
@@ -201,7 +201,14 @@ Clickomania.Game.prototype.removeConnectedBlocks = function(column, row) {
     connectedBlocks.forEach(function(block) {
 	this_.playfield.removeBlock(block.column, block.row);
     });
-}
+};
+
+Clickomania.Game.prototype.dropBlocks = function() {
+    var columnIndex;
+    for (columnIndex = 0; columnIndex < this.columns; columnIndex++) {
+	this.dropColumn(columnIndex);
+    }
+};
 
 Clickomania.AsciiView = function(game) {
     this.game = game;
