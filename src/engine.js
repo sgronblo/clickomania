@@ -158,9 +158,9 @@ Clickomania.Playfield.prototype.compactAndCenter = function() {
     var columnsWithoutBlocks = Clickomania.ArrayUtilies.complement(this.blocks, columnsWithBlocks);
     var emptyColumnAmount = columnsWithoutBlocks.length;
     var left = Math.ceil(emptyColumnAmount / 2);
-    var right = this.blocks.length - 1 - (emptyColumnAmount - left);
+    var right = this.columns - 1 - (emptyColumnAmount - left);
     var columnIndex;
-    for(columnIndex = 0; columnIndex < this.blocks.length; columnIndex += 1) {
+    for(columnIndex = 0; columnIndex < this.columns; columnIndex += 1) {
 	if(columnIndex < left || columnIndex > right) {
 	    this.blocks[columnIndex] = columnsWithoutBlocks.shift();
 	} else {
