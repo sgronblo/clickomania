@@ -260,7 +260,41 @@ EngineTest.testColumnHasBlocks = function() {
     Assert.assertTrue(testPlayfield.columnHasBlocks(3));
 }
 
-EngineTest.testCompactAndCenter = function() {
+EngineTest.testCompactAndCenterNothingShouldHappen = function() {
+    var testPlayfield = Clickomania.Playfield.fromAscii(
+	"123",
+	"124",
+	"021",
+	"122",
+	"000");
+    testPlayfield.compactAndCenter();
+    Assert.assertPlayfieldMatchesAscii(
+	testPlayfield,
+	"123",
+	"124",
+	"021",
+	"122",
+	"000");
+};
+
+EngineTest.testCompactAndCenterAddEvenEmptyLineAmount = function() {
+    var testPlayfield = Clickomania.Playfield.fromAscii(
+	"1 2 3",
+	"1 2 4",
+	"0 2 1",
+	"1 2 2",
+	"0 0 0");
+    testPlayfield.compactAndCenter();
+    Assert.assertPlayfieldMatchesAscii(
+	testPlayfield,
+	" 123 ",
+	" 124 ",
+	" 021 ",
+	" 122 ",
+	" 000 ");
+};
+
+EngineTest.testCompactAndCenterAddUnevenEmptyLineAmount = function() {
     var testPlayfield = Clickomania.Playfield.fromAscii(
 	"1 22",
 	"1 20",
@@ -268,8 +302,13 @@ EngineTest.testCompactAndCenter = function() {
 	"1 20",
 	"0 02");
     testPlayfield.compactAndCenter();
-    Assert.assertUndefined(testPlayfield.getBlock(0, 0));
-    Assert.assertDefined(testPlayfield.getBlock(1, 0));
+    Assert.assertPlayfieldMatchesAscii(
+	testPlayfield,
+	" 122",
+	" 120",
+	" 021",
+	" 120",
+	" 002");
 };
 
 EngineTest.testCompactAndCenterTwoEmptyRows = function() {
