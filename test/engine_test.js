@@ -124,6 +124,11 @@ Assert = {
 		actualBlock = playfield.getBlock(columnIndex, rowIndex);
 		if (expectedType === " ") {
 		    Assert.assertUndefined(actualBlock);
+		} else if (typeof actualBlock === 'undefined') {
+		    throw {
+			message: "Empty block at col: " + columnIndex + ", row: " + rowIndex + " where a block of type " + expectedType + " was expected",
+			stack: new Error().stack
+		    };
 		} else {
 		    Assert.assertEqual(expectedType, actualBlock.type);
 		}
