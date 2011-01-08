@@ -135,24 +135,6 @@ Clickomania.Playfield.prototype.getConnectedBlocks_ = function(column, row, coun
     return connected;
 };
 
-Clickomania.Playfield.prototype.getEmptyColumns = function() {
-    var emptyColumns = [], connectedBlocks = undefined, block;
-    for(var column = 0; column < this.columns; column += 1) {
-	connectedBlocks = undefined;
-	for(var row = 0; row < this.blocks[column].length; row += 1) {
-	   block = this.getBlock(column, row);
-	   if(block !== undefined) {
-	       connectedBlocks = 1;
-	       break;
-	   }
-	}
-	if(connectedBlocks === undefined) {
-	    emptyColumns.push(column);
-	}
-    }
-    return emptyColumns;
-};
-
 Clickomania.Playfield.prototype.compactAndCenter = function() {
     var columnsWithBlocks = this.getColumnsWithBlocks();
     var columnsWithoutBlocks = Clickomania.ArrayUtilies.complement(this.blocks, columnsWithBlocks);

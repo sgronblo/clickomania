@@ -238,14 +238,6 @@ EngineTest.testClearColumn = function() {
 	"000 ");
 };
 
-EngineTest.testGetEmptyColumns = function() {
-    var basicField, emptyColumns;
-    basicField = buildBasicField();
-    basicField.clearColumn(1);
-    emptyColumns = basicField.getEmptyColumns();
-    Assert.assertEqual(emptyColumns[0], 1);
-};
-
 EngineTest.testGetColumnsWithBlocks = function() {
     var testPlayfield = Clickomania.Playfield.fromAscii(
 	"X A ",
