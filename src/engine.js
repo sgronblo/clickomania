@@ -262,3 +262,35 @@ Clickomania.ArrayUtilies.complement = function complement(all, some) {
     }
     return elementsNotInSome;
 };
+
+Clickomania.CanvasView = function(playfieldId, game) {
+    this.game = game;
+    this.canvas = document.getElementById(playfieldId);
+    this.context = this.canvas.getContext("2d");
+    this.blockHeight = 30;
+    this.blockWidth = 30;
+};
+
+Clickomania.CanvasView.prototype.getCordinatesForBlock = function(block, columnIndex, rowIndex) {
+    var upperLeft, lowerRight;
+    upperLeft = [rowIndex * this.blockWidth, columnIndex * this.blockHeight]
+    return upperLeft;
+};
+
+Clickomania.CanvasView.prototype.drawColumn = function(column, columnIndex) {
+    var this_ = this;
+    var blockCordinates;
+    var colors = ["red", "blue", "yellow", "black", "green"];
+    column.forEach(function(block, rowIndex) {
+	blockCordinates = this_.getCordinatesForBlock(block, columnIndex, rowIndex);
+	this_.context.fillStyle = colors[block.type];
+	this_.context.fillRect(blockCordinates[0],blockCordinates[1], this_.blockWidth, this_.blockHeight);
+    });
+};
+
+Clickomania.CanvasView.prototype.drawPlayfield = function() {
+    var this_ = this;
+    this.game.playfield.blocks.forEach(function(column, columnIndex) {
+	this_.drawColumn(column, columnIndex);
+    });
+};
