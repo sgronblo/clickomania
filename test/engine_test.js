@@ -205,7 +205,13 @@ EngineTest.testRemoveBlock = function() {
     block = basicField.removeBlock(0, 0);
     Assert.assertEqual(block, expectedBlock);
     block = basicField.getBlock(0, 0);
-    Assert.assertUndefined(block);
+    Assert.assertPlayfieldMatchesAscii(
+	basicField,
+	" 122",
+	"1020",
+	"0221",
+	"1220",
+	"0002");
 }
 
 EngineTest.testFillWithBlocks = function() {
