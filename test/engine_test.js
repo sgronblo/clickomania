@@ -333,16 +333,33 @@ GameTest.name = "GameTest";
 
 GameTest.testRemoveConnectedBlocks = function() {
     var basicField, game;
-    basicField = buildBasicField();
+    basicField = Clickomania.Playfield.fromAscii(
+	"1122",
+	"1020",
+	"0221",
+	"1220",
+	"0002");
     Assert.assertDefined(basicField);
     game = new Clickomania.Game(basicField);
     Assert.assertDefined(game);
     game.removeConnectedBlocks(0, 0);
-    Assert.assertUndefined(basicField.getBlock(0, 0));
-    Assert.assertUndefined(basicField.getBlock(0, 1));
-    Assert.assertUndefined(basicField.getBlock(1, 0));
+    Assert.assertPlayfieldMatchesAscii(
+	game.playfield,
+	"  22",
+	" 020",
+	"0221",
+	"1220",
+	"0002");
+    // nothing should happen when trying to remove connected blocks for a block
+    // with no similar neighbors
     game.removeConnectedBlocks(3, 4);
-    Assert.assertDefined(basicField.getBlock(3, 4));
+    Assert.assertPlayfieldMatchesAscii(
+	game.playfield,
+	"  22",
+	" 020",
+	"0221",
+	"1220",
+	"0002");
 }
 
 var ArrayUtiliesTest = {};
