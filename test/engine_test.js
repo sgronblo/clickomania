@@ -226,6 +226,18 @@ EngineTest.testFillWithBlocks = function() {
     }
 };
 
+EngineTest.testClearColumn = function() {
+    var basicField = buildBasicField();
+    basicField.clearColumn(3);
+    Assert.assertPlayfieldMatchesAscii(
+	basicField,
+	"112 ",
+	"102 ",
+	"022 ",
+	"122 ",
+	"000 ");
+};
+
 EngineTest.testGetEmptyColumns = function() {
     var basicField, emptyColumns;
     basicField = buildBasicField();
