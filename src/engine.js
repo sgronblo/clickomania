@@ -169,6 +169,13 @@ Clickomania.Playfield.prototype.compactAndCenter = function() {
     }
 };
 
+Clickomania.Playfield.prototype.clearColumn = function(column) {
+    var rowIndex;
+    for (rowIndex = 0; rowIndex < this.rows; rowIndex++) {
+	this.removeBlock(column, rowIndex);
+    }
+};
+
 Clickomania.Playfield.prototype.getColumnsWithBlocks = function() {
     var column;
     var columnsWithBlocks = [];
@@ -178,7 +185,7 @@ Clickomania.Playfield.prototype.getColumnsWithBlocks = function() {
 	}
     }
     return columnsWithBlocks;
-}
+};
 
 Clickomania.Playfield.prototype.columnHasBlocks = function(columnIndex) {
     var rowIndex;
