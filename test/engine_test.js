@@ -108,6 +108,13 @@ Assert = {
 	}
     },
     assertPlayfieldMatchesAscii: function(playfield) {
+	// weak checking that the first playfield parameter isn't missing
+	if (typeof playfield === 'string') {
+	    throw {
+		message: "Expected a non-string as first parameter, got: " + TestUtilities.objectToString(playfield),
+		stack: new Error().stack
+	    }
+	}
 	var rowIndex, columnIndex;
 	var expectedType, actualBlock;
 	var asciiRows = Array.prototype.slice.call(arguments, 1);
