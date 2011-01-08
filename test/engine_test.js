@@ -226,18 +226,6 @@ EngineTest.testFillWithBlocks = function() {
     }
 };
 
-EngineTest.testFillHole = function() {
-    var basicField = buildBasicField();
-    basicField.removeBlock(1, 0);
-    basicField.removeBlock(1, 1);
-    basicField.removeBlock(1, 2);
-    basicField.removeBlock(1, 3);
-    basicField.removeBlock(1, 4);
-    basicField.fillHole(1);
-    Assert.assertUndefined(basicField.getBlock(0, 0));
-    Assert.assertDefined(basicField.getBlock(1, 0));
-}
-
 EngineTest.testGetEmptyColumns = function() {
     var basicField, emptyColumns;
     basicField = buildBasicField();
