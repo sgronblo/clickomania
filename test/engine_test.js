@@ -241,11 +241,7 @@ EngineTest.testClearColumn = function() {
 EngineTest.testGetEmptyColumns = function() {
     var basicField, emptyColumns;
     basicField = buildBasicField();
-    basicField.removeBlock(1, 0);
-    basicField.removeBlock(1, 1);
-    basicField.removeBlock(1, 2);
-    basicField.removeBlock(1, 3);
-    basicField.removeBlock(1, 4);
+    basicField.clearColumn(1);
     emptyColumns = basicField.getEmptyColumns();
     Assert.assertEqual(emptyColumns[0], 1);
 };
