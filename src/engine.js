@@ -283,7 +283,7 @@ Clickomania.CanvasView = function(width, height, playfieldId, game) {
     this.blockWidth = height / game.playfield.columns;
 };
 
-Clickomania.CanvasView.prototype.getCoordinatesForBlock = function(block, columnIndex, rowIndex) {
+Clickomania.CanvasView.prototype.getUpperLeftForCell = function(columnIndex, rowIndex) {
     var upperLeft, lowerRight;
     upperLeft = [rowIndex * this.blockWidth, columnIndex * this.blockHeight]
     return upperLeft;
