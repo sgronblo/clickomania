@@ -285,7 +285,7 @@ Clickomania.CanvasView = function(width, height, playfieldId, game) {
 
 Clickomania.CanvasView.prototype.getUpperLeftForCell = function(columnIndex, rowIndex) {
     var upperLeft, lowerRight;
-    upperLeft = [rowIndex * this.blockWidth, columnIndex * this.blockHeight]
+    upperLeft = [columnIndex * this.blockHeight, rowIndex * this.blockWidth]
     return upperLeft;
 };
 
