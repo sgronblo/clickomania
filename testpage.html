@@ -16,11 +16,9 @@
 	<canvas id="playfield-canvas"></canvas>
 	<script>
 	    $(document).ready(function () {
-		game = new Clickomania.Game(new Clickomania.Playfield(5, 5));
+		game = new Clickomania.Game(new Clickomania.Playfield(25, 25));
 		game.fillPlayfield();
-		ascii = new Clickomania.AsciiView(game);
-		ascii.drawPlayfield('#playfield');
-		canvas = new Clickomania.CanvasView(150, 150, 'playfield-canvas', game);
+		canvas = new Clickomania.CanvasView(500, 500, 'playfield-canvas', game);
 		canvas.drawPlayfield();
 	    });
 	</script>
