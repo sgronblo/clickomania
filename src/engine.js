@@ -203,6 +203,34 @@ Clickomania.Game.prototype.removeConnectedBlocks = function(column, row) {
     });
 };
 
+Clickomania.Game.prototype.dropColumn = function(column) {
+    // the row on which the next found block should be added
+    var pileTopIndex;
+    var rowIndex = this.playfield.rows - 1;
+    var blockToMove;
+    var columnHadGaps = false;
+    while (!columnHadGaps && rowIndex >= 0) {
+	blockToMove = this.playfield.getBlock(column, rowIndex);
+	if (typeof blockToMove === 'undefined') {
+	    columnHadGaps = true;
+	    pileTopIndex = rowIndex;
+	}
+	rowIndex -= 1;
+    }
+    if (!columnHadGaps) {
+	return;
+    }
+    // loop through rows upwards
+    for (rowIndex; rowIndex >= 0; rowIndex--) {
+	blockToMove = this.playfield.getBlock(column, rowIndex);
+	if (typeof blockToMove !== 'undefined') {
+	    this.playfield.putBlock(column, pileTopIndex, new Clickomania.Block(blockToMove.type));
+	    this.playfield.removeBlock(column, rowIndex);
+	    pileTopIndex -= 1;
+	}
+    }
+};
+
 Clickomania.Game.prototype.dropBlocks = function() {
     var columnIndex;
     for (columnIndex = 0; columnIndex < this.columns; columnIndex++) {
