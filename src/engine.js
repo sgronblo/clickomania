@@ -233,7 +233,7 @@ Clickomania.Game.prototype.dropColumn = function(column) {
 
 Clickomania.Game.prototype.dropBlocks = function() {
     var columnIndex;
-    for (columnIndex = 0; columnIndex < this.columns; columnIndex++) {
+    for (columnIndex = 0; columnIndex < this.playfield.columns; columnIndex++) {
 	this.dropColumn(columnIndex);
     }
 };
