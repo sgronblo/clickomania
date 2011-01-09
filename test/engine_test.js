@@ -123,7 +123,12 @@ Assert = {
 		expectedType = asciiRows[rowIndex][columnIndex];
 		actualBlock = playfield.getBlock(columnIndex, rowIndex);
 		if (expectedType === " ") {
-		    Assert.assertUndefined(actualBlock);
+		    if (typeof actualBlock !== 'undefined') {
+			throw {
+			    message: "Found block of type: " + actualBlock.type + " at col: " + columnIndex + ", row: " + rowIndex + " when expecting empty cell",
+			    stack: new Error().stack
+			};
+		    }
 		} else if (typeof actualBlock === 'undefined') {
 		    throw {
 			message: "Empty block at col: " + columnIndex + ", row: " + rowIndex + " where a block of type " + expectedType + " was expected",
