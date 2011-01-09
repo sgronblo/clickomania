@@ -278,9 +278,23 @@ Clickomania.CanvasView = function(width, height, playfieldId, game) {
     this.height = height;
     this.game = game;
     this.canvas = document.getElementById(playfieldId);
+    this.canvas.addEventListener("click", this.handleClicks.bind(this))
     this.context = this.canvas.getContext("2d");
     this.blockHeight = width / game.playfield.rows;
     this.blockWidth = height / game.playfield.columns;
+};
+
+Clickomania.CanvasView.prototype.handleClicks = function(event) {
+    var canvasX = event.clientX - this.canvas.offsetLeft;
+    var canvasY = event.clientY - this.canvas.offsetTop;
+    var colRow = this.coordinatesToCell(canvasX, canvasY);
+    console.log("clicked x: " + canvasX + " y: " + canvasY);
+    console.log("remove connected at col: " + colRow[0] + " row: " + colRow[1]);
+    this.game.removeConnectedBlocks(colRow[0], colRow[1]);
+    this.game.dropBlocks();
+    this.game.playfield.compactAndCenter();
+    TestUtilities.printPlayfield(this.game.playfield);
+    this.drawPlayfield();
 };
 
 Clickomania.CanvasView.prototype.coordinatesToCell = function(x, y) {
