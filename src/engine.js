@@ -273,12 +273,14 @@ Clickomania.ArrayUtilies.complement = function complement(all, some) {
     return elementsNotInSome;
 };
 
-Clickomania.CanvasView = function(playfieldId, game) {
+Clickomania.CanvasView = function(width, height, playfieldId, game) {
+    this.width = width;
+    this.height = height;
     this.game = game;
     this.canvas = document.getElementById(playfieldId);
     this.context = this.canvas.getContext("2d");
-    this.blockHeight = 30;
-    this.blockWidth = 30;
+    this.blockHeight = width / game.playfield.rows;
+    this.blockWidth = height / game.playfield.columns;
 };
 
 Clickomania.CanvasView.prototype.getCoordinatesForBlock = function(block, columnIndex, rowIndex) {
