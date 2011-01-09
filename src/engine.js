@@ -278,6 +278,8 @@ Clickomania.CanvasView = function(width, height, playfieldId, game) {
     this.height = height;
     this.game = game;
     this.canvas = document.getElementById(playfieldId);
+    this.canvas.setAttribute('width', this.width);
+    this.canvas.setAttribute('height', this.height);
     this.canvas.addEventListener("click", this.handleClicks.bind(this))
     this.context = this.canvas.getContext("2d");
     this.blockHeight = width / game.playfield.rows;
