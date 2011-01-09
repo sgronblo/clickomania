@@ -128,7 +128,7 @@ Clickomania.Playfield.prototype.getConnectedBlocks_ = function(column, row, coun
     connected.push(block);
     neighbours = this.getNeighbours(column, row);
     neighbours.forEach(function(neighbour) {
-	if (neighbour.type === block.type && neighbour.roundCounter < counter) {
+	if (typeof neighbour !== 'undefined' && (neighbour.type === block.type && neighbour.roundCounter < counter)) {
 	    connected = connected.concat(this_.getConnectedBlocks_(neighbour.column, neighbour.row, counter));
 	}
     });
