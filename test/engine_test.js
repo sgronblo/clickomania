@@ -367,7 +367,7 @@ GameTest.testRemoveConnectedBlocks = function() {
 	"0002");
 };
 
-GameTest.testDropColumn = function() {
+GameTest.testDropColumnShortColumnFall = function() {
     var testPlayfield = Clickomania.Playfield.fromAscii(
 	"1 ",
 	" 1");
@@ -377,10 +377,30 @@ GameTest.testDropColumn = function() {
 	testGame.playfield,
 	"  ",
 	"11");
+};
+
+GameTest.testDropColumnBlocksAlreadyAtBottom = function() {
+    var testPlayfield = Clickomania.Playfield.fromAscii(
+	"  ",
+	"11");
+    var testGame = new Clickomania.Game(testPlayfield);
+    testGame.dropColumn(0);
     testGame.dropColumn(1);
     Assert.assertPlayfieldMatchesAscii(
 	testGame.playfield,
 	"  ",
+	"11");
+};
+
+GameTest.testDropColumnFullColumn = function() {
+    var testPlayfield = Clickomania.Playfield.fromAscii(
+	"1 ",
+	"11");
+    var testGame = new Clickomania.Game(testPlayfield);
+    testGame.dropColumn(0);
+    Assert.assertPlayfieldMatchesAscii(
+	testGame.playfield,
+	"1 ",
 	"11");
 };
 
