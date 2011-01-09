@@ -238,6 +238,27 @@ Clickomania.Game.prototype.dropBlocks = function() {
     }
 };
 
+Clickomania.Game.prototype.hasMoreMoves = function() {
+    var connectedBlocks;
+    var columnIndex;
+    var rowIndex;
+    var block;
+    var column;
+    for (columnIndex in this.playfield.blocks) {
+	column = this.playfield.blocks[columnIndex];
+	for (rowIndex in column) {
+	    block = this.playfield.getBlock(columnIndex, rowIndex);
+	    if (block !== undefined) {
+		connectedBlocks = this.playfield.getConnectedBlocks(columnIndex, rowIndex);
+		if (connectedBlocks.length > 1) {
+		    return true;
+		}
+	    }
+	}
+    }
+    return false;
+};
+
 Clickomania.AsciiView = function(game) {
     this.game = game;
 };

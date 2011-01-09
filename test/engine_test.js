@@ -422,6 +422,26 @@ GameTest.testDropBlocks = function() {
 	"0022");
 };
 
+GameTest.testShouldNotFindMoreMoves = function() {
+    var testPlayfield = Clickomania.Playfield.fromAscii(
+	" 123 ",
+	" 231 ",
+	" 312 ");
+    var testGame = new Clickomania.Game(testPlayfield);
+    var isMoreMoves = testGame.hasMoreMoves();
+    Assert.assertFalse(isMoreMoves);
+};
+
+GameTest.testShouldFindMoreMoves = function() {
+    var testPlayfield = Clickomania.Playfield.fromAscii(
+	" 123 ",
+	" 233 ",
+	" 312 ");
+    var testGame = new Clickomania.Game(testPlayfield);
+    var isMoreMoves = testGame.hasMoreMoves();
+    Assert.assertTrue(isMoreMoves);
+};
+
 var ArrayUtiliesTest = {};
 ArrayUtiliesTest.name = "ArrayUtiliesTest";
 
