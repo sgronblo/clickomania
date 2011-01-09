@@ -177,7 +177,7 @@ Clickomania.Playfield.prototype.columnHasBlocks = function(columnIndex) {
 	}
     }
     return false;
-}
+};
 
 Clickomania.Block = function(type) {
     this.type = type;
@@ -201,7 +201,42 @@ Clickomania.Game.prototype.removeConnectedBlocks = function(column, row) {
     connectedBlocks.forEach(function(block) {
 	this_.playfield.removeBlock(block.column, block.row);
     });
-}
+};
+
+Clickomania.Game.prototype.dropColumn = function(column) {
+    // the row on which the next found block should be added
+    var pileTopIndex;
+    var rowIndex = this.playfield.rows - 1;
+    var blockToMove;
+    var columnHadGaps = false;
+    while (!columnHadGaps && rowIndex >= 0) {
+	blockToMove = this.playfield.getBlock(column, rowIndex);
+	if (typeof blockToMove === 'undefined') {
+	    columnHadGaps = true;
+	    pileTopIndex = rowIndex;
+	}
+	rowIndex -= 1;
+    }
+    if (!columnHadGaps) {
+	return;
+    }
+    // loop through rows upwards
+    for (rowIndex; rowIndex >= 0; rowIndex--) {
+	blockToMove = this.playfield.getBlock(column, rowIndex);
+	if (typeof blockToMove !== 'undefined') {
+	    this.playfield.putBlock(column, pileTopIndex, new Clickomania.Block(blockToMove.type));
+	    this.playfield.removeBlock(column, rowIndex);
+	    pileTopIndex -= 1;
+	}
+    }
+};
+
+Clickomania.Game.prototype.dropBlocks = function() {
+    var columnIndex;
+    for (columnIndex = 0; columnIndex < this.playfield.columns; columnIndex++) {
+	this.dropColumn(columnIndex);
+    }
+};
 
 Clickomania.AsciiView = function(game) {
     this.game = game;

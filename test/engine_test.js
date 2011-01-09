@@ -123,7 +123,12 @@ Assert = {
 		expectedType = asciiRows[rowIndex][columnIndex];
 		actualBlock = playfield.getBlock(columnIndex, rowIndex);
 		if (expectedType === " ") {
-		    Assert.assertUndefined(actualBlock);
+		    if (typeof actualBlock !== 'undefined') {
+			throw {
+			    message: "Found block of type: " + actualBlock.type + " at col: " + columnIndex + ", row: " + rowIndex + " when expecting empty cell",
+			    stack: new Error().stack
+			};
+		    }
 		} else if (typeof actualBlock === 'undefined') {
 		    throw {
 			message: "Empty block at col: " + columnIndex + ", row: " + rowIndex + " where a block of type " + expectedType + " was expected",
@@ -360,7 +365,62 @@ GameTest.testRemoveConnectedBlocks = function() {
 	"0221",
 	"1220",
 	"0002");
-}
+};
+
+GameTest.testDropColumnShortColumnFall = function() {
+    var testPlayfield = Clickomania.Playfield.fromAscii(
+	"1 ",
+	" 1");
+    var testGame = new Clickomania.Game(testPlayfield);
+    testGame.dropColumn(0);
+    Assert.assertPlayfieldMatchesAscii(
+	testGame.playfield,
+	"  ",
+	"11");
+};
+
+GameTest.testDropColumnBlocksAlreadyAtBottom = function() {
+    var testPlayfield = Clickomania.Playfield.fromAscii(
+	"  ",
+	"11");
+    var testGame = new Clickomania.Game(testPlayfield);
+    testGame.dropColumn(0);
+    testGame.dropColumn(1);
+    Assert.assertPlayfieldMatchesAscii(
+	testGame.playfield,
+	"  ",
+	"11");
+};
+
+GameTest.testDropColumnFullColumn = function() {
+    var testPlayfield = Clickomania.Playfield.fromAscii(
+	"1 ",
+	"11");
+    var testGame = new Clickomania.Game(testPlayfield);
+    testGame.dropColumn(0);
+    Assert.assertPlayfieldMatchesAscii(
+	testGame.playfield,
+	"1 ",
+	"11");
+};
+
+GameTest.testDropBlocks = function() {
+    var testPlayfield = Clickomania.Playfield.fromAscii(
+	"1122",
+	"10 0",
+	"   1",
+	" 2 0",
+	"00 2");
+    var testGame = new Clickomania.Game(testPlayfield);
+    testGame.dropBlocks();
+    Assert.assertPlayfieldMatchesAscii(
+	testGame.playfield,
+	"   2",
+	" 1 0",
+	"10 1",
+	"12 0",
+	"0022");
+};
 
 var ArrayUtiliesTest = {};
 ArrayUtiliesTest.name = "ArrayUtiliesTest";
