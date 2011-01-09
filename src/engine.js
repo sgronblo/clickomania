@@ -293,9 +293,15 @@ Clickomania.CanvasView.prototype.drawColumn = function(column, columnIndex) {
     var this_ = this;
     var blockCoordinates;
     var colors = ["red", "blue", "yellow", "black", "green"];
+    var color;
     column.forEach(function(block, rowIndex) {
-	blockCoordinates = this_.getCoordinatesForBlock(block, columnIndex, rowIndex);
-	this_.context.fillStyle = colors[block.type];
+	if (typeof block === 'undefined') {
+	    color = "gray";
+	} else {
+	    color = colors[block.type];
+	}
+	blockCoordinates = this_.getUpperLeftForCell(columnIndex, rowIndex);
+	this_.context.fillStyle = color;
 	this_.context.fillRect(blockCoordinates[0],blockCoordinates[1], this_.blockWidth, this_.blockHeight);
     });
 };
