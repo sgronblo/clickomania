@@ -37,12 +37,6 @@ Assert = {
     },
     assertListsHaveSameElements: function(expectedElements, actualElements) {
 	var message;
-	if (expectedElements.length !== actualElements.length) {
-	    throw {
-		message: "expected elements: " + TestUtilities.objectToString(expectedElements) + " and actual elements: " + TestUtilities.objectToString(actualElements) + " have different lengths",
-		stack: new Error().stack
-	    };
-	}
 	if (!expectedElements.every(function(elementValue) {
 	    var index;
 	    for (index in actualElements) {
