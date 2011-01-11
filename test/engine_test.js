@@ -422,6 +422,26 @@ GameTest.testDropBlocks = function() {
 	"0022");
 };
 
+var CanvasUtilitiesTest = {};
+
+CanvasUtilitiesTest.testCoordinatesToCell = function() {
+    var blockWidth = 30;
+    var blockHeight = 30;
+    var CanvasUtilities = Clickomania.CanvasUtilities;
+    var colRow = CanvasUtilities.coordinatesToCell(0, 0, blockWidth, blockHeight);
+    Assert.assertEqual(0, colRow[0]);
+    Assert.assertEqual(0, colRow[1]);
+    var colRow = CanvasUtilities.coordinatesToCell(30, 0, blockWidth, blockHeight);
+    Assert.assertEqual(1, colRow[0]);
+    Assert.assertEqual(0, colRow[1]);
+    var colRow = CanvasUtilities.coordinatesToCell(0, 30, blockWidth, blockHeight);
+    Assert.assertEqual(0, colRow[0]);
+    Assert.assertEqual(1, colRow[1]);
+    var colRow = CanvasUtilities.coordinatesToCell(35, 35, blockWidth, blockHeight);
+    Assert.assertEqual(1, colRow[0]);
+    Assert.assertEqual(1, colRow[1]);
+};
+
 var ArrayUtiliesTest = {};
 ArrayUtiliesTest.name = "ArrayUtiliesTest";
 
@@ -472,7 +492,7 @@ TestRunner = {
     }
 };
 
-var testCases = [EngineTest, GameTest, ArrayUtiliesTest];
+var testCases = [EngineTest, GameTest, ArrayUtiliesTest, CanvasUtilitiesTest];
 
 function runAllTestCases() {
     testCases.forEach(function(testCase) {
