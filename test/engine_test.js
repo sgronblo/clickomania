@@ -424,6 +424,21 @@ GameTest.testDropBlocks = function() {
 
 var CanvasUtilitiesTest = {};
 
+CanvasUtilitiesTest.testGetUpperLeftForCell = function() {
+    var blockWidth = 30;
+    var blockHeight = 30;
+    var CanvasUtilities = Clickomania.CanvasUtilities;
+    var coordinates = CanvasUtilities.getUpperLeftForCell(0, 0, blockWidth, blockHeight);
+    Assert.assertEqual(0, coordinates[0]);
+    Assert.assertEqual(0, coordinates[1]);
+    var coordinates = CanvasUtilities.getUpperLeftForCell(1, 1, blockWidth, blockHeight);
+    Assert.assertEqual(30, coordinates[0]);
+    Assert.assertEqual(30, coordinates[1]);
+    var coordinates = CanvasUtilities.getUpperLeftForCell(1, 2, blockWidth, blockHeight);
+    Assert.assertEqual(30, coordinates[0]);
+    Assert.assertEqual(60, coordinates[1]);
+};
+
 CanvasUtilitiesTest.testCoordinatesToCell = function() {
     var blockWidth = 30;
     var blockHeight = 30;
