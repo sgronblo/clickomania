@@ -273,11 +273,11 @@ Clickomania.ArrayUtilies.complement = function complement(all, some) {
     return elementsNotInSome;
 };
 
-Clickomania.CanvasView = function(width, height, playfieldId, game) {
+Clickomania.CanvasView = function(width, height, canvas, game) {
     this.width = width;
     this.height = height;
     this.game = game;
-    this.canvas = document.getElementById(playfieldId);
+    this.canvas = canvas;
     this.canvas.setAttribute('width', this.width);
     this.canvas.setAttribute('height', this.height);
     this.canvas.addEventListener("click", this.handleClicks.bind(this))
