@@ -273,6 +273,20 @@ Clickomania.ArrayUtilies.complement = function complement(all, some) {
     return elementsNotInSome;
 };
 
+Clickomania.CanvasUtilities = {
+    coordinatesToCell: function(x, y, blockWidth, blockHeight) {
+	var column = Math.floor(x / blockWidth);
+	var row = Math.floor(y / blockHeight);
+	return [column, row];
+    },
+    getUpperLeftForCell: function(columnIndex, rowIndex, blockWidth, blockHeight) {
+	var upperLeft, lowerRight;
+	upperLeft = [columnIndex * blockHeight, rowIndex * blockWidth]
+	return upperLeft;
+    }
+};
+
+
 Clickomania.CanvasView = function(width, height, canvas, game) {
     this.width = width;
     this.height = height;
@@ -297,18 +311,6 @@ Clickomania.CanvasView.prototype.handleClicks = function(event) {
     this.game.playfield.compactAndCenter();
     TestUtilities.printPlayfield(this.game.playfield);
     this.drawPlayfield();
-};
-
-Clickomania.CanvasView.prototype.coordinatesToCell = function(x, y) {
-    var column = Math.floor(x / this.blockWidth);
-    var row = Math.floor(y / this.blockHeight);
-    return [column, row];
-};
-
-Clickomania.CanvasView.prototype.getUpperLeftForCell = function(columnIndex, rowIndex) {
-    var upperLeft, lowerRight;
-    upperLeft = [columnIndex * this.blockHeight, rowIndex * this.blockWidth]
-    return upperLeft;
 };
 
 Clickomania.CanvasView.prototype.drawColumn = function(column, columnIndex) {
