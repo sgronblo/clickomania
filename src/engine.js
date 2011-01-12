@@ -370,8 +370,7 @@ Clickomania.CanvasView.prototype.handleClicks = function(event) {
     var canvasX = event.clientX - this.canvas.offsetLeft;
     var canvasY = event.clientY - this.canvas.offsetTop;
     var colRow = this.coordinatesToCell(canvasX, canvasY);
-    this.game.removeConnectedBlocks(colRow[0], colRow[1]);
-    this.game.advanceState();
+    this.game.click(colRow[0], colRow[1]);
     this.drawPlayfield();
 };
 
