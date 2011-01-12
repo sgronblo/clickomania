@@ -242,7 +242,7 @@ Clickomania.Game.prototype.dropColumn = function(column) {
 	rowIndex -= 1;
     }
     if (!columnHadGaps) {
-	return;
+	return false;
     }
     // loop through rows upwards
     for (rowIndex; rowIndex >= 0; rowIndex--) {
@@ -253,6 +253,7 @@ Clickomania.Game.prototype.dropColumn = function(column) {
 	    pileTopIndex -= 1;
 	}
     }
+    return true;
 };
 
 Clickomania.Game.prototype.dropBlocks = function() {
