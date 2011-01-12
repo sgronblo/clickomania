@@ -205,6 +205,12 @@ Clickomania.Game = function(playfield) {
     this.playfield = playfield;
 };
 
+Clickomania.Game.prototype.click = function(column, row) {
+    var removedBlocksCount = this.removeConnectedBlocks(column, row);
+    this.advanceState();
+    return removedBlocksCount > 0;
+};
+
 Clickomania.Game.prototype.fillPlayfield = function() {
     this.playfield.fillWithBlocks(10);
 };
