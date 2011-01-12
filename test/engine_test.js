@@ -465,12 +465,6 @@ ArrayUtiliesTest.testComplement = function() {
     Assert.assertListsHaveSameElements(expectedComplement, Clickomania.ArrayUtilies.complement(all, some));
 };
 
-StringUtilities = {
-    startsWith: function(string, prefix) {
-	return string.lastIndexOf(prefix, 0) === 0;
-    }
-};
-
 TestRunner = {
     runTestCase: function(testCase) {
 	var memberName, member, testFailure, failedTests, testName;
