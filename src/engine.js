@@ -4,6 +4,20 @@ if (typeof exports != 'undefined') {
     exports.Clickomania = Clickomania;
 }
 
+StringUtilities = {
+    startsWith: function(string, prefix) {
+	return string.lastIndexOf(prefix, 0) === 0;
+    },
+    sprintf: function(formatString) {
+	var outerValues = arguments;
+	var replaceValue = function(match) {
+	    var valueIndex = match.substr(1);
+	    return outerValues[valueIndex];
+	}
+	return formatString.replace(/%\d+/g, replaceValue);
+    }
+};
+
 Clickomania.Playfield = function(columns, rows) {
     this.columns = columns;
     this.rows = rows;
@@ -124,6 +138,9 @@ Clickomania.Playfield.prototype.getConnectedBlocks = function(column, row) {
 Clickomania.Playfield.prototype.getConnectedBlocks_ = function(column, row, counter) {
     var block, neighbours, connected = [], this_ = this;
     block = this.getBlock(column, row);
+    if (typeof block === 'undefined') {
+	return [];
+    }
     block.roundCounter = counter;
     connected.push(block);
     neighbours = this.getNeighbours(column, row);
@@ -188,19 +205,26 @@ Clickomania.Game = function(playfield) {
     this.playfield = playfield;
 };
 
+Clickomania.Game.prototype.click = function(column, row) {
+    var removedBlocksCount = this.removeConnectedBlocks(column, row);
+    this.advanceState();
+    return removedBlocksCount > 0;
+};
+
 Clickomania.Game.prototype.fillPlayfield = function() {
-    this.playfield.fillWithBlocks(5);
+    this.playfield.fillWithBlocks(10);
 };
 
 Clickomania.Game.prototype.removeConnectedBlocks = function(column, row) {
     var connectedBlocks, this_ = this;
     connectedBlocks = this.playfield.getConnectedBlocks(column, row);
-    if (connectedBlocks.length < 2) {
-	return;
+    if (connectedBlocks.length > 1) {
+	connectedBlocks.forEach(function(block) {
+	    this_.playfield.removeBlock(block.column, block.row);
+	});
+	return connectedBlocks.length;
     }
-    connectedBlocks.forEach(function(block) {
-	this_.playfield.removeBlock(block.column, block.row);
-    });
+    return 0;
 };
 
 Clickomania.Game.prototype.dropColumn = function(column) {
@@ -218,7 +242,7 @@ Clickomania.Game.prototype.dropColumn = function(column) {
 	rowIndex -= 1;
     }
     if (!columnHadGaps) {
-	return;
+	return false;
     }
     // loop through rows upwards
     for (rowIndex; rowIndex >= 0; rowIndex--) {
@@ -229,13 +253,83 @@ Clickomania.Game.prototype.dropColumn = function(column) {
 	    pileTopIndex -= 1;
 	}
     }
+    return true;
 };
 
 Clickomania.Game.prototype.dropBlocks = function() {
     var columnIndex;
+    var dropped, test;
     for (columnIndex = 0; columnIndex < this.playfield.columns; columnIndex++) {
-	this.dropColumn(columnIndex);
+	test = this.dropColumn(columnIndex);
+	if (dropped === false && test === true) {
+	    dropped === true;
+	}
     }
+    return true;
+};
+
+Clickomania.Game.prototype.autoPlay = function(likeWho) {
+    if (this.hasMoreMoves()) {
+	if(likeWho === 'Jed') {
+	    this.clickLikeAJedMan(this.playfield.columns - 1, this.playfield.rows - 1);
+	} else {
+	    this.clickLikeAMadman();
+	}
+    }
+};
+
+Clickomania.Game.prototype.advanceState = function() {
+    this.dropBlocks();
+    this.playfield.compactAndCenter();
+}
+
+Clickomania.Game.prototype.clickLikeAMadman = function() {
+    var rowIndex = this.playfield.rows - 1;
+    var columnIndex = this.playfield.columns - 1;
+    var clickChangedPlayField = false;
+    while (!clickChangedPlayField && rowIndex >= 0) {
+        while (!clickChangedPlayField && columnIndex >= 0) {
+            if (typeof this.playfield.getBlock(columnIndex, rowIndex) !== 'undefined') {
+                clickChangedPlayField = this.click(columnIndex, rowIndex);
+            }
+            columnIndex -= 1;
+        }
+        columnIndex = this.playfield.columns - 1;
+        rowIndex -= 1;
+    }
+    canvas.drawPlayfield();
+    if (this.hasMoreMoves()) {
+        setTimeout(this.clickLikeAMadman.bind(this), 50);
+    } else {
+        console.log("couldn't find any more moves so I'll stop");
+    }
+};
+
+Clickomania.Game.prototype.clickLikeAJedMan = function(columnIndex, rowIndex) {
+    function timeNewRound(columnIndex, rowIndex){
+	if (this.hasMoreMoves()) {
+	    setTimeout(this.clickLikeAJedMan.bind(this, columnIndex, rowIndex), 50);
+	} else {
+	    console.log("'Couldn't find any more moves so I'll stop', said Jed");
+	}
+    };
+    var clickChangedPlayField = false;
+    while (!clickChangedPlayField && rowIndex >= 0) {
+	while (!clickChangedPlayField && columnIndex >= 0) {
+	    if (typeof this.playfield.getBlock(columnIndex, rowIndex) !== 'undefined') {
+		clickChangedPlayField = this.click(columnIndex, rowIndex);
+		if(clickChangedPlayField) {
+		    canvas.drawPlayfield();
+		    timeNewRound.call(this, columnIndex, rowIndex);
+		    return;
+		}
+	    }
+	    columnIndex -= 1;
+	}
+	columnIndex = this.playfield.columns - 1;
+	rowIndex -= 1;
+    }
+    timeNewRound.call(this, this.playfield.columns - 1, this.playfield.rows - 1);
 };
 
 Clickomania.Game.prototype.hasMoreMoves = function() {
@@ -244,15 +338,11 @@ Clickomania.Game.prototype.hasMoreMoves = function() {
     var rowIndex;
     var block;
     var column;
-    for (columnIndex in this.playfield.blocks) {
-	column = this.playfield.blocks[columnIndex];
-	for (rowIndex in column) {
-	    block = this.playfield.getBlock(columnIndex, rowIndex);
-	    if (block !== undefined) {
-		connectedBlocks = this.playfield.getConnectedBlocks(columnIndex, rowIndex);
-		if (connectedBlocks.length > 1) {
-		    return true;
-		}
+    for (columnIndex = 0; columnIndex < this.playfield.columns; columnIndex++) {
+	for (rowIndex = 0; rowIndex < this.playfield.rows; rowIndex++) {
+	    connectedBlocks = this.playfield.getConnectedBlocks(columnIndex, rowIndex);
+	    if (connectedBlocks.length > 1) {
+		return true;
 	    }
 	}
     }
@@ -266,12 +356,12 @@ Clickomania.AsciiView = function(game) {
 Clickomania.AsciiView.prototype.drawPlayfield = function(playfieldId) {
     var playfieldElement, column, row;
     playfieldElement = $(playfieldId);
-    this.game.playfield.blocks.forEach(function(column) {
-	column.forEach(function(block) {
+    for (column = 0; column < playfield.columns; column++) {
+	for (row = 0; row < playfield.rows; row++) {
 	    playfieldElement.append(block.type);
-	});
+	}
 	playfieldElement.append('<br>');
-    });
+    }
 };
 
 Clickomania.ArrayUtilies = {};
@@ -325,35 +415,47 @@ Clickomania.CanvasView.prototype.handleClicks = function(event) {
     var canvasX = event.clientX - this.canvas.offsetLeft;
     var canvasY = event.clientY - this.canvas.offsetTop;
     var colRow = this.coordinatesToCell(canvasX, canvasY);
-    console.log("clicked x: " + canvasX + " y: " + canvasY);
-    console.log("remove connected at col: " + colRow[0] + " row: " + colRow[1]);
-    this.game.removeConnectedBlocks(colRow[0], colRow[1]);
-    this.game.dropBlocks();
-    this.game.playfield.compactAndCenter();
-    TestUtilities.printPlayfield(this.game.playfield);
+    this.game.click(colRow[0], colRow[1]);
     this.drawPlayfield();
 };
 
-Clickomania.CanvasView.prototype.drawColumn = function(column, columnIndex) {
+Clickomania.CanvasView.prototype.coordinatesToCell = function(x, y) {
+    var column = Math.floor(x / this.blockWidth);
+    var row = Math.floor(y / this.blockHeight);
+    return [column, row];
+};
+
+Clickomania.CanvasView.prototype.getUpperLeftForCell = function(columnIndex, rowIndex) {
+    var upperLeft, lowerRight;
+    upperLeft = [columnIndex * this.blockHeight, rowIndex * this.blockWidth]
+    return upperLeft;
+};
+
+Clickomania.CanvasView.prototype.getColor = function(type) {
+    var v = 100 + type * 8;
+    return "rgb(" + 20 + "," + v + "," + v + ")";
+};
+
+Clickomania.CanvasView.prototype.drawColumn = function(columnIndex) {
     var this_ = this;
     var blockCoordinates;
-    var colors = ["red", "blue", "yellow", "black", "green"];
     var color;
-    column.forEach(function(block, rowIndex) {
+    var rowIndex;
+    for (var rowIndex = 0; rowIndex < this.game.playfield.rows; rowIndex++) {
+	block = this.game.playfield.getBlock(columnIndex, rowIndex);
 	if (typeof block === 'undefined') {
 	    color = "gray";
 	} else {
-	    color = colors[block.type];
+	    color = this.getColor(block.type);
 	}
 	blockCoordinates = this_.getUpperLeftForCell(columnIndex, rowIndex);
 	this_.context.fillStyle = color;
 	this_.context.fillRect(blockCoordinates[0],blockCoordinates[1], this_.blockWidth, this_.blockHeight);
-    });
+    };
 };
 
 Clickomania.CanvasView.prototype.drawPlayfield = function() {
-    var this_ = this;
-    this.game.playfield.blocks.forEach(function(column, columnIndex) {
-	this_.drawColumn(column, columnIndex);
-    });
+    for (var columnIndex = 0; columnIndex < this.game.playfield.columns; columnIndex++) {
+	this.drawColumn(columnIndex);
+    };
 };
