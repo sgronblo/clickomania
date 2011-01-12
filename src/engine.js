@@ -258,9 +258,14 @@ Clickomania.Game.prototype.dropColumn = function(column) {
 
 Clickomania.Game.prototype.dropBlocks = function() {
     var columnIndex;
+    var dropped, test;
     for (columnIndex = 0; columnIndex < this.playfield.columns; columnIndex++) {
-	this.dropColumn(columnIndex);
+	test = this.dropColumn(columnIndex);
+	if (dropped === false && test === true) {
+	    dropped === true;
+	}
     }
+    return true;
 };
 
 Clickomania.Game.prototype.autoPlay = function() {
