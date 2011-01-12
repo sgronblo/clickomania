@@ -266,12 +266,12 @@ Clickomania.AsciiView = function(game) {
 Clickomania.AsciiView.prototype.drawPlayfield = function(playfieldId) {
     var playfieldElement, column, row;
     playfieldElement = $(playfieldId);
-    this.game.playfield.blocks.forEach(function(column) {
-	column.forEach(function(block) {
+    for (column = 0; column < playfield.columns; column++) {
+	for (row = 0; row < playfield.rows; row++) {
 	    playfieldElement.append(block.type);
-	});
+	}
 	playfieldElement.append('<br>');
-    });
+    }
 };
 
 Clickomania.ArrayUtilies = {};
