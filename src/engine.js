@@ -222,8 +222,9 @@ Clickomania.Game.prototype.removeConnectedBlocks = function(column, row) {
 	connectedBlocks.forEach(function(block) {
 	    this_.playfield.removeBlock(block.column, block.row);
 	});
+	return connectedBlocks.length;
     }
-    return connectedBlocks.length;
+    return 0;
 };
 
 Clickomania.Game.prototype.dropColumn = function(column) {
