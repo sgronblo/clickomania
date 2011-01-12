@@ -268,9 +268,13 @@ Clickomania.Game.prototype.dropBlocks = function() {
     return true;
 };
 
-Clickomania.Game.prototype.autoPlay = function() {
+Clickomania.Game.prototype.autoPlay = function(likeWho) {
     if (this.hasMoreMoves()) {
-	this.clickLikeAMadman();
+	if(likeWho === 'Jed') {
+	    this.clickLikeAMadman(this.playfield.columns - 1, this.playfield.rows - 1);
+	} else {
+	    this.clickLikeAMadman();
+	}
     }
 };
 
@@ -279,26 +283,31 @@ Clickomania.Game.prototype.advanceState = function() {
     this.playfield.compactAndCenter();
 }
 
-Clickomania.Game.prototype.clickLikeAMadman = function() {
-    var rowIndex = this.playfield.rows - 1;
-    var columnIndex = this.playfield.columns - 1;
+Clickomania.Game.prototype.clickLikeAJedMan = function(columnIndex, rowIndex) {
+    function timeNewRound(columnIndex, rowIndex){
+	if (this.hasMoreMoves()) {
+	    setTimeout(this.clickLikeAMadman.bind(this, columnIndex, rowIndex), 50);
+	} else {
+	    console.log("couldn't find any more moves so I'll stop");
+	}
+    };
     var clickChangedPlayField = false;
     while (!clickChangedPlayField && rowIndex >= 0) {
 	while (!clickChangedPlayField && columnIndex >= 0) {
 	    if (typeof this.playfield.getBlock(columnIndex, rowIndex) !== 'undefined') {
 		clickChangedPlayField = this.click(columnIndex, rowIndex);
+		if(clickChangedPlayField) {
+		    canvas.drawPlayfield();
+		    timeNewRound.call(this, columnIndex, rowIndex);
+		    return;
+		}
 	    }
 	    columnIndex -= 1;
 	}
 	columnIndex = this.playfield.columns - 1;
 	rowIndex -= 1;
     }
-    canvas.drawPlayfield();
-    if (this.hasMoreMoves()) {
-	setTimeout(this.clickLikeAMadman.bind(this), 50);
-    } else {
-	console.log("couldn't find any more moves so I'll stop");
-    }
+    timeNewRound.call(this, this.playfield.columns - 1, this.playfield.rows - 1);
 };
 
 Clickomania.Game.prototype.hasMoreMoves = function() {
