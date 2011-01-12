@@ -4,6 +4,20 @@ if (typeof exports != 'undefined') {
     exports.Clickomania = Clickomania;
 }
 
+StringUtilities = {
+    startsWith: function(string, prefix) {
+	return string.lastIndexOf(prefix, 0) === 0;
+    },
+    sprintf: function(formatString) {
+	var outerValues = arguments;
+	var replaceValue = function(match) {
+	    var valueIndex = match.substr(1);
+	    return outerValues[valueIndex];
+	}
+	return formatString.replace(/%\d+/g, replaceValue);
+    }
+};
+
 Clickomania.Playfield = function(columns, rows) {
     this.columns = columns;
     this.rows = rows;
@@ -198,12 +212,12 @@ Clickomania.Game.prototype.fillPlayfield = function() {
 Clickomania.Game.prototype.removeConnectedBlocks = function(column, row) {
     var connectedBlocks, this_ = this;
     connectedBlocks = this.playfield.getConnectedBlocks(column, row);
-    if (connectedBlocks.length < 2) {
-	return;
+    if (connectedBlocks.length > 1) {
+	connectedBlocks.forEach(function(block) {
+	    this_.playfield.removeBlock(block.column, block.row);
+	});
     }
-    connectedBlocks.forEach(function(block) {
-	this_.playfield.removeBlock(block.column, block.row);
-    });
+    return connectedBlocks.length;
 };
 
 Clickomania.Game.prototype.dropColumn = function(column) {
@@ -247,15 +261,11 @@ Clickomania.Game.prototype.hasMoreMoves = function() {
     var rowIndex;
     var block;
     var column;
-    for (columnIndex in this.playfield.blocks) {
-	column = this.playfield.blocks[columnIndex];
-	for (rowIndex in column) {
-	    block = this.playfield.getBlock(columnIndex, rowIndex);
-	    if (block !== undefined) {
-		connectedBlocks = this.playfield.getConnectedBlocks(columnIndex, rowIndex);
-		if (connectedBlocks.length > 1) {
-		    return true;
-		}
+    for (columnIndex = 0; columnIndex < this.playfield.columns; columnIndex++) {
+	for (rowIndex = 0; rowIndex < this.playfield.rows; rowIndex++) {
+	    connectedBlocks = this.playfield.getConnectedBlocks(columnIndex, rowIndex);
+	    if (connectedBlocks.length > 1) {
+		return true;
 	    }
 	}
     }
