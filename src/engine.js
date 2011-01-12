@@ -255,6 +255,11 @@ Clickomania.Game.prototype.dropBlocks = function() {
     }
 };
 
+Clickomania.Game.prototype.advanceState = function() {
+    this.dropBlocks();
+    this.playfield.compactAndCenter();
+}
+
 Clickomania.Game.prototype.hasMoreMoves = function() {
     var connectedBlocks;
     var columnIndex;
@@ -324,12 +329,8 @@ Clickomania.CanvasView.prototype.handleClicks = function(event) {
     var canvasX = event.clientX - this.canvas.offsetLeft;
     var canvasY = event.clientY - this.canvas.offsetTop;
     var colRow = this.coordinatesToCell(canvasX, canvasY);
-    console.log("clicked x: " + canvasX + " y: " + canvasY);
-    console.log("remove connected at col: " + colRow[0] + " row: " + colRow[1]);
     this.game.removeConnectedBlocks(colRow[0], colRow[1]);
-    this.game.dropBlocks();
-    this.game.playfield.compactAndCenter();
-    TestUtilities.printPlayfield(this.game.playfield);
+    this.game.advanceState();
     this.drawPlayfield();
 };
 
