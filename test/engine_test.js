@@ -118,6 +118,18 @@ Assert = {
 	var rowIndex, columnIndex;
 	var expectedType, actualBlock;
 	var asciiRows = Array.prototype.slice.call(arguments, 1);
+	if (asciiRows[0].length !== playfield.blocks.length) {
+	    throw {
+		message: "Expected rows to have a length of " + asciiRows[0].length + " but was " + playfield.blocks.length,
+		stack: new Error().stack
+	    }
+	}
+	if (asciiRows.length !== playfield.blocks[0].length) {
+	    throw {
+		message: "Expected columns to have a height of " + asciiRows.length + " but was " + playfield.blocks[0].length,
+		stack: new Error().stack
+	    }
+	}
 	for (columnIndex = 0; columnIndex < playfield.columns; columnIndex++) {
 	    for (rowIndex = 0; rowIndex < playfield.rows; rowIndex++) {
 		expectedType = asciiRows[rowIndex][columnIndex];
