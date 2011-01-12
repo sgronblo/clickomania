@@ -255,10 +255,39 @@ Clickomania.Game.prototype.dropBlocks = function() {
     }
 };
 
+Clickomania.Game.prototype.autoPlay = function() {
+    if (this.hasMoreMoves()) {
+	this.clickLikeAMadman();
+    }
+};
+
 Clickomania.Game.prototype.advanceState = function() {
     this.dropBlocks();
     this.playfield.compactAndCenter();
 }
+
+Clickomania.Game.prototype.clickLikeAMadman = function() {
+    var rowIndex = this.playfield.rows - 1;
+    var columnIndex = this.playfield.columns - 1;
+    var removedBlocks = 0;
+    while (rowIndex >= 0 && removedBlocks < 2) {
+	while (columnIndex >= 0 && removedBlocks < 2) {
+	    if (typeof this.playfield.getBlock(columnIndex, rowIndex) !== 'undefined') {
+		removedBlocks = this.removeConnectedBlocks(columnIndex, rowIndex);
+	    }
+	    columnIndex -= 1;
+	}
+	columnIndex = this.playfield.columns - 1;
+	rowIndex -= 1;
+    }
+    this.advanceState();
+    canvas.drawPlayfield();
+    if (this.hasMoreMoves()) {
+	setTimeout(this.clickLikeAMadman.bind(this), 50);
+    } else {
+	console.log("couldn't find any more moves so I'll stop");
+    }
+};
 
 Clickomania.Game.prototype.hasMoreMoves = function() {
     var connectedBlocks;
