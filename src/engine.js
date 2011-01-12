@@ -206,7 +206,7 @@ Clickomania.Game = function(playfield) {
 };
 
 Clickomania.Game.prototype.fillPlayfield = function() {
-    this.playfield.fillWithBlocks(5);
+    this.playfield.fillWithBlocks(10);
 };
 
 Clickomania.Game.prototype.removeConnectedBlocks = function(column, row) {
@@ -309,7 +309,6 @@ Clickomania.ArrayUtilies.complement = function complement(all, some) {
 
 Clickomania.CanvasView = function(width, height, playfieldId, game) {
     this.width = width;
-    this.colors = ["red", "blue", "yellow", "black", "green"];
     this.height = height;
     this.game = game;
     this.canvas = document.getElementById(playfieldId);
@@ -346,6 +345,11 @@ Clickomania.CanvasView.prototype.getUpperLeftForCell = function(columnIndex, row
     return upperLeft;
 };
 
+Clickomania.CanvasView.prototype.getColor = function(type) {
+    var v = 100 + type * 8;
+    return "rgb(" + 20 + "," + v + "," + v + ")";
+};
+
 Clickomania.CanvasView.prototype.drawColumn = function(columnIndex) {
     var this_ = this;
     var blockCoordinates;
@@ -356,7 +360,7 @@ Clickomania.CanvasView.prototype.drawColumn = function(columnIndex) {
 	if (typeof block === 'undefined') {
 	    color = "gray";
 	} else {
-	    color = this.colors[block.type];
+	    color = this.getColor(block.type);
 	}
 	blockCoordinates = this_.getUpperLeftForCell(columnIndex, rowIndex);
 	this_.context.fillStyle = color;
