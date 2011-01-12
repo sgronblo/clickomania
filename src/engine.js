@@ -124,6 +124,9 @@ Clickomania.Playfield.prototype.getConnectedBlocks = function(column, row) {
 Clickomania.Playfield.prototype.getConnectedBlocks_ = function(column, row, counter) {
     var block, neighbours, connected = [], this_ = this;
     block = this.getBlock(column, row);
+    if (typeof block === 'undefined') {
+	return [];
+    }
     block.roundCounter = counter;
     connected.push(block);
     neighbours = this.getNeighbours(column, row);
