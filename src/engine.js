@@ -271,7 +271,7 @@ Clickomania.Game.prototype.dropBlocks = function() {
 Clickomania.Game.prototype.autoPlay = function(likeWho) {
     if (this.hasMoreMoves()) {
 	if(likeWho === 'Jed') {
-	    this.clickLikeAMadman(this.playfield.columns - 1, this.playfield.rows - 1);
+	    this.clickLikeAJedMan(this.playfield.columns - 1, this.playfield.rows - 1);
 	} else {
 	    this.clickLikeAMadman();
 	}
@@ -286,9 +286,9 @@ Clickomania.Game.prototype.advanceState = function() {
 Clickomania.Game.prototype.clickLikeAJedMan = function(columnIndex, rowIndex) {
     function timeNewRound(columnIndex, rowIndex){
 	if (this.hasMoreMoves()) {
-	    setTimeout(this.clickLikeAMadman.bind(this, columnIndex, rowIndex), 50);
+	    setTimeout(this.clickLikeAJedMan.bind(this, columnIndex, rowIndex), 50);
 	} else {
-	    console.log("couldn't find any more moves so I'll stop");
+	    console.log("'Couldn't find any more moves so I'll stop', said Jed");
 	}
     };
     var clickChangedPlayField = false;
