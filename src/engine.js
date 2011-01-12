@@ -296,6 +296,7 @@ Clickomania.ArrayUtilies.complement = function complement(all, some) {
 
 Clickomania.CanvasView = function(width, height, playfieldId, game) {
     this.width = width;
+    this.colors = ["red", "blue", "yellow", "black", "green"];
     this.height = height;
     this.game = game;
     this.canvas = document.getElementById(playfieldId);
@@ -335,7 +336,6 @@ Clickomania.CanvasView.prototype.getUpperLeftForCell = function(columnIndex, row
 Clickomania.CanvasView.prototype.drawColumn = function(columnIndex) {
     var this_ = this;
     var blockCoordinates;
-    var colors = ["red", "blue", "yellow", "black", "green"];
     var color;
     var rowIndex;
     for (var rowIndex = 0; rowIndex < this.game.playfield.rows; rowIndex++) {
@@ -343,7 +343,7 @@ Clickomania.CanvasView.prototype.drawColumn = function(columnIndex) {
 	if (typeof block === 'undefined') {
 	    color = "gray";
 	} else {
-	    color = colors[block.type];
+	    color = this.colors[block.type];
 	}
 	blockCoordinates = this_.getUpperLeftForCell(columnIndex, rowIndex);
 	this_.context.fillStyle = color;
