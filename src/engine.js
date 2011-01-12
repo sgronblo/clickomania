@@ -332,12 +332,14 @@ Clickomania.CanvasView.prototype.getUpperLeftForCell = function(columnIndex, row
     return upperLeft;
 };
 
-Clickomania.CanvasView.prototype.drawColumn = function(column, columnIndex) {
+Clickomania.CanvasView.prototype.drawColumn = function(columnIndex) {
     var this_ = this;
     var blockCoordinates;
     var colors = ["red", "blue", "yellow", "black", "green"];
     var color;
-    column.forEach(function(block, rowIndex) {
+    var rowIndex;
+    for (var rowIndex = 0; rowIndex < this.game.playfield.rows; rowIndex++) {
+	block = this.game.playfield.getBlock(columnIndex, rowIndex);
 	if (typeof block === 'undefined') {
 	    color = "gray";
 	} else {
@@ -346,12 +348,11 @@ Clickomania.CanvasView.prototype.drawColumn = function(column, columnIndex) {
 	blockCoordinates = this_.getUpperLeftForCell(columnIndex, rowIndex);
 	this_.context.fillStyle = color;
 	this_.context.fillRect(blockCoordinates[0],blockCoordinates[1], this_.blockWidth, this_.blockHeight);
-    });
+    };
 };
 
 Clickomania.CanvasView.prototype.drawPlayfield = function() {
-    var this_ = this;
-    this.game.playfield.blocks.forEach(function(column, columnIndex) {
-	this_.drawColumn(column, columnIndex);
-    });
+    for (var columnIndex = 0; columnIndex < this.game.playfield.columns; columnIndex++) {
+	this.drawColumn(columnIndex);
+    };
 };
