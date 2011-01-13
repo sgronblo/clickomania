@@ -4,6 +4,18 @@ if (typeof exports != 'undefined') {
     exports.Clickomania = Clickomania;
 }
 
+if (typeof Function.prototype.bind === 'undefined') {
+    Function.prototype.bind = function() {
+	var boundFunction = this;
+	var functionArgs = Array.prototype.slice.call(arguments);
+	var thisObject = functionArgs.shift();
+	return function() {
+	    var combinedArgs = functionArgs.concat(Array.prototype.slice.call(arguments));
+	    return boundFunction.apply(thisObject, combinedArgs);
+	};
+    };
+}
+
 StringUtilities = {
     startsWith: function(string, prefix) {
 	return string.lastIndexOf(prefix, 0) === 0;
