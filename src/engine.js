@@ -456,7 +456,7 @@ var Clickomania = (function() {
 	for (var rowIndex = 0; rowIndex < this.game.playfield.rows; rowIndex++) {
 	    block = this.game.playfield.getBlock(columnIndex, rowIndex);
 	    if (typeof block === 'undefined') {
-		color = "gray";
+		color = "black";
 	    } else {
 		color = this.getColor(block.type);
 	    }
@@ -468,8 +468,8 @@ var Clickomania = (function() {
 
     CanvasView.prototype.drawBlocksLeft = function(blocksLeft) {
 	this.context.textBaseline = 'top';
+	this.context.strokeStyle = 'white';
 	this.context.strokeText(blocksLeft + " blocks left", 10, 10);
-	this.context.fillStyle = 'black';
     };
 
     CanvasView.prototype.drawPlayfield = function() {
