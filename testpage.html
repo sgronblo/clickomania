@@ -18,7 +18,7 @@
 	    $(document).ready(function () {
 		game = new Clickomania.Game(new Clickomania.Playfield(25, 25));
 		game.fillPlayfield();
-		canvas = new Clickomania.CanvasView(500, 500, $('#playfield-canvas'), game);
+		canvas = new Clickomania.CanvasView(500, 500, document.getElementById('playfield-canvas'), game);
 		canvas.drawPlayfield();
 	    });
 	</script>
