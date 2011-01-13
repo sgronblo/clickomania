@@ -449,7 +449,6 @@ Clickomania.CanvasView.prototype.getColor = function(type) {
 };
 
 Clickomania.CanvasView.prototype.drawColumn = function(columnIndex) {
-    var this_ = this;
     var blockCoordinates;
     var color;
     var rowIndex;
@@ -460,9 +459,9 @@ Clickomania.CanvasView.prototype.drawColumn = function(columnIndex) {
 	} else {
 	    color = this.getColor(block.type);
 	}
-	blockCoordinates = this_.getUpperLeftForCell(columnIndex, rowIndex);
-	this_.context.fillStyle = color;
-	this_.context.fillRect(blockCoordinates[0],blockCoordinates[1], this_.blockWidth, this_.blockHeight);
+	blockCoordinates = CanvasUtilities.getUpperLeftForCell(columnIndex, rowIndex, this.blockWidth, this.blockHeight);
+	this.context.fillStyle = color;
+	this.context.fillRect(blockCoordinates[0],blockCoordinates[1], this.blockWidth, this.blockHeight);
     };
 };
 
