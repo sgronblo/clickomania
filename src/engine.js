@@ -1,9 +1,3 @@
-var Clickomania = {};
-
-if (typeof exports != 'undefined') {
-    exports.Clickomania = Clickomania;
-}
-
 if (typeof Function.prototype.bind === 'undefined') {
     Function.prototype.bind = function() {
 	var boundFunction = this;
@@ -30,7 +24,7 @@ StringUtilities = {
     }
 };
 
-Clickomania.Playfield = function(columns, rows) {
+Playfield = function(columns, rows) {
     this.columns = columns;
     this.rows = rows;
     this.column;
@@ -42,7 +36,7 @@ Clickomania.Playfield = function(columns, rows) {
     this.counter = 0;
 };
 
-Clickomania.Playfield.fromAscii = function() {
+Playfield.fromAscii = function() {
     //assert all rows are the same length
     var firstRowLength = arguments[0].length;
     var argumentAmount = arguments.length;
@@ -50,7 +44,7 @@ Clickomania.Playfield.fromAscii = function() {
     var rowLength;
     var rowIndex;
     var columnIndex;
-    var newPlayfield = new Clickomania.Playfield(firstRowLength, argumentAmount);
+    var newPlayfield = new Playfield(firstRowLength, argumentAmount);
     var type;
     for (rowIndex = 0; rowIndex < argumentAmount; rowIndex += 1) {
 	rowString = arguments[rowIndex];
@@ -58,7 +52,7 @@ Clickomania.Playfield.fromAscii = function() {
 	for (columnIndex = 0; columnIndex < rowLength; columnIndex += 1) {
 	    type = rowString[columnIndex];
 	    if (type !== ' ') {
-		var newBlock = new Clickomania.Block(rowString[columnIndex]);
+		var newBlock = new Block(rowString[columnIndex]);
 		newPlayfield.putBlock(columnIndex, rowIndex, newBlock);
 	    }
 	}
@@ -66,18 +60,18 @@ Clickomania.Playfield.fromAscii = function() {
     return newPlayfield;
 };
 
-Clickomania.Playfield.prototype.fillWithBlocks = function(numBlockType) {
+Playfield.prototype.fillWithBlocks = function(numBlockType) {
     var column, row, newBlock, randomBlockType;
     for (column = 0; column < this.columns; column += 1) {
 	for (row = 0; row < this.rows; row += 1) {
 	    randomBlockType = Math.floor(Math.random() * numBlockType);
-	    newBlock = new Clickomania.Block(randomBlockType);
+	    newBlock = new Block(randomBlockType);
 	    this.putBlock(column, row, newBlock);
 	}
     }
 };
 
-Clickomania.Playfield.prototype.getBlock = function(column, row) {
+Playfield.prototype.getBlock = function(column, row) {
     var block;
     block = this.blocks[column][row];
     if (block === undefined) {
@@ -88,7 +82,7 @@ Clickomania.Playfield.prototype.getBlock = function(column, row) {
     return block;
 };
 
-Clickomania.Playfield.prototype.getRowString = function(row) {
+Playfield.prototype.getRowString = function(row) {
     var col, rowString = "[", block;
     for (col = 0; col < this.columns; col++) {
 	block = this.getBlock(col, row);
@@ -101,11 +95,11 @@ Clickomania.Playfield.prototype.getRowString = function(row) {
     return rowString + "]";
 };
 
-Clickomania.Playfield.prototype.putBlock = function(column, row, block) {
+Playfield.prototype.putBlock = function(column, row, block) {
     this.blocks[column][row] = block;
 };
 
-Clickomania.Playfield.prototype.clear = function() {
+Playfield.prototype.clear = function() {
     var column, row;
     for (column = 0; column < this.columns; column++) {
 	for (row = 0; row < this.rows; row++) {
@@ -114,13 +108,13 @@ Clickomania.Playfield.prototype.clear = function() {
     }
 };
 
-Clickomania.Playfield.prototype.removeBlock = function(column, row) {
+Playfield.prototype.removeBlock = function(column, row) {
     var block = this.blocks[column][row];
     this.blocks[column][row] = undefined;
     return block;
 };
 
-Clickomania.Playfield.prototype.getNeighbours = function(column, row) {
+Playfield.prototype.getNeighbours = function(column, row) {
     var previousRow, previousColumn, nextColumn, nextRow, neighbours = [];
     previousRow = row - 1;
     previousColumn = column - 1;
@@ -141,13 +135,13 @@ Clickomania.Playfield.prototype.getNeighbours = function(column, row) {
     return neighbours;
 };
 
-Clickomania.Playfield.prototype.getConnectedBlocks = function(column, row) {
+Playfield.prototype.getConnectedBlocks = function(column, row) {
     this.counter += 1;
     var connectedBlocks = this.getConnectedBlocks_(column, row, this.counter);
     return connectedBlocks;
 };
 
-Clickomania.Playfield.prototype.getConnectedBlocks_ = function(column, row, counter) {
+Playfield.prototype.getConnectedBlocks_ = function(column, row, counter) {
     var block, neighbours, connected = [], this_ = this;
     block = this.getBlock(column, row);
     if (typeof block === 'undefined') {
@@ -164,9 +158,9 @@ Clickomania.Playfield.prototype.getConnectedBlocks_ = function(column, row, coun
     return connected;
 };
 
-Clickomania.Playfield.prototype.compactAndCenter = function() {
+Playfield.prototype.compactAndCenter = function() {
     var columnsWithBlocks = this.getColumnsWithBlocks();
-    var columnsWithoutBlocks = Clickomania.ArrayUtilies.complement(this.blocks, columnsWithBlocks);
+    var columnsWithoutBlocks = ArrayUtilies.complement(this.blocks, columnsWithBlocks);
     var emptyColumnAmount = columnsWithoutBlocks.length;
     var left = Math.ceil(emptyColumnAmount / 2);
     var right = this.columns - 1 - (emptyColumnAmount - left);
@@ -180,14 +174,14 @@ Clickomania.Playfield.prototype.compactAndCenter = function() {
     }
 };
 
-Clickomania.Playfield.prototype.clearColumn = function(column) {
+Playfield.prototype.clearColumn = function(column) {
     var rowIndex;
     for (rowIndex = 0; rowIndex < this.rows; rowIndex++) {
 	this.removeBlock(column, rowIndex);
     }
 };
 
-Clickomania.Playfield.prototype.getColumnsWithBlocks = function() {
+Playfield.prototype.getColumnsWithBlocks = function() {
     var column;
     var columnsWithBlocks = [];
     for (column = 0; column < this.columns; column++) {
@@ -198,7 +192,7 @@ Clickomania.Playfield.prototype.getColumnsWithBlocks = function() {
     return columnsWithBlocks;
 };
 
-Clickomania.Playfield.prototype.columnHasBlocks = function(columnIndex) {
+Playfield.prototype.columnHasBlocks = function(columnIndex) {
     var rowIndex;
     for (rowIndex = 0; rowIndex < this.rows; rowIndex++) {
 	if (typeof this.getBlock(columnIndex, rowIndex) !== "undefined") {
@@ -208,26 +202,26 @@ Clickomania.Playfield.prototype.columnHasBlocks = function(columnIndex) {
     return false;
 };
 
-Clickomania.Block = function(type) {
+Block = function(type) {
     this.type = type;
     this.roundCounter = 0;
 };
 
-Clickomania.Game = function(playfield) {
+Game = function(playfield) {
     this.playfield = playfield;
 };
 
-Clickomania.Game.prototype.click = function(column, row) {
+Game.prototype.click = function(column, row) {
     var removedBlocksCount = this.removeConnectedBlocks(column, row);
     this.advanceState();
     return removedBlocksCount > 0;
 };
 
-Clickomania.Game.prototype.fillPlayfield = function() {
+Game.prototype.fillPlayfield = function() {
     this.playfield.fillWithBlocks(10);
 };
 
-Clickomania.Game.prototype.removeConnectedBlocks = function(column, row) {
+Game.prototype.removeConnectedBlocks = function(column, row) {
     var connectedBlocks, this_ = this;
     connectedBlocks = this.playfield.getConnectedBlocks(column, row);
     if (connectedBlocks.length > 1) {
@@ -239,7 +233,7 @@ Clickomania.Game.prototype.removeConnectedBlocks = function(column, row) {
     return 0;
 };
 
-Clickomania.Game.prototype.dropColumn = function(column) {
+Game.prototype.dropColumn = function(column) {
     // the row on which the next found block should be added
     var pileTopIndex;
     var rowIndex = this.playfield.rows - 1;
@@ -260,7 +254,7 @@ Clickomania.Game.prototype.dropColumn = function(column) {
     for (rowIndex; rowIndex >= 0; rowIndex--) {
 	blockToMove = this.playfield.getBlock(column, rowIndex);
 	if (typeof blockToMove !== 'undefined') {
-	    this.playfield.putBlock(column, pileTopIndex, new Clickomania.Block(blockToMove.type));
+	    this.playfield.putBlock(column, pileTopIndex, new Block(blockToMove.type));
 	    this.playfield.removeBlock(column, rowIndex);
 	    pileTopIndex -= 1;
 	}
@@ -268,7 +262,7 @@ Clickomania.Game.prototype.dropColumn = function(column) {
     return true;
 };
 
-Clickomania.Game.prototype.dropBlocks = function() {
+Game.prototype.dropBlocks = function() {
     var columnIndex;
     var dropped, test;
     for (columnIndex = 0; columnIndex < this.playfield.columns; columnIndex++) {
@@ -280,7 +274,7 @@ Clickomania.Game.prototype.dropBlocks = function() {
     return true;
 };
 
-Clickomania.Game.prototype.autoPlay = function(likeWho) {
+Game.prototype.autoPlay = function(likeWho) {
     if (this.hasMoreMoves()) {
 	if(likeWho === 'Jed') {
 	    this.clickLikeAJedMan(this.playfield.columns - 1, this.playfield.rows - 1);
@@ -290,12 +284,12 @@ Clickomania.Game.prototype.autoPlay = function(likeWho) {
     }
 };
 
-Clickomania.Game.prototype.advanceState = function() {
+Game.prototype.advanceState = function() {
     this.dropBlocks();
     this.playfield.compactAndCenter();
 }
 
-Clickomania.Game.prototype.clickLikeAMadman = function() {
+Game.prototype.clickLikeAMadman = function() {
     var rowIndex = this.playfield.rows - 1;
     var columnIndex = this.playfield.columns - 1;
     var clickChangedPlayField = false;
@@ -317,7 +311,7 @@ Clickomania.Game.prototype.clickLikeAMadman = function() {
     }
 };
 
-Clickomania.Game.prototype.clickLikeAJedMan = function(columnIndex, rowIndex) {
+Game.prototype.clickLikeAJedMan = function(columnIndex, rowIndex) {
     function timeNewRound(columnIndex, rowIndex){
 	if (this.hasMoreMoves()) {
 	    setTimeout(this.clickLikeAJedMan.bind(this, columnIndex, rowIndex), 50);
@@ -344,7 +338,7 @@ Clickomania.Game.prototype.clickLikeAJedMan = function(columnIndex, rowIndex) {
     timeNewRound.call(this, this.playfield.columns - 1, this.playfield.rows - 1);
 };
 
-Clickomania.Game.prototype.hasMoreMoves = function() {
+Game.prototype.hasMoreMoves = function() {
     var connectedBlocks;
     var columnIndex;
     var rowIndex;
@@ -361,11 +355,11 @@ Clickomania.Game.prototype.hasMoreMoves = function() {
     return false;
 };
 
-Clickomania.AsciiView = function(game) {
+AsciiView = function(game) {
     this.game = game;
 };
 
-Clickomania.AsciiView.prototype.drawPlayfield = function(playfieldId) {
+AsciiView.prototype.drawPlayfield = function(playfieldId) {
     var playfieldElement, column, row;
     playfieldElement = $(playfieldId);
     for (column = 0; column < playfield.columns; column++) {
@@ -376,9 +370,9 @@ Clickomania.AsciiView.prototype.drawPlayfield = function(playfieldId) {
     }
 };
 
-Clickomania.ArrayUtilies = {};
+ArrayUtilies = {};
 
-Clickomania.ArrayUtilies.complement = function complement(all, some) {
+ArrayUtilies.complement = function complement(all, some) {
     var elementsNotInSome = [];
     var allIndex, someIndex;
     var found;
@@ -396,7 +390,7 @@ Clickomania.ArrayUtilies.complement = function complement(all, some) {
     return elementsNotInSome;
 };
 
-Clickomania.CanvasUtilities = {
+CanvasUtilities = {
     coordinatesToCell: function(x, y, blockWidth, blockHeight) {
 	var column = Math.floor(x / blockWidth);
 	var row = Math.floor(y / blockHeight);
@@ -410,7 +404,7 @@ Clickomania.CanvasUtilities = {
 };
 
 
-Clickomania.CanvasView = function(width, height, canvas, game) {
+CanvasView = function(width, height, canvas, game) {
     this.width = width;
     this.height = height;
     this.game = game;
@@ -423,32 +417,20 @@ Clickomania.CanvasView = function(width, height, canvas, game) {
     this.blockWidth = height / game.playfield.columns;
 };
 
-Clickomania.CanvasView.prototype.handleClicks = function(event) {
+CanvasView.prototype.handleClicks = function(event) {
     var canvasX = event.clientX - this.canvas.offsetLeft;
     var canvasY = event.clientY - this.canvas.offsetTop;
-    var colRow = this.coordinatesToCell(canvasX, canvasY);
+    var colRow = CanvasUtilities.coordinatesToCell(canvasX, canvasY, this.blockWidth, this.blockHeight);
     this.game.click(colRow[0], colRow[1]);
     this.drawPlayfield();
 };
 
-Clickomania.CanvasView.prototype.coordinatesToCell = function(x, y) {
-    var column = Math.floor(x / this.blockWidth);
-    var row = Math.floor(y / this.blockHeight);
-    return [column, row];
-};
-
-Clickomania.CanvasView.prototype.getUpperLeftForCell = function(columnIndex, rowIndex) {
-    var upperLeft, lowerRight;
-    upperLeft = [columnIndex * this.blockHeight, rowIndex * this.blockWidth]
-    return upperLeft;
-};
-
-Clickomania.CanvasView.prototype.getColor = function(type) {
+CanvasView.prototype.getColor = function(type) {
     var v = 100 + type * 8;
     return "rgb(" + 20 + "," + v + "," + v + ")";
 };
 
-Clickomania.CanvasView.prototype.drawColumn = function(columnIndex) {
+CanvasView.prototype.drawColumn = function(columnIndex) {
     var blockCoordinates;
     var color;
     var rowIndex;
@@ -465,8 +447,19 @@ Clickomania.CanvasView.prototype.drawColumn = function(columnIndex) {
     };
 };
 
-Clickomania.CanvasView.prototype.drawPlayfield = function() {
+CanvasView.prototype.drawPlayfield = function() {
     for (var columnIndex = 0; columnIndex < this.game.playfield.columns; columnIndex++) {
 	this.drawColumn(columnIndex);
     };
 };
+
+var Clickomania = {
+    CanvasView: CanvasView,
+    Playfield: Playfield,
+    Block: Block,
+    Game: Game
+};
+
+if (typeof exports != 'undefined') {
+    exports.Clickomania = Clickomania;
+}
