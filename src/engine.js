@@ -419,6 +419,14 @@ var Clickomania = (function() {
 	    var upperLeft, lowerRight;
 	    upperLeft = [columnIndex * blockHeight, rowIndex * blockWidth]
 	    return upperLeft;
+	},
+	worldsCrappiestHashFunction: function(number) {
+	    var i;
+	    var temp = number;
+	    for(i = 1; i <= 10; i++) {
+		temp *= 37;
+	    }
+	    return temp;
 	}
     };
 
@@ -445,8 +453,11 @@ var Clickomania = (function() {
     };
 
     CanvasView.prototype.getColor = function(type) {
-	var v = 100 + type * 8;
-	return "rgb(" + 20 + "," + v + "," + v + ")";
+	var hash = CanvasUtilities.worldsCrappiestHashFunction(type);
+	var colorDepth = 16777215
+	var hexString = (hash % colorDepth).toString(16);
+	var rgbString = "rgb(" + parseInt(hexString.slice(0,2),16) + "," + parseInt(hexString.slice(2, 4),16) + "," + parseInt(hexString.slice(4, 6),16) + ")";
+	return rgbString;
     };
 
     CanvasView.prototype.drawColumn = function(columnIndex) {
