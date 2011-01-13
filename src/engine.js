@@ -203,6 +203,20 @@ var Clickomania = (function() {
 	return false;
     };
 
+    Playfield.prototype.getBlocksLeft = function() {
+	var columnIndex;
+	var rowIndex;
+	var blockAmount = 0;
+	for (columnIndex = 0; columnIndex < this.columns; columnIndex++) {
+	    for (rowIndex = 0; rowIndex < this.rows; rowIndex++) {
+		if (typeof this.getBlock(columnIndex, rowIndex) !== 'undefined') {
+		    blockAmount += 1;
+		}
+	    }
+	}
+	return blockAmount;
+    };
+
     Block = function(type) {
 	this.type = type;
 	this.roundCounter = 0;
@@ -216,6 +230,10 @@ var Clickomania = (function() {
 	var removedBlocksCount = this.removeConnectedBlocks(column, row);
 	this.advanceState();
 	return removedBlocksCount > 0;
+    };
+
+    Game.prototype.getBlocksLeft = function() {
+	return this.playfield.getBlocksLeft();
     };
 
     Game.prototype.fillPlayfield = function() {
@@ -448,10 +466,17 @@ var Clickomania = (function() {
 	};
     };
 
+    CanvasView.prototype.drawBlocksLeft = function(blocksLeft) {
+	this.context.textBaseline = 'top';
+	this.context.strokeText(blocksLeft + " blocks left", 10, 10);
+	this.context.fillStyle = 'black';
+    };
+
     CanvasView.prototype.drawPlayfield = function() {
 	for (var columnIndex = 0; columnIndex < this.game.playfield.columns; columnIndex++) {
 	    this.drawColumn(columnIndex);
 	};
+	this.drawBlocksLeft(this.game.getBlocksLeft());
     };
 
     return {
