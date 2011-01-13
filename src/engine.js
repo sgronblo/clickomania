@@ -297,6 +297,8 @@ var Clickomania = (function() {
 	if (this.hasMoreMoves()) {
 	    if(likeWho === 'Jed') {
 		this.clickLikeAJedMan(this.playfield.columns - 1, this.playfield.rows - 1);
+	    } else if (likeWho === 'UpperMad') {
+		this.clickLikeAnUpperMadMan();
 	    } else {
 		this.clickLikeAMadman();
 	    }
@@ -307,6 +309,28 @@ var Clickomania = (function() {
 	this.dropBlocks();
 	this.playfield.compactAndCenter();
     }
+
+    Game.prototype.clickLikeAnUpperMadMan = function() {
+	var rowIndex = 0
+	var columnIndex = 0
+	var clickChangedPlayField = false;
+	while (!clickChangedPlayField && rowIndex < this.playfield.rows) {
+	    while (!clickChangedPlayField && columnIndex < this.playfield.columns) {
+		if (typeof this.playfield.getBlock(columnIndex, rowIndex) !== 'undefined') {
+		    clickChangedPlayField = this.click(columnIndex, rowIndex);
+		}
+		columnIndex += 1;
+	    }
+	    columnIndex = 0;
+	    rowIndex += 1;
+	}
+	canvas.drawPlayfield();
+	if (this.hasMoreMoves()) {
+	    setTimeout(this.clickLikeAMadman.bind(this), 50);
+	} else {
+	    console.log("couldn't find any more moves so I'll stop");
+	}
+    };
 
     Game.prototype.clickLikeAMadman = function() {
 	var rowIndex = this.playfield.rows - 1;
