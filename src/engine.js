@@ -494,6 +494,10 @@ var Clickomania = (function() {
 	this.drawPlayfield();
     };
 
+    CanvasView.prototype.gameChanged = function() {
+	this.drawPlayfield();
+    };
+
     CanvasView.prototype.getColor = function(type) {
 	var hash = CanvasUtilities.worldsCrappiestHashFunction(type);
 	var colorDepth = 16777215

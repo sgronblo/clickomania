@@ -20,6 +20,7 @@
 		game.fillPlayfield();
 		canvas = new Clickomania.CanvasView(500, 500, document.getElementById('playfield-canvas'), game);
 		canvas.drawPlayfield();
+		game.registerEventListener(canvas);
 	    });
 	</script>
     </body>
