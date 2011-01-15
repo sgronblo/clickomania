@@ -235,8 +235,10 @@ var Clickomania = (function() {
 
     Game.prototype.click = function(column, row) {
 	var removedBlocksCount = this.removeConnectedBlocks(column, row);
-	this.advanceState();
-	this.notifyListeners();
+	if (removedBlocksCount > 0) {
+	    this.advanceState();
+	    this.notifyListeners();
+	}
 	return removedBlocksCount > 0;
     };
 
