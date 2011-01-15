@@ -352,28 +352,6 @@ var Clickomania = (function() {
 	}
     };
 
-    Game.prototype.clickLikeAMadman = function() {
-	var rowIndex = this.playfield.rows - 1;
-	var columnIndex = this.playfield.columns - 1;
-	var clickChangedPlayField = false;
-	while (!clickChangedPlayField && rowIndex >= 0) {
-	    while (!clickChangedPlayField && columnIndex >= 0) {
-		if (typeof this.playfield.getBlock(columnIndex, rowIndex) !== 'undefined') {
-		    clickChangedPlayField = this.click(columnIndex, rowIndex);
-		}
-		columnIndex -= 1;
-	    }
-	    columnIndex = this.playfield.columns - 1;
-	    rowIndex -= 1;
-	}
-	canvas.drawPlayfield();
-	if (this.hasMoreMoves()) {
-	    setTimeout(this.clickLikeAMadman.bind(this), 50);
-	} else {
-	    console.log("couldn't find any more moves so I'll stop");
-	}
-    };
-
     Game.prototype.clickLikeAJedMan = function(columnIndex, rowIndex) {
 	function timeNewRound(columnIndex, rowIndex){
 	    if (this.hasMoreMoves()) {
