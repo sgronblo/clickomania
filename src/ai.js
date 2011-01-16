@@ -91,5 +91,3 @@ var clickLikeAnUpperMadMan = function() {
     //}
     //timeNewRound.call(this, this.playfield.columns - 1, this.playfield.rows - 1);
 //};
-
-runAiFunctionUntilGameEnds(clickLikeAMadman);
