@@ -405,14 +405,14 @@ var Clickomania = (function() {
 	this.height = height;
 	this.game = game;
 	this.canvas = canvas;
-	this.recalculateDimensions();
+	this.recalculateBlockSizes();
 	this.canvas.width = this.width;
 	this.canvas.height = this.height;
 	this.canvas.addEventListener("click", this.handleClicks.bind(this), false);
 	this.context = this.canvas.getContext("2d");
     };
 
-    CanvasView.prototype.recalculateDimensions = function() {
+    CanvasView.prototype.recalculateBlockSizes = function() {
 	this.blockHeight = this.width / game.playfield.rows;
 	this.blockWidth = this.height / game.playfield.columns;
     };
@@ -426,7 +426,7 @@ var Clickomania = (function() {
     };
 
     CanvasView.prototype.gameChanged = function() {
-	this.recalculateDimensions();
+	this.recalculateBlockSizes();
 	this.drawPlayfield();
     };
 
