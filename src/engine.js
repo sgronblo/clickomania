@@ -252,6 +252,13 @@ var Clickomania = (function() {
 	return this.playfield.getBlocksLeft();
     };
 
+    Game.prototype.reset = function(newColumns, newRows) {
+	if (newColumns !== this.playfield.columns || newRows !== this.playfield.rows) {
+	    this.playfield = new Playfield(newColumns, newRows);
+	}
+	this.fillPlayfield();
+    };
+
     Game.prototype.fillPlayfield = function() {
 	this.playfield.fillWithBlocks(10);
     };
