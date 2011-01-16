@@ -261,6 +261,7 @@ var Clickomania = (function() {
 
     Game.prototype.fillPlayfield = function() {
 	this.playfield.fillWithBlocks(10);
+	this.notifyListeners();
     };
 
     Game.prototype.removeConnectedBlocks = function(column, row) {
@@ -425,6 +426,7 @@ var Clickomania = (function() {
     };
 
     CanvasView.prototype.gameChanged = function() {
+	this.recalculateDimensions();
 	this.drawPlayfield();
     };
 

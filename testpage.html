@@ -34,8 +34,8 @@
 		var rows = $('#rows').val();
 		game = new Clickomania.Game(new Clickomania.Playfield(columns, rows));
 		canvas = new Clickomania.CanvasView(500, 500, document.getElementById('playfield-canvas'), game);
-		canvas.drawPlayfield();
 		game.registerEventListener(canvas);
+		game.fillPlayfield();
 		$('#reset').click(function() {
 		    columns = $('#columns').val();
 		    rows = $('#rows').val();
