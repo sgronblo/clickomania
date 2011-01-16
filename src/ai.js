@@ -37,7 +37,8 @@ var clickLikeAMadman = function(gameView) {
     while (rowIndex >= 0) {
 	while (columnIndex >= 0) {
 	    if (typeof gameView.getBlock(columnIndex, rowIndex) !== 'undefined') {
-		if (gameView.getConnectedBlocks(columnIndex, rowIndex) > 1) {
+		var connectedBlocks = gameView.getConnectedBlocks(columnIndex, rowIndex);
+		if (connectedBlocks.length > 1) {
 		    return [columnIndex, rowIndex];
 		    //clickChangedPlayField = this.click(columnIndex, rowIndex);
 		}
