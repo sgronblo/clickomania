@@ -313,93 +313,10 @@ var Clickomania = (function() {
 	return true;
     };
 
-    Game.prototype.autoPlay = function(likeWho) {
-	if (this.hasMoreMoves()) {
-	    if(likeWho === 'Jed') {
-		this.clickLikeAJedMan(this.playfield.columns - 1, this.playfield.rows - 1);
-	    } else if (likeWho === 'UpperMad') {
-		this.clickLikeAnUpperMadMan();
-	    } else {
-		this.clickLikeAMadman();
-	    }
-	}
-    };
-
     Game.prototype.advanceState = function() {
 	this.dropBlocks();
 	this.playfield.compactAndCenter();
     }
-
-    Game.prototype.clickLikeAnUpperMadMan = function() {
-	var rowIndex = 0
-	var columnIndex = 0
-	var clickChangedPlayField = false;
-	while (!clickChangedPlayField && rowIndex < this.playfield.rows) {
-	    while (!clickChangedPlayField && columnIndex < this.playfield.columns) {
-		if (typeof this.playfield.getBlock(columnIndex, rowIndex) !== 'undefined') {
-		    clickChangedPlayField = this.click(columnIndex, rowIndex);
-		}
-		columnIndex += 1;
-	    }
-	    columnIndex = 0;
-	    rowIndex += 1;
-	}
-	canvas.drawPlayfield();
-	if (this.hasMoreMoves()) {
-	    setTimeout(this.clickLikeAMadman.bind(this), 50);
-	} else {
-	    console.log("couldn't find any more moves so I'll stop");
-	}
-    };
-
-    Game.prototype.clickLikeAMadman = function() {
-	var rowIndex = this.playfield.rows - 1;
-	var columnIndex = this.playfield.columns - 1;
-	var clickChangedPlayField = false;
-	while (!clickChangedPlayField && rowIndex >= 0) {
-	    while (!clickChangedPlayField && columnIndex >= 0) {
-		if (typeof this.playfield.getBlock(columnIndex, rowIndex) !== 'undefined') {
-		    clickChangedPlayField = this.click(columnIndex, rowIndex);
-		}
-		columnIndex -= 1;
-	    }
-	    columnIndex = this.playfield.columns - 1;
-	    rowIndex -= 1;
-	}
-	canvas.drawPlayfield();
-	if (this.hasMoreMoves()) {
-	    setTimeout(this.clickLikeAMadman.bind(this), 50);
-	} else {
-	    console.log("couldn't find any more moves so I'll stop");
-	}
-    };
-
-    Game.prototype.clickLikeAJedMan = function(columnIndex, rowIndex) {
-	function timeNewRound(columnIndex, rowIndex){
-	    if (this.hasMoreMoves()) {
-		setTimeout(this.clickLikeAJedMan.bind(this, columnIndex, rowIndex), 50);
-	    } else {
-		console.log("'Couldn't find any more moves so I'll stop', said Jed");
-	    }
-	};
-	var clickChangedPlayField = false;
-	while (!clickChangedPlayField && rowIndex >= 0) {
-	    while (!clickChangedPlayField && columnIndex >= 0) {
-		if (typeof this.playfield.getBlock(columnIndex, rowIndex) !== 'undefined') {
-		    clickChangedPlayField = this.click(columnIndex, rowIndex);
-		    if(clickChangedPlayField) {
-			canvas.drawPlayfield();
-			timeNewRound.call(this, columnIndex, rowIndex);
-			return;
-		    }
-		}
-		columnIndex -= 1;
-	    }
-	    columnIndex = this.playfield.columns - 1;
-	    rowIndex -= 1;
-	}
-	timeNewRound.call(this, this.playfield.columns - 1, this.playfield.rows - 1);
-    };
 
     Game.prototype.hasMoreMoves = function() {
 	var connectedBlocks;
