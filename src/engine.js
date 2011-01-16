@@ -318,28 +318,6 @@ var Clickomania = (function() {
 	this.playfield.compactAndCenter();
     }
 
-    Game.prototype.clickLikeAnUpperMadMan = function() {
-	var rowIndex = 0
-	var columnIndex = 0
-	var clickChangedPlayField = false;
-	while (!clickChangedPlayField && rowIndex < this.playfield.rows) {
-	    while (!clickChangedPlayField && columnIndex < this.playfield.columns) {
-		if (typeof this.playfield.getBlock(columnIndex, rowIndex) !== 'undefined') {
-		    clickChangedPlayField = this.click(columnIndex, rowIndex);
-		}
-		columnIndex += 1;
-	    }
-	    columnIndex = 0;
-	    rowIndex += 1;
-	}
-	canvas.drawPlayfield();
-	if (this.hasMoreMoves()) {
-	    setTimeout(this.clickLikeAMadman.bind(this), 50);
-	} else {
-	    console.log("couldn't find any more moves so I'll stop");
-	}
-    };
-
     Game.prototype.clickLikeAJedMan = function(columnIndex, rowIndex) {
 	function timeNewRound(columnIndex, rowIndex){
 	    if (this.hasMoreMoves()) {

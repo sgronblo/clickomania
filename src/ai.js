@@ -40,13 +40,30 @@ var clickLikeAMadman = function(gameView) {
 		var connectedBlocks = gameView.getConnectedBlocks(columnIndex, rowIndex);
 		if (connectedBlocks.length > 1) {
 		    return [columnIndex, rowIndex];
-		    //clickChangedPlayField = this.click(columnIndex, rowIndex);
 		}
 	    }
 	    columnIndex -= 1;
 	}
 	columnIndex = gameView.columns - 1;
 	rowIndex -= 1;
+    }
+};
+
+var clickLikeAnUpperMadMan = function() {
+    var rowIndex = 0
+    var columnIndex = 0
+    while (rowIndex < this.playfield.rows) {
+	while (columnIndex < this.playfield.columns) {
+	    if (typeof this.playfield.getBlock(columnIndex, rowIndex) !== 'undefined') {
+		var connectedBlocks = gameView.getConnectedBlocks(columnIndex, rowIndex);
+		if (connectedBlocks.length > 1) {
+		    return [columnIndex, rowIndex];
+		}
+	    }
+	    columnIndex += 1;
+	}
+	columnIndex = 0;
+	rowIndex += 1;
     }
 };
 
