@@ -10,8 +10,6 @@ var runAiFunctionUntilGameEnds = function(aiFunction) {
     // define a new inner function so we can use parameters when calling recursively
     // without passing them explicitly
     var removeBlockUsingAi = function() {
-	// TODO when game receives a click it should automatically update the game state
-	// the canvasView should also listen to gameChanged events and redraw automatically
 	if (game.hasMoreMoves()) {
 	    var blockColRow = aiFunction(game.immutableView);
 	    if (typeof blockColRow === 'undefined') {
