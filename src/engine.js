@@ -313,18 +313,6 @@ var Clickomania = (function() {
 	return true;
     };
 
-    Game.prototype.autoPlay = function(likeWho) {
-	if (this.hasMoreMoves()) {
-	    if(likeWho === 'Jed') {
-		this.clickLikeAJedMan(this.playfield.columns - 1, this.playfield.rows - 1);
-	    } else if (likeWho === 'UpperMad') {
-		this.clickLikeAnUpperMadMan();
-	    } else {
-		this.clickLikeAMadman();
-	    }
-	}
-    };
-
     Game.prototype.advanceState = function() {
 	this.dropBlocks();
 	this.playfield.compactAndCenter();
