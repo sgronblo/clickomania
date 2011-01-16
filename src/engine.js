@@ -252,8 +252,16 @@ var Clickomania = (function() {
 	return this.playfield.getBlocksLeft();
     };
 
+    Game.prototype.reset = function(newColumns, newRows) {
+	if (newColumns !== this.playfield.columns || newRows !== this.playfield.rows) {
+	    this.playfield = new Playfield(newColumns, newRows);
+	}
+	this.fillPlayfield();
+    };
+
     Game.prototype.fillPlayfield = function() {
 	this.playfield.fillWithBlocks(10);
+	this.notifyListeners();
     };
 
     Game.prototype.removeConnectedBlocks = function(column, row) {
@@ -397,12 +405,16 @@ var Clickomania = (function() {
 	this.height = height;
 	this.game = game;
 	this.canvas = canvas;
+	this.recalculateBlockSizes();
 	this.canvas.width = this.width;
 	this.canvas.height = this.height;
 	this.canvas.addEventListener("click", this.handleClicks.bind(this), false);
 	this.context = this.canvas.getContext("2d");
-	this.blockHeight = width / game.playfield.rows;
-	this.blockWidth = height / game.playfield.columns;
+    };
+
+    CanvasView.prototype.recalculateBlockSizes = function() {
+	this.blockHeight = this.width / game.playfield.rows;
+	this.blockWidth = this.height / game.playfield.columns;
     };
 
     CanvasView.prototype.handleClicks = function(event) {
@@ -414,6 +426,7 @@ var Clickomania = (function() {
     };
 
     CanvasView.prototype.gameChanged = function() {
+	this.recalculateBlockSizes();
 	this.drawPlayfield();
     };
 
