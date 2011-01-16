@@ -67,4 +67,31 @@ var clickLikeAnUpperMadMan = function() {
     }
 };
 
+//Game.prototype.clickLikeAJedMan = function(columnIndex, rowIndex) {
+    //function timeNewRound(columnIndex, rowIndex){
+	//if (this.hasMoreMoves()) {
+	    //setTimeout(this.clickLikeAJedMan.bind(this, columnIndex, rowIndex), 50);
+	//} else {
+	    //console.log("'Couldn't find any more moves so I'll stop', said Jed");
+	//}
+    //};
+    //var clickChangedPlayField = false;
+    //while (!clickChangedPlayField && rowIndex >= 0) {
+	//while (!clickChangedPlayField && columnIndex >= 0) {
+	    //if (typeof this.playfield.getBlock(columnIndex, rowIndex) !== 'undefined') {
+		//clickChangedPlayField = this.click(columnIndex, rowIndex);
+		//if(clickChangedPlayField) {
+		    //canvas.drawPlayfield();
+		    //timeNewRound.call(this, columnIndex, rowIndex);
+		    //return;
+		//}
+	    //}
+	    //columnIndex -= 1;
+	//}
+	//columnIndex = this.playfield.columns - 1;
+	//rowIndex -= 1;
+    //}
+    //timeNewRound.call(this, this.playfield.columns - 1, this.playfield.rows - 1);
+//};
+
 runAiFunctionUntilGameEnds(clickLikeAMadman);
