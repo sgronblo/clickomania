@@ -15,6 +15,7 @@
     <body>
 	<div id='playfield'></div>
 	<canvas id="playfield-canvas"></canvas>
+	<button id='reset'>Reset</button>
 	<script>
 	    $(document).ready(function () {
 		game = new Clickomania.Game(new Clickomania.Playfield(25, 25));
@@ -22,6 +23,9 @@
 		canvas = new Clickomania.CanvasView(500, 500, document.getElementById('playfield-canvas'), game);
 		canvas.drawPlayfield();
 		game.registerEventListener(canvas);
+		$('#reset').click(function() {
+		    game.reset();
+		};
 	    });
 	</script>
     </body>
