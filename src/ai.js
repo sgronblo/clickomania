@@ -12,22 +12,22 @@ var runAiFunctionUntilGameEnds = function(aiFunction) {
     var removeBlockUsingAi = function() {
 	// TODO when game receives a click it should automatically update the game state
 	// the canvasView should also listen to gameChanged events and redraw automatically
-	var blockColRow = aiFunction(game.immutableView);
-	if (typeof blockColRow === 'undefined') {
-	    console.log("ai function returned undefined and will be terminated");
-	} else {
-	    var blocksRemoved = game.click(blockColRow[0], blockColRow[1]);
-	    if (blocksRemoved === 0) {
-		console.log("AI algorithm chose an invalid location (col: " + blockColRow[0] + ", row: "+ blockColRow[1] + ") and will be terminated");
-	    } else if (game.hasMoreMoves()) {
-		if (typeof setTimeout === 'function') {
+	if (game.hasMoreMoves()) {
+	    var blockColRow = aiFunction(game.immutableView);
+	    if (typeof blockColRow === 'undefined') {
+		console.log("ai function returned undefined and will be terminated");
+	    } else {
+		var blocksRemoved = game.click(blockColRow[0], blockColRow[1]);
+		if (blocksRemoved === 0) {
+		    console.log("AI algorithm chose an invalid location (col: " + blockColRow[0] + ", row: "+ blockColRow[1] + ") and will be terminated");
+		} else if (typeof setTimeout === 'function') {
 		    setTimeout(removeBlockUsingAi, 20);
 		} else {
 		    removeBlockUsingAi();
 		}
 	    }
 	}
-    }
+    };
     removeBlockUsingAi();
 }
 
