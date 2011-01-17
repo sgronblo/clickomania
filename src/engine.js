@@ -299,6 +299,8 @@ var Clickomania = (function() {
 		this.clickLikeAJedMan(this.playfield.columns - 1, this.playfield.rows - 1);
 	    } else if (likeWho === 'UpperMad') {
 		this.clickLikeAnUpperMadMan();
+	    } else if (likeWho === 'BigMan') {
+		this.clickLikeABigMan();
 	    } else {
 		this.clickLikeAMadman();
 	    }
@@ -308,7 +310,7 @@ var Clickomania = (function() {
     Game.prototype.advanceState = function() {
 	this.dropBlocks();
 	this.playfield.compactAndCenter();
-    }
+    };
 
     Game.prototype.clickLikeAnUpperMadMan = function() {
 	var rowIndex = 0
@@ -327,6 +329,28 @@ var Clickomania = (function() {
 	canvas.drawPlayfield();
 	if (this.hasMoreMoves()) {
 	    setTimeout(this.clickLikeAMadman.bind(this), 50);
+	} else {
+	    console.log("couldn't find any more moves so I'll stop");
+	}
+    };
+
+    Game.prototype.clickLikeABigMan = function() {
+	var connectedBlocks, maxColumnIndex, maxRowIndex, maxConnectedBlocksCount = 0;
+	var columnIndex, rowIndex;
+	for (columnIndex = 0; columnIndex < this.playfield.columns; columnIndex++) {
+	    for (rowIndex = 0; rowIndex < this.playfield.rows; rowIndex++) {
+		connectedBlocks = this.playfield.getConnectedBlocks(columnIndex, rowIndex);
+		if(connectedBlocks.length > maxConnectedBlocksCount) {
+		    maxConnectedBlocksCount = connectedBlocks.length;
+		    maxColumnIndex = columnIndex;
+		    maxRowIndex = rowIndex;
+		}
+	    }
+	}
+	this.click(maxColumnIndex, maxRowIndex);
+	canvas.drawPlayfield();
+	if (this.hasMoreMoves()) {
+	    setTimeout(this.clickLikeABigMan.bind(this), 50);
 	} else {
 	    console.log("couldn't find any more moves so I'll stop");
 	}
