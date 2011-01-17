@@ -112,6 +112,18 @@ Assert = {
 	var rowIndex, columnIndex;
 	var expectedType, actualBlock;
 	var asciiRows = Array.prototype.slice.call(arguments, 1);
+	if (asciiRows[0].length !== playfield.blocks.length) {
+	    throw {
+		message: "Expected rows to have a length of " + asciiRows[0].length + " but was " + playfield.blocks.length,
+		stack: new Error().stack
+	    }
+	}
+	if (asciiRows.length !== playfield.blocks[0].length) {
+	    throw {
+		message: "Expected columns to have a height of " + asciiRows.length + " but was " + playfield.blocks[0].length,
+		stack: new Error().stack
+	    }
+	}
 	for (columnIndex = 0; columnIndex < playfield.columns; columnIndex++) {
 	    for (rowIndex = 0; rowIndex < playfield.rows; rowIndex++) {
 		expectedType = asciiRows[rowIndex][columnIndex];
@@ -452,6 +464,39 @@ GameTest.testShouldFindMoreMoves = function() {
     Assert.assertTrue(isMoreMoves);
 };
 
+var CanvasUtilitiesTest = {};
+
+CanvasUtilitiesTest.testGetUpperLeftForCell = function() {
+    var blockWidth = 30;
+    var blockHeight = 30;
+    var coordinates = CanvasUtilities.getUpperLeftForCell(0, 0, blockWidth, blockHeight);
+    Assert.assertEqual(0, coordinates[0]);
+    Assert.assertEqual(0, coordinates[1]);
+    var coordinates = CanvasUtilities.getUpperLeftForCell(1, 1, blockWidth, blockHeight);
+    Assert.assertEqual(30, coordinates[0]);
+    Assert.assertEqual(30, coordinates[1]);
+    var coordinates = CanvasUtilities.getUpperLeftForCell(1, 2, blockWidth, blockHeight);
+    Assert.assertEqual(30, coordinates[0]);
+    Assert.assertEqual(60, coordinates[1]);
+};
+
+CanvasUtilitiesTest.testCoordinatesToCell = function() {
+    var blockWidth = 30;
+    var blockHeight = 30;
+    var colRow = CanvasUtilities.coordinatesToCell(0, 0, blockWidth, blockHeight);
+    Assert.assertEqual(0, colRow[0]);
+    Assert.assertEqual(0, colRow[1]);
+    var colRow = CanvasUtilities.coordinatesToCell(30, 0, blockWidth, blockHeight);
+    Assert.assertEqual(1, colRow[0]);
+    Assert.assertEqual(0, colRow[1]);
+    var colRow = CanvasUtilities.coordinatesToCell(0, 30, blockWidth, blockHeight);
+    Assert.assertEqual(0, colRow[0]);
+    Assert.assertEqual(1, colRow[1]);
+    var colRow = CanvasUtilities.coordinatesToCell(35, 35, blockWidth, blockHeight);
+    Assert.assertEqual(1, colRow[0]);
+    Assert.assertEqual(1, colRow[1]);
+};
+
 var ArrayUtiliesTest = {};
 ArrayUtiliesTest.name = "ArrayUtiliesTest";
 
@@ -460,13 +505,7 @@ ArrayUtiliesTest.testComplement = function() {
     all = [1,2,3,4,5];
     some = [1,2,5];
     expectedComplement = [3,4];
-    Assert.assertListsHaveSameElements(expectedComplement, Clickomania.ArrayUtilies.complement(all, some));
-};
-
-StringUtilities = {
-    startsWith: function(string, prefix) {
-	return string.lastIndexOf(prefix, 0) === 0;
-    }
+    Assert.assertListsHaveSameElements(expectedComplement, ArrayUtilies.complement(all, some));
 };
 
 TestRunner = {
@@ -502,7 +541,7 @@ TestRunner = {
     }
 };
 
-var testCases = [EngineTest, GameTest, ArrayUtiliesTest];
+var testCases = [EngineTest, GameTest, ArrayUtiliesTest, CanvasUtilitiesTest];
 
 function runAllTestCases() {
     testCases.forEach(function(testCase) {

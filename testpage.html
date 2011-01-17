@@ -4,9 +4,10 @@
 	<meta charset=utf-8 />
 	<title>Test results for Clickomania</title>
 	<!--<link rel="stylesheet" type="text/css" media="screen" href="css/master.css" />-->
-	<script type="text/javascript" src="src/engine.js"></script>
-	<script type="text/javascript" src="test/engine_test.js"></script>
 	<script type="text/javascript" src="lib/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="src/engine.js"></script>
+	<script type="text/javascript" src="src/ai.js"></script>
+	<script type="text/javascript" src="test/engine_test.js"></script>
 	<!--[if IE]>
 	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
@@ -14,12 +15,32 @@
     <body>
 	<div id='playfield'></div>
 	<canvas id="playfield-canvas"></canvas>
+	<div id='settings-panel'>
+	    <label>
+		Columns
+		<input id='columns' value='10'>
+	    </label>
+	    <label>
+		Rows
+		<input id='rows' value='10'>
+	    </label>
+	</div>
+	<div id='button-panel'>
+	    <button id='reset'>Reset</button>
+	</div>
 	<script>
 	    $(document).ready(function () {
-		game = new Clickomania.Game(new Clickomania.Playfield(25, 25));
+		var columns = $('#columns').val();
+		var rows = $('#rows').val();
+		game = new Clickomania.Game(new Clickomania.Playfield(columns, rows));
+		canvas = new Clickomania.CanvasView(500, 500, document.getElementById('playfield-canvas'), game);
+		game.registerEventListener(canvas);
 		game.fillPlayfield();
-		canvas = new Clickomania.CanvasView(500, 500, 'playfield-canvas', game);
-		canvas.drawPlayfield();
+		$('#reset').click(function() {
+		    columns = $('#columns').val();
+		    rows = $('#rows').val();
+		    game.reset(columns, rows);
+		});
 	    });
 	</script>
     </body>
