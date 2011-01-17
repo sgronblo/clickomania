@@ -527,8 +527,8 @@ var Clickomania = (function() {
 
     CanvasView.prototype.drawBlocksLeft = function(blocksLeft) {
 	this.context.textBaseline = 'top';
-	this.context.strokeStyle = 'white';
-	this.context.strokeText(blocksLeft + " blocks left", 10, 10);
+	this.context.fillStyle = 'white';
+	this.context.fillText(blocksLeft + " blocks left", 10, 10);
     };
 
     CanvasView.prototype.drawPlayfield = function() {
