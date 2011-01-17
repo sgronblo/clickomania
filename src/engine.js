@@ -531,11 +531,32 @@ var Clickomania = (function() {
 	this.context.fillText(blocksLeft + " blocks left", 10, 10);
     };
 
+    CanvasView.prototype.drawGameOver = function() {
+	this.context.textBaseline = 'top';
+	this.context.strokeStyle = 'white';
+	this.context.font = '40pt Arial';
+	this.context.strokeText("GAME OVER",100 ,100);
+	this.context.strokeText("FUCKER!!!",100 ,150);
+    };
+
+    CanvasView.prototype.drawCongratulations = function() {
+	this.context.textBaseline = 'top';
+	this.context.strokeStyle = 'white';
+	this.context.font = '40pt Arial';
+	this.context.strokeText("Congratulations",100 ,100);
+	this.context.strokeText("DUDE!!!",100 ,150);
+    };
+
     CanvasView.prototype.drawPlayfield = function() {
 	for (var columnIndex = 0; columnIndex < this.game.playfield.columns; columnIndex++) {
 	    this.drawColumn(columnIndex);
 	};
 	this.drawBlocksLeft(this.game.getBlocksLeft());
+	if (!this.game.hasMoreMoves() && this.game.getBlocksLeft() > 0) {
+	    this.drawGameOver();
+	} else if (!this.game.hasMoreMoves()) {
+	    this.drawCongratulations();
+	}
     };
 
     return {
