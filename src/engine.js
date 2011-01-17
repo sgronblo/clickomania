@@ -470,7 +470,7 @@ var Clickomania = (function() {
 	},
 	worldsCrappiestHashFunction: function(number) {
 	    var i;
-	    var temp = number;
+	    var temp = 158 + number;
 	    for(i = 1; i <= 10; i++) {
 		temp *= 37;
 	    }
