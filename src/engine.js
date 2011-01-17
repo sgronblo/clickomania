@@ -237,7 +237,7 @@ var Clickomania = (function() {
     };
 
     Game.prototype.fillPlayfield = function() {
-	this.playfield.fillWithBlocks(10);
+	this.playfield.fillWithBlocks(5);
     };
 
     Game.prototype.removeConnectedBlocks = function(column, row) {
