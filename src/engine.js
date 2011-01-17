@@ -224,20 +224,44 @@ var Clickomania = (function() {
 
     Game = function(playfield) {
 	this.playfield = playfield;
+	this.listeners = [];
+	this.immutableView = {
+	    columns: this.playfield.columns,
+	    rows: this.playfield.rows,
+	    getConnectedBlocks: this.playfield.getConnectedBlocks.bind(playfield),
+	    getBlock: this.playfield.getBlock.bind(playfield)
+	};
     };
 
     Game.prototype.click = function(column, row) {
 	var removedBlocksCount = this.removeConnectedBlocks(column, row);
-	this.advanceState();
+	if (removedBlocksCount > 0) {
+	    this.advanceState();
+	    this.notifyListeners();
+	}
 	return removedBlocksCount > 0;
+    };
+
+    Game.prototype.notifyListeners = function() {
+	this.listeners.forEach(function(listener) {
+	    listener.gameChanged();
+	});
     };
 
     Game.prototype.getBlocksLeft = function() {
 	return this.playfield.getBlocksLeft();
     };
 
+    Game.prototype.reset = function(newColumns, newRows) {
+	if (newColumns !== this.playfield.columns || newRows !== this.playfield.rows) {
+	    this.playfield = new Playfield(newColumns, newRows);
+	}
+	this.fillPlayfield();
+    };
+
     Game.prototype.fillPlayfield = function() {
 	this.playfield.fillWithBlocks(5);
+	this.notifyListeners();
     };
 
     Game.prototype.removeConnectedBlocks = function(column, row) {
@@ -250,6 +274,10 @@ var Clickomania = (function() {
 	    return connectedBlocks.length;
 	}
 	return 0;
+    };
+
+    Game.prototype.registerEventListener = function(listener) {
+	this.listeners.push(listener);
     };
 
     Game.prototype.dropColumn = function(column) {
@@ -293,116 +321,9 @@ var Clickomania = (function() {
 	return true;
     };
 
-    Game.prototype.autoPlay = function(likeWho) {
-	if (this.hasMoreMoves()) {
-	    if(likeWho === 'Jed') {
-		this.clickLikeAJedMan(this.playfield.columns - 1, this.playfield.rows - 1);
-	    } else if (likeWho === 'UpperMad') {
-		this.clickLikeAnUpperMadMan();
-	    } else if (likeWho === 'BigMan') {
-		this.clickLikeABigMan();
-	    } else {
-		this.clickLikeAMadman();
-	    }
-	}
-    };
-
     Game.prototype.advanceState = function() {
 	this.dropBlocks();
 	this.playfield.compactAndCenter();
-    };
-
-    Game.prototype.clickLikeAnUpperMadMan = function() {
-	var rowIndex = 0
-	var columnIndex = 0
-	var clickChangedPlayField = false;
-	while (!clickChangedPlayField && rowIndex < this.playfield.rows) {
-	    while (!clickChangedPlayField && columnIndex < this.playfield.columns) {
-		if (typeof this.playfield.getBlock(columnIndex, rowIndex) !== 'undefined') {
-		    clickChangedPlayField = this.click(columnIndex, rowIndex);
-		}
-		columnIndex += 1;
-	    }
-	    columnIndex = 0;
-	    rowIndex += 1;
-	}
-	canvas.drawPlayfield();
-	if (this.hasMoreMoves()) {
-	    setTimeout(this.clickLikeAMadman.bind(this), 50);
-	} else {
-	    console.log("couldn't find any more moves so I'll stop");
-	}
-    };
-
-    Game.prototype.clickLikeABigMan = function() {
-	var connectedBlocks, maxColumnIndex, maxRowIndex, maxConnectedBlocksCount = 0;
-	var columnIndex, rowIndex;
-	for (columnIndex = 0; columnIndex < this.playfield.columns; columnIndex++) {
-	    for (rowIndex = 0; rowIndex < this.playfield.rows; rowIndex++) {
-		connectedBlocks = this.playfield.getConnectedBlocks(columnIndex, rowIndex);
-		if(connectedBlocks.length > maxConnectedBlocksCount) {
-		    maxConnectedBlocksCount = connectedBlocks.length;
-		    maxColumnIndex = columnIndex;
-		    maxRowIndex = rowIndex;
-		}
-	    }
-	}
-	this.click(maxColumnIndex, maxRowIndex);
-	canvas.drawPlayfield();
-	if (this.hasMoreMoves()) {
-	    setTimeout(this.clickLikeABigMan.bind(this), 50);
-	} else {
-	    console.log("couldn't find any more moves so I'll stop");
-	}
-    };
-
-    Game.prototype.clickLikeAMadman = function() {
-	var rowIndex = this.playfield.rows - 1;
-	var columnIndex = this.playfield.columns - 1;
-	var clickChangedPlayField = false;
-	while (!clickChangedPlayField && rowIndex >= 0) {
-	    while (!clickChangedPlayField && columnIndex >= 0) {
-		if (typeof this.playfield.getBlock(columnIndex, rowIndex) !== 'undefined') {
-		    clickChangedPlayField = this.click(columnIndex, rowIndex);
-		}
-		columnIndex -= 1;
-	    }
-	    columnIndex = this.playfield.columns - 1;
-	    rowIndex -= 1;
-	}
-	canvas.drawPlayfield();
-	if (this.hasMoreMoves()) {
-	    setTimeout(this.clickLikeAMadman.bind(this), 50);
-	} else {
-	    console.log("couldn't find any more moves so I'll stop");
-	}
-    };
-
-    Game.prototype.clickLikeAJedMan = function(columnIndex, rowIndex) {
-	function timeNewRound(columnIndex, rowIndex){
-	    if (this.hasMoreMoves()) {
-		setTimeout(this.clickLikeAJedMan.bind(this, columnIndex, rowIndex), 50);
-	    } else {
-		console.log("'Couldn't find any more moves so I'll stop', said Jed");
-	    }
-	};
-	var clickChangedPlayField = false;
-	while (!clickChangedPlayField && rowIndex >= 0) {
-	    while (!clickChangedPlayField && columnIndex >= 0) {
-		if (typeof this.playfield.getBlock(columnIndex, rowIndex) !== 'undefined') {
-		    clickChangedPlayField = this.click(columnIndex, rowIndex);
-		    if(clickChangedPlayField) {
-			canvas.drawPlayfield();
-			timeNewRound.call(this, columnIndex, rowIndex);
-			return;
-		    }
-		}
-		columnIndex -= 1;
-	    }
-	    columnIndex = this.playfield.columns - 1;
-	    rowIndex -= 1;
-	}
-	timeNewRound.call(this, this.playfield.columns - 1, this.playfield.rows - 1);
     };
 
     Game.prototype.hasMoreMoves = function() {
@@ -484,12 +405,16 @@ var Clickomania = (function() {
 	this.height = height;
 	this.game = game;
 	this.canvas = canvas;
+	this.recalculateBlockSizes();
 	this.canvas.width = this.width;
 	this.canvas.height = this.height;
 	this.canvas.addEventListener("click", this.handleClicks.bind(this), false);
 	this.context = this.canvas.getContext("2d");
-	this.blockHeight = width / game.playfield.rows;
-	this.blockWidth = height / game.playfield.columns;
+    };
+
+    CanvasView.prototype.recalculateBlockSizes = function() {
+	this.blockHeight = this.width / game.playfield.rows;
+	this.blockWidth = this.height / game.playfield.columns;
     };
 
     CanvasView.prototype.handleClicks = function(event) {
@@ -497,6 +422,11 @@ var Clickomania = (function() {
 	var canvasY = event.clientY - this.canvas.offsetTop;
 	var colRow = CanvasUtilities.coordinatesToCell(canvasX, canvasY, this.blockWidth, this.blockHeight);
 	this.game.click(colRow[0], colRow[1]);
+	this.drawPlayfield();
+    };
+
+    CanvasView.prototype.gameChanged = function() {
+	this.recalculateBlockSizes();
 	this.drawPlayfield();
     };
 

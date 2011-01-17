@@ -37,12 +37,6 @@ Assert = {
     },
     assertListsHaveSameElements: function(expectedElements, actualElements) {
 	var message;
-	if (expectedElements.length !== actualElements.length) {
-	    throw {
-		message: "expected elements: " + TestUtilities.objectToString(expectedElements) + " and actual elements: " + TestUtilities.objectToString(actualElements) + " have different lengths",
-		stack: new Error().stack
-	    };
-	}
 	if (!expectedElements.every(function(elementValue) {
 	    var index;
 	    for (index in actualElements) {
@@ -192,7 +186,23 @@ EngineTest.testGetRowString = function() {
     Assert.assertEqual("[YZX]", testPlayfield.getRowString(1));
 };
 
-EngineTest.testGetConnectedBlocks = function() {
+EngineTest.testGetConnectedBlocksPlayfieldWithHoles = function() {
+    var connectedBlocks, expectedBlocks;
+    var basicField = Clickomania.Playfield.fromAscii(
+	"AAA ",
+	"BABB",
+	"  AA");
+    connectedBlocks = basicField.getConnectedBlocks(2, 0);
+    expectedBlocks = [
+	basicField.getBlock(0, 0),
+	basicField.getBlock(1, 0),
+	basicField.getBlock(2, 0),
+	basicField.getBlock(1, 1)
+    ];
+    Assert.assertListsHaveSameElements(expectedBlocks, connectedBlocks);
+};
+
+EngineTest.testGetConnectedBlocksFullPlayfield = function() {
     var basicField, connectedBlocks, expectedBlocks;
     basicField = buildBasicField();
     connectedBlocks = basicField.getConnectedBlocks(0, 0);
