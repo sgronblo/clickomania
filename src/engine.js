@@ -466,7 +466,7 @@ var Clickomania = (function() {
 	this.context.strokeStyle = 'white';
 	this.context.font = '40pt Arial';
 	this.context.strokeText("GAME OVER",100 ,100);
-	this.context.strokeText("FUCKER!!!",100 ,150);
+	this.context.strokeText("DUDE!!!",100 ,150);
     };
 
     CanvasView.prototype.drawCongratulations = function() {

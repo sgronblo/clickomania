@@ -19,7 +19,7 @@ var runAiFunctionUntilGameEnds = function(aiFunction) {
 		if (blocksRemoved === 0) {
 		    console.log("AI algorithm chose an invalid location (col: " + blockColRow[0] + ", row: "+ blockColRow[1] + ") and will be terminated");
 		} else if (typeof setTimeout === 'function') {
-		    setTimeout(removeBlockUsingAi, 20);
+		    setTimeout(removeBlockUsingAi, 1);
 		} else {
 		    removeBlockUsingAi();
 		}
