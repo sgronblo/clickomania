@@ -292,18 +292,18 @@ Clickomania.CanvasView = function(width, height, canvas, game) {
     this.height = height;
     this.game = game;
     this.canvas = canvas;
-    this.canvas.setAttribute('width', this.width);
-    this.canvas.setAttribute('height', this.height);
-    this.canvas.addEventListener("click", this.handleClicks.bind(this))
-    this.context = this.canvas.getContext("2d");
+    this.canvas.attr('width', this.width);
+    this.canvas.attr('height', this.height);
+    this.canvas.click(this.handleClicks.bind(this))
+    this.context = this.canvas[0].getContext("2d");
     this.blockHeight = width / game.playfield.rows;
     this.blockWidth = height / game.playfield.columns;
 };
 
 Clickomania.CanvasView.prototype.handleClicks = function(event) {
-    var canvasX = event.clientX - this.canvas.offsetLeft;
-    var canvasY = event.clientY - this.canvas.offsetTop;
-    var colRow = this.coordinatesToCell(canvasX, canvasY);
+    var canvasX = event.clientX - this.canvas[0].offsetLeft;
+    var canvasY = event.clientY - this.canvas[0].offsetTop;
+    var colRow = Clickomania.CanvasUtilities.coordinatesToCell(canvasX, canvasY, this.blockWidth, this.blockHeight);
     console.log("clicked x: " + canvasX + " y: " + canvasY);
     console.log("remove connected at col: " + colRow[0] + " row: " + colRow[1]);
     this.game.removeConnectedBlocks(colRow[0], colRow[1]);
@@ -324,7 +324,7 @@ Clickomania.CanvasView.prototype.drawColumn = function(column, columnIndex) {
 	} else {
 	    color = colors[block.type];
 	}
-	blockCoordinates = this_.getUpperLeftForCell(columnIndex, rowIndex);
+	blockCoordinates = Clickomania.CanvasUtilities.getUpperLeftForCell(columnIndex, rowIndex, this_.blockWidth, this_.blockHeight);
 	this_.context.fillStyle = color;
 	this_.context.fillRect(blockCoordinates[0],blockCoordinates[1], this_.blockWidth, this_.blockHeight);
     });
